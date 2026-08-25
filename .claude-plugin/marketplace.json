@@ -1,0 +1,21 @@
+{
+  "name": "rafeblandford",
+  "owner": {
+    "name": "Rafe Blandford",
+    "url": "https://rafeblandford.com/"
+  },
+  "description": "Agent Skills published by Rafe Blandford.",
+  "plugins": [
+    {
+      "name": "using-rafeblandford-com",
+      "source": "./skills/using-rafeblandford-com",
+      "description": "Find out what Rafe Blandford has done, written or can evidence, using rafeblandford.com's three agent interfaces — an MCP endpoint for reasoning about his career, a public Content API for bulk retrieval, and llms.txt/Markdown for crawling. Use when asked to assess him for a role, brief someone before a meeting, find his position on a topic, check whether he has experience of something, read his writing, or ingest the site — and instead of scraping the HTML.",
+      "version": "1.0",
+      "license": "Apache-2.0",
+      "author": {
+        "name": "Rafe Blandford"
+      },
+      "homepage": "https://rafeblandford.com/resources/skills/"
+    }
+  ]
+}
