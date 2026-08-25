@@ -23,6 +23,21 @@
         "name": "Rafe Blandford"
       },
       "homepage": "https://rafeblandford.com/resources/skills/"
+    },
+    {
+      "name": "verifying-ai-crawlers",
+      "description": "Work out which AI crawler traffic in a log or analytics dataset is genuine, and report it honestly. Use when asked how much GPTBot/ClaudeBot/Perplexity traffic a site gets, whether a request claiming to be an AI crawler is real, or when analysing server logs, CDN analytics or bot reports for AI agent activity — and before quoting any figure for AI crawler volume.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/verifying-ai-crawlers"
+      ],
+      "version": "1.0",
+      "license": "Apache-2.0",
+      "author": {
+        "name": "Rafe Blandford"
+      },
+      "homepage": "https://rafeblandford.com/resources/skills/"
     }
   ]
 }

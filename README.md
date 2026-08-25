@@ -22,6 +22,22 @@ career. It carries two constraints that matter: the corpus is a *selection*, so
 "not found" is a fact about the site and not about me; and case-study
 `outcomes` are self-attested where `summary` is published.
 
+### Working with agents and crawlers
+
+**[`verifying-ai-crawlers`](skills/verifying-ai-crawlers/)** — work out which AI
+crawler traffic in your logs is genuine, and report it honestly.
+
+Ask an agent how much GPTBot or ClaudeBot traffic a site gets and it will count
+user-agent strings, which is the wrong answer: the header is a claim, and
+spoofing only ever inflates the number. This says what to check instead —
+published IP ranges, signatures, when reverse DNS misleads — and how to report
+verified, asserted and unverifiable separately.
+
+It comes out of running a real measurement of AI crawler traffic against my own
+site for several months, so the traps in it are ones I hit rather than ones I
+anticipated. The feed list was checked live when it was written; feeds move, and
+the skill says to fetch rather than inherit.
+
 *More to come.*
 
 ## Installing
