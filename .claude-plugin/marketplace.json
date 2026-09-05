@@ -38,6 +38,21 @@
         "name": "Rafe Blandford"
       },
       "homepage": "https://rafeblandford.com/resources/skills/"
+    },
+    {
+      "name": "product-idea-pack",
+      "description": "Explore and develop early digital-product ideas as proposition sketches, mechanism boards, product storyboards, interactive HTML prototypes, or coherent multi-format packs, with optional presentation and vector-design handoffs.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/product-idea-pack"
+      ],
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "author": {
+        "name": "Rafe Blandford"
+      },
+      "homepage": "https://github.com/rafeblandford/skills/tree/main/skills/product-idea-pack"
     }
   ]
 }

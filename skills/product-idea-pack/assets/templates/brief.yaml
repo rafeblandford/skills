@@ -1,0 +1,62 @@
+idea_name: ""
+idea_scale: ""
+idea: ""
+audience: ""
+decision_to_support: ""
+current_situation: ""
+current_friction: ""
+what_if: ""
+value_promised: ""
+decisive_interaction: ""
+system_response: ""
+changed_outcome: ""
+important_uncertainty: ""
+question_to_provoke: ""
+
+truth:
+  known: []
+  proposed: []
+  assumed: []
+  to_learn: []
+
+brand_or_context: ""
+must_show: []
+must_avoid: []
+evidence_or_sources: []
+
+prototype_profile:
+  focus: ""
+  scope: ""
+  audience_for_artefact: ""
+  deliberately_omits: []
+
+references:
+  host: []
+  precedent: []
+  treatment: []
+  borrow: []
+  avoid: []
+
+format: auto
+format_basis: unresolved
+house_style: editorial-instrument@2
+presentation_mode: editorial
+brand_profile:
+  id: "none"
+  apply_to: []
+evidence_record: none
+output: single
+
+delivery:
+  core: true
+  output_profiles: []
+  powerpoint_mode: placed-vector
+  design_target: figma
+
+pack:
+  status: draft
+  purpose: ""
+  primary_format: ""
+  formats: []
+  current_revision: 1
+  private_test_material_included: false

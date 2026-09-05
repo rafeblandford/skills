@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product concept prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --canvas: #f7f6f1;
+      --surface: #ffffff;
+      --surface-soft: #f2f2ee;
+      --ink: #222321;
+      --muted: #6d6b65;
+      --line: #d8d6cf;
+      --strong: #222321;
+      --inverse: #ffffff;
+      --editorial-highlight: #f2dc72;
+      --product-accent: #385f63;
+      --product-accent-soft: #edf3f1;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--canvas);
+      color: var(--ink);
+    }
+    *, *::before, *::after { box-sizing: inherit; }
+    body { margin: 0; background: var(--canvas); }
+    button { font: inherit; color: inherit; }
+    [data-prototype-root] { width: 100%; min-height: 100vh; padding: 3vw; }
+    .editorial { display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; align-items: end; }
+    .kicker, .eyebrow, .truth strong { display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .kicker, .eyebrow { color: var(--muted); }
+    .concept-meta { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { max-width: 720px; margin: 14px 0 0; font-size: clamp(32px,3.5vw,50px); line-height: 1.04; }
+    .proposition { color: var(--muted); max-width: 480px; }
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); margin: 24px 0 18px; border-block: 1px solid var(--line); }
+    .step { display: flex; gap: 12px; align-items: center; padding: 14px; border-right: 1px solid var(--line); text-align: left; }
+    .step:last-child { border-right: 0; }
+    .number { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #b3a24f; border-radius: 50%; background: var(--editorial-highlight); }
+    .step small { display: block; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .product { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .appbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 11px 20px; color: var(--inverse); background: var(--strong); }
+    .state-controls { display: flex; gap: 6px; margin-left: auto; }
+    .state-button { padding: 6px 10px; border: 1px solid currentColor; border-radius: 999px; color: var(--inverse); background: transparent; cursor: pointer; }
+    .state-button[aria-selected="true"] { color: var(--strong); border-color: var(--editorial-highlight); background: var(--editorial-highlight); }
+    .screen { min-height: 440px; padding: 28px; }
+    .screen[hidden] { display: none; }
+    .eyebrow { margin: 0 0 7px; }
+    h2 { margin: 0; font-size: 30px; }
+    .stage-content { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 22px; margin-top: 28px; }
+    .stage-item { min-height: 180px; padding: 20px 0; border-top: 2px solid var(--line); background: transparent; }
+    .stage-item.is-key { padding-inline: 20px; border-color: #b3a24f; background: #fff8d6; }
+    .stage-item small { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .stage-item h3 { margin: 18px 0 8px; }
+    .stage-item p { color: var(--muted); }
+    .footer { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 22px; }
+    .footer p { margin: 0; }
+    .question span, .truth strong { display: block; margin-bottom: 5px; color: var(--muted); }
+    .truth { color: var(--muted); font-size: 13px; }
+    html[data-export-mode="true"] { scroll-behavior: auto; }
+    html[data-export-mode="true"] [data-prototype-root] { padding: 28px; }
+    html[data-export-mode="true"] h1 { font-size: 44px; }
+    html[data-export-mode="true"] .steps { margin: 18px 0 14px; }
+    html[data-export-mode="true"] .screen { min-height: 410px; padding: 24px; }
+    html[data-export-mode="true"] .footer { margin-top: 16px; }
+    @media (max-width: 620px) {
+      [data-prototype-root] { padding: 18px; }
+      .editorial, .footer, .stage-content { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .step { border-right: 0; border-bottom: 1px solid var(--line); }
+      .step:last-child { border-bottom: 0; }
+      .appbar { flex-wrap: wrap; }
+      .state-controls { order: 3; flex-basis: 100%; margin: 0; overflow-x: auto; }
+      .screen { min-height: 0; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main data-prototype-root>
+    <header class="editorial">
+      <div><span class="kicker">[WORKING NAME]</span><span class="concept-meta">INTERACTIVE PROTOTYPE · DRAFT 1 · FOR DISCUSSION</span><h1>[Clear concept proposition]</h1></div>
+      <p class="proposition">[One sentence explaining what changes for the user.]</p>
+    </header>
+
+    <!-- These are editorial beats, not prototype navigation. Keep three for the house-style rhythm. -->
+    <section class="steps" aria-label="Three product beats">
+      <div class="step"><span class="number">1</span><span><small>[Beat one]</small>[Mechanism begins]</span></div>
+      <div class="step"><span class="number">2</span><span><small>[Beat two]</small>[Product responds]</span></div>
+      <div class="step"><span class="number">3</span><span><small>[Beat three]</small>[Value becomes visible]</span></div>
+    </section>
+
+    <!-- Bound the product separately from the editorial wrapper so state exports can preserve product-native geometry. -->
+    <section class="product" data-prototype-capture>
+      <header class="appbar">
+        <strong>[PRODUCT / CONCEPT]</strong>
+        <!-- Two representative states are shown only as a starter. Add, remove or replace them to match the actual interaction. -->
+        <span class="state-controls" aria-label="Representative prototype states">
+          <button class="state-button" type="button" data-stage-button="0" aria-selected="true">Default</button>
+          <button class="state-button" type="button" data-stage-button="1" aria-selected="false">Changed</button>
+        </span>
+        <span>PROTOTYPE</span>
+      </header>
+      <section class="screen" data-stage="0"><p class="eyebrow">DEFAULT STATE</p><h2>[What is visible before the decisive interaction?]</h2><div class="stage-content"><article class="stage-item is-key"><small>Situation</small><h3>[Starting moment]</h3><p>[Only the detail needed to establish the need.]</p></article><article class="stage-item"><small>Available control</small><h3>[Decisive interaction]</h3><p>[The action the prototype needs to make operable.]</p></article><article class="stage-item"><small>Uncertainty</small><h3>[What remains unresolved]</h3><p>[Keep the important choice or assumption visible.]</p></article></div></section>
+      <section class="screen" data-stage="1" hidden><p class="eyebrow">CHANGED STATE</p><h2>[What changes because of that interaction?]</h2><div class="stage-content"><article class="stage-item"><small>Response</small><h3>[Visible system change]</h3><p>[Show the response rather than merely describing it.]</p></article><article class="stage-item is-key"><small>Value</small><h3>[Outcome made tangible]</h3><p>[The important consequence for the person.]</p></article><article class="stage-item"><small>Agency</small><h3>[What the person can do next]</h3><p>[Confirm, challenge, reverse or continue.]</p></article></div></section>
+    </section>
+
+    <footer class="footer">
+      <p class="question"><span>QUESTION TO PROVOKE</span>[The real choice or uncertainty?]</p>
+      <p class="truth"><strong>PRODUCT TRUTH</strong>Known: [fact]. Proposed: [behaviour]. Assumed: [material assumption]. To learn: [question].</p>
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const root = document.querySelector('[data-prototype-root]');
+      const buttons = [...root.querySelectorAll('[data-stage-button]')];
+      const stages = [...root.querySelectorAll('[data-stage]')];
+      function showStage(index) {
+        stages.forEach((stage, position) => { stage.hidden = position !== index; });
+        buttons.forEach((button, position) => { button.setAttribute('aria-selected', String(position === index)); });
+      }
+      buttons.forEach(button => button.addEventListener('click', () => showStage(Number(button.dataset.stageButton))));
+      showStage(0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,65 +1,104 @@
 # Rafe Blandford — Agent Skills
 
-Skills I've built and found useful, published so other people's agents can use
-them too. Each one is a folder with a `SKILL.md` — the [Agent Skills][spec]
-format, which Claude Code, Codex, Gemini CLI, Cursor and others read.
+Skills I have built and found useful, published so other people's agents can use
+them too. Each is a folder containing a `SKILL.md` in the open
+[Agent Skills][spec] format.
 
-They're written for agents, but they're plain Markdown: reading one tells you
-what it does as clearly as running it.
+## Featured: Product Idea Pack
 
-## Skills
+**[`product-idea-pack`](skills/product-idea-pack/)** turns an early
+digital-product idea into a proposition sketch, mechanism board, product
+storyboard or interactive HTML prototype before anyone commits to polished UI.
+
+![Tide Window proposition sketch](examples/product-idea-pack/tide-window-astra-one-shot.png)
+
+It supports three natural starting points: discuss an idea first and invoke the
+skill later, provide a structured brief, or ask it to guide a rough thought with
+one useful question. Better inputs and purposeful references provide more
+control; thin prompts deliberately leave more for the agent to infer.
+
+[Read the standalone guide](skills/product-idea-pack/README.md) ·
+[See the examples](examples/product-idea-pack/) ·
+[Download the latest release](https://github.com/rafeblandford/skills/releases/latest)
+
+## Other skills
 
 ### Working with rafeblandford.com
 
-**[`using-rafeblandford-com`](skills/using-rafeblandford-com/)** — how to find
-out what I've done, written, or can evidence, without scraping the site.
-
-My site publishes three interfaces for machines: an MCP endpoint for reasoning
-about my career, a public Content API for bulk retrieval, and `llms.txt` plus
-Markdown for crawling. This skill says which to reach for and — more
-importantly — how to read what comes back without misrepresenting someone's
-career. It carries two constraints that matter: the corpus is a *selection*, so
-"not found" is a fact about the site and not about me; and case-study
-`outcomes` are self-attested where `summary` is published.
+**[`using-rafeblandford-com`](skills/using-rafeblandford-com/)** — find out what
+Rafe Blandford has done, written or can evidence through the site's MCP endpoint,
+Content API and machine-readable pages, without scraping the HTML or overstating
+what the published selection proves.
 
 ### Working with agents and crawlers
 
-**[`verifying-ai-crawlers`](skills/verifying-ai-crawlers/)** — work out which AI
-crawler traffic in your logs is genuine, and report it honestly.
-
-Ask an agent how much GPTBot or ClaudeBot traffic a site gets and it will count
-user-agent strings, which is the wrong answer: the header is a claim, and
-spoofing only ever inflates the number. This says what to check instead —
-published IP ranges, signatures, when reverse DNS misleads — and how to report
-verified, asserted and unverifiable separately.
-
-It comes out of running a real measurement of AI crawler traffic against my own
-site for several months, so the traps in it are ones I hit rather than ones I
-anticipated. The feed list was checked live when it was written; feeds move, and
-the skill says to fetch rather than inherit.
-
-*More to come.*
+**[`verifying-ai-crawlers`](skills/verifying-ai-crawlers/)** — distinguish
+verified AI crawler traffic from user-agent claims using published ranges,
+signatures and appropriately cautious reporting.
 
 ## Installing
 
-| | |
-|---|---|
-| **Any agent** | `npx skills add rafeblandford/skills` |
-| **Claude Code** | `/plugin marketplace add rafeblandford/skills` then `/plugin install using-rafeblandford-com@rafeblandford` |
-| **Codex** | Copy the skill folder into `$HOME/.agents/skills/` |
-| **Gemini CLI** | `gemini skills install https://github.com/rafeblandford/skills.git` |
+### Easiest cross-client route
 
-## About these skills
+If you use the community `skills` installer and have Node.js:
 
-**Provenance.** Each skill says in its own frontmatter how it was made —
-`written-with-ai` means I wrote it working with an AI assistant, which is how
-most of these come about. My site uses the same labelling for everything it
-publishes: [rafeblandford.com/ai-provenance](https://rafeblandford.com/ai-provenance/).
+```sh
+npx skills add rafeblandford/skills
+```
 
-**Licence.** Apache 2.0. Use them, change them, ship them.
+Choose the skill you want when prompted.
 
-**This repo is generated.** The sources live elsewhere and this is published
-from them, so pull requests aren't accepted — but issues are very welcome, and
-that's the right place to tell me something is wrong.
+### Claude Code
+
+```text
+/plugin marketplace add rafeblandford/skills
+/plugin install product-idea-pack@rafeblandford
+```
+
+Use the same pattern for the other catalogue entries. Start a new session or run
+`/reload-plugins` after installation.
+
+### Claude Cowork
+
+Download the `.plugin` file from the relevant
+[GitHub release](https://github.com/rafeblandford/skills/releases) and upload it
+through **Customize → Plugins**.
+
+### Codex
+
+Ask Codex to install the required skill from this repository, for example:
+
+> Install `product-idea-pack` from
+> `https://github.com/rafeblandford/skills/tree/main/skills/product-idea-pack`.
+
+Alternatively, copy the complete skill folder into `~/.codex/skills/` and start
+a new task.
+
+### Other Agent Skills clients
+
+Copy the complete skill directory using the client's normal Agent Skills
+mechanism. Project-local clients commonly discover `.agents/skills/<name>/`.
+
+## Provenance
+
+These skills are created through human–AI collaboration and carry a provenance
+field in their frontmatter. For Product Idea Pack, Rafe set the product intent,
+format taxonomy, visual system and release decisions; Codex and Claude agents
+helped research, draft, generate, test and refine it. Individual examples record
+their harness, model and number of human feedback rounds where known.
+
+[Read the provenance vocabulary](https://rafeblandford.com/ai-provenance/).
+
+## Licence and feedback
+
+The public catalogue is Apache-2.0 licensed. Use the skills, change them and make
+derivatives under the licence terms.
+
+You do not have to tell me if you use one, but I would be pleased to hear what
+you made or changed. Open an [issue](https://github.com/rafeblandford/skills/issues)
+or contact me through [rafeblandford.com](https://rafeblandford.com/).
+
+The catalogue is generated from a private development repository, so pull
+requests are not accepted. Issues are welcome.
 
 [spec]: https://agentskills.io/specification
