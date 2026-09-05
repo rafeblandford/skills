@@ -223,6 +223,9 @@ Install or copy the complete `skills/product-idea-pack/` directory using your
 client's normal Agent Skills mechanism. Keep the folder intact: the skill routes
 to its references, templates and helper scripts at run time.
 
+For manual installation, the latest GitHub release also provides a skill-only ZIP
+whose top-level folder is `product-idea-pack/`.
+
 ## A quick installation test
 
 Start a new session and try:
