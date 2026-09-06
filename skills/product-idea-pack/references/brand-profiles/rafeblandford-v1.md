@@ -1,9 +1,11 @@
 # Brand profile: rafeblandford
 
 - **Identifier:** `rafeblandford@1`
-- **Status:** optional test profile; never apply by default
+- **Status:** included example profile; never apply by default
 
-Use only when the user explicitly selects the rafeblandford test brand.
+Use only when the user explicitly selects the `rafeblandford@1` example profile.
+It may be duplicated and adapted as the starting point for another brand profile,
+provided the replacement assets are cleared for that use.
 
 ## Assets
 

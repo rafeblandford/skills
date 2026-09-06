@@ -130,4 +130,4 @@ Keep the status, proposition, three-beat rhythm, question and truth ordering sta
 
 ## Versioning
 
-Version 2 deliberately replaces the broad warm-off-white and optional-coral guidance in version 1 with a neutral paper/white-field hierarchy, yellow-first editorial markers and an explicit accent budget. Keep `editorial-instrument@1` for historical packs; do not relabel them as version 2.
+Version 2 deliberately replaces the broad warm-off-white and optional-coral guidance in version 1 with a neutral paper/white-field hierarchy, yellow-first editorial markers and an explicit accent budget. Earlier packs remain historical outputs and should not be relabelled as version 2; the superseded version is preserved in repository history rather than distributed with the current skill.

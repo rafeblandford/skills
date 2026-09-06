@@ -8,7 +8,7 @@ interactive HTML prototype, or a connected pack of several formats. The output
 is deliberately a discussion artefact: clear enough to make the idea tangible,
 open enough for somebody to disagree with it.
 
-![Tide Window proposition sketch](https://raw.githubusercontent.com/rafeblandford/skills/main/examples/product-idea-pack/tide-window-astra-one-shot.png)
+[![Four Product Idea Pack formats](https://raw.githubusercontent.com/rafeblandford/skills/main/examples/product-idea-pack/product-idea-pack-overview.png)](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack)
 
 ## What it is for
 
@@ -19,6 +19,11 @@ The skill helps you:
 - compare different manifestations of one idea;
 - capture a concept in editable and shareable forms;
 - move from a loose thought to a prototype through short human critique rounds.
+
+You might use it alone to create and develop an idea, but it also works well in
+a workshop or group discussion: capture ideas quickly, turn the discussion into
+something visual, and leave with an artefact that can be shared with
+stakeholders.
 
 It is not a substitute for product judgement, research, design craft or testing
 with the people affected. It accelerates ideation and concept capture. A human
@@ -50,7 +55,9 @@ visible, say:
 > missing answer would materially change the result.
 
 This is often the best route because the conversation already contains the
-audience, tension, mechanism and open questions.
+audience, tension, mechanism and open questions. A transcript from a recorded
+discussion can provide the same starting context; ask the skill to reconstruct
+the brief and distinguish what participants said from what it has inferred.
 
 ### 2. Give it a brief
 
@@ -167,8 +174,16 @@ After an artefact is accepted, the skill can optionally produce:
 - a **design-handoff profile**: normalised SVGs, reference PNGs and import notes
   for tools such as Figma.
 
-Branding is opt-in. A brand profile can add a logo, wordmark, colours and wrapper
-rules without forcing the product surface itself to look branded.
+## Optional branding
+
+Branding is separate from the output profiles and is never applied by default.
+Ask for a named brand profile when creating or revising an artefact and the skill
+will apply its logo, wordmark, colour roles and placement rules to the appropriate
+editorial wrapper and hand-off files. It does not stamp a logo inside a neutral
+or third-party product surface.
+
+An example `rafeblandford@1` profile is included. You can edit or duplicate it to
+make another profile using your own cleared brand assets and guidance.
 
 ## Installation
 
@@ -241,11 +256,15 @@ instruction is overriding it.
 ## Capability differences
 
 The underlying method is provider-neutral, but the tools are not identical.
-Claude Code and Cowork did not expose native text-to-image generation in the
-release tests. For a proposition sketch they therefore stop before composition
-and offer three honest routes: generate the ink layer elsewhere, supply an
-existing sketch, or accept a visibly incomplete ink field. Mechanism boards,
-storyboards and HTML prototypes remain usable through the capabilities present.
+If you have a choice, I recommend using ChatGPT/Codex for complete visual packs:
+its image-generation tools are an important part of the proposition-sketch and
+product-storyboard routes. Claude Code and Cowork did not expose native
+text-to-image generation in the release tests. For a proposition sketch they
+therefore stop before composition and offer three honest routes: generate the
+ink layer elsewhere, supply an existing sketch, or accept a visibly incomplete
+ink field. Mechanism boards, storyboards and HTML prototypes remain usable
+through the capabilities present, although a storyboard may be less visually
+expressive without generated imagery.
 
 Missing convenience exports are disclosed rather than faked. The editable source
 remains the primary deliverable.

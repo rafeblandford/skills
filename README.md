@@ -10,7 +10,7 @@ them too. Each is a folder containing a `SKILL.md` in the open
 digital-product idea into a proposition sketch, mechanism board, product
 storyboard or interactive HTML prototype before anyone commits to polished UI.
 
-![Tide Window proposition sketch](examples/product-idea-pack/tide-window-astra-one-shot.png)
+[![Four Product Idea Pack formats](examples/product-idea-pack/product-idea-pack-overview.png)](examples/product-idea-pack/)
 
 It supports three natural starting points: discuss an idea first and invoke the
 skill later, provide a structured brief, or ask it to guide a rough thought with

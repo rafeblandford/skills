@@ -48,7 +48,7 @@ Then read only the selected format reference:
 
 For a proposition sketch, mechanism board or product storyboard, also read and apply [static-layout-qa.md](references/static-layout-qa.md) after the copy and composition are settled.
 
-Read [pack-output-contract.md](references/pack-output-contract.md) when creating two or more formats, a share pack, a reusable concept folder or a maintained public example. Read [repair-relay.md](references/examples/repair-relay.md) only when an example would materially help routing or calibration.
+Read [pack-output-contract.md](references/pack-output-contract.md) when creating two or more formats, a share pack, a reusable concept folder or a maintained public example.
 
 Read [output-profiles.md](references/output-profiles.md) only when the user requests or accepts a presentation pack, a design handoff or both. These are supplementary delivery profiles, not concept formats.
 
@@ -122,7 +122,7 @@ Request a reference only when its absence would force a consequential invention,
 
 ## House style and presentation mode
 
-The default house style is `editorial-instrument@2`. It controls the shared hierarchy and pack relationship, not the concept or product geometry. Keep it unless the user supplies another house style. Version 1 remains available only for reproducing earlier packs.
+The default house style is `editorial-instrument@2`. It controls the shared hierarchy and pack relationship, not the concept or product geometry. Keep it unless the user supplies another house style.
 
 Choose one presentation mode independently:
 
