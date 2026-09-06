@@ -28,7 +28,8 @@ revision turn took roughly 15–20 minutes. That speed gets an idea to a useful
 discussion object; the output still needs human judgement and audience-specific
 refinement.
 
-[Read the standalone guide](skills/product-idea-pack/README.md) ·
+[Read the website guide](https://rafeblandford.com/product-idea-pack/) ·
+[Read the standalone documentation](skills/product-idea-pack/README.md) ·
 [See the examples](examples/product-idea-pack/) ·
 [Download Product Idea Pack v0.1.1](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.1)
 
