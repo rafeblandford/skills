@@ -173,10 +173,10 @@ observed range, not a performance guarantee.
 The RafeOS People example began with an exploratory discussion, then used three
 main production turns of approximately 17, 20 and 22 minutes. In about an hour
 of agent runtime—plus the preceding conversation and human pauses—it produced
-five concept boards, a cover, PDF and editable Figma hand-off. Rafe's estimate
-is that a comparable multi-board pack could take a working day or longer to
-produce manually; that is an informed personal comparison rather than a
-controlled benchmark.
+five concept boards, a cover, PDF and editable Figma hand-off. I estimate that a
+comparable multi-board pack could take a working day or longer to produce
+manually; that is an informed personal comparison rather than a controlled
+benchmark.
 
 Speed is useful because it creates a concrete object while the idea is still
 cheap to change. Treat every board as stimulus, inspect it closely and apply
@@ -190,14 +190,14 @@ of human intervention.
 
 | Example | What it demonstrates |
 | --- | --- |
-| [RafeOS People](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#rafeos-people) | The hero example: a longer conversation, structured brief, three formats, two human interventions and a verified Figma hand-off |
-| [Tide Window](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#tide-window) | A zero-feedback Astra proposition sketch, plus a later four-format human revision including an interactive prototype |
-| [Return Marker](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#return-marker) | A specific feature shown inside a neutral host product rather than as a whole new service |
+| [RafeOS People](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#rafeos-people) | The hero example: a longer conversation, structured brief, three formats, two human-feedback rounds and a verified Figma hand-off |
+| [Tide Window](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#tide-window) | A one-shot proposition sketch, plus a later four-format revision including an interactive prototype |
+| [Return Marker](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#return-marker) | A one-shot product storyboard with zero human-feedback rounds, showing a specific feature inside a neutral host product |
 | [RafeOS Delta Brief](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#rafeos-delta-brief) | A thin brief where the skill selected an interactive prototype and the number of states |
 
-“Zero human feedback rounds” means the agent received no critique between the
-saved prompt and Draft 1. It does not mean the skill itself was made without
-human involvement, nor that the agent skipped its own rendering and layout QA.
+Here, “one-shot” means zero human-feedback rounds: the agent received no critique
+between the saved prompt and Draft 1. It does not mean one model call, no human
+input to the brief or no autonomous rendering and layout QA.
 
 ## Core and optional outputs
 
@@ -331,7 +331,7 @@ from an ordinary matching request.
 ### Claude Cowork
 
 Download `product-idea-pack.plugin` from the
-[latest GitHub release](https://github.com/rafeblandford/skills/releases/latest),
+[Product Idea Pack v0.1.1 release](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.1),
 open **Customize → Plugins**, and upload the file. Start a fresh Cowork session
 after replacing an older version.
 
@@ -397,22 +397,22 @@ missing capability that defines the chosen format is raised before composition.
 
 ## Provenance
 
-Product Idea Pack was created through human–AI collaboration. Rafe Blandford set
-the product intent, format taxonomy, house style, quality bar and release
-decisions through repeated critique. Codex and Claude agents helped research,
+Product Idea Pack was created through human–AI collaboration. I set the product
+intent, format taxonomy, house style, quality bar and release decisions through
+repeated critique. Codex and Claude agents helped research,
 draft, generate, test and refine the skill and its example artefacts. Published
 examples record their harness, model and number of human feedback rounds wherever
 that information is available.
 
 This is labelled `written-with-ai`, following
-[Rafe's provenance vocabulary](https://rafeblandford.com/ai-provenance/).
+[my provenance vocabulary](https://rafeblandford.com/ai-provenance/).
 
 ## Licence and feedback
 
 Product Idea Pack is available under the Apache License 2.0. You may use it,
 modify it and distribute derivatives under the licence terms.
 
-There is no requirement to tell Rafe that you used it, but he would genuinely
-like to hear what you made or changed. Open an
+There is no requirement to tell me that you used it, but I would genuinely like
+to hear what you made or changed. Open an
 [issue](https://github.com/rafeblandford/skills/issues) or get in touch through
 [rafeblandford.com](https://rafeblandford.com/).

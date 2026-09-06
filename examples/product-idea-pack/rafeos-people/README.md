@@ -80,13 +80,13 @@ product surfaces. The screenshot deliberately retains Figma's layers,
 selection and properties panels to demonstrate that this is an editable
 hand-off rather than another flattened contact sheet.
 
-[Open the editable Figma file](https://www.figma.com/design/awAeZePD3Xt9ACXPGlVeII)
+[Open the Figma hand-off (access may be required)](https://www.figma.com/design/awAeZePD3Xt9ACXPGlVeII)
 
 The full downloadable example pack—including PDF, editable SVGs, assets,
 prompts, reference PNGs and import notes—is supplied as a GitHub release asset
 rather than duplicated in the repository.
 
-[Download the complete editable example pack](https://github.com/rafeblandford/skills/releases/latest/download/rafeos-people-example-pack.zip)
+[Download the complete editable example pack](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.1/rafeos-people-example-pack.zip)
 
 ## Time and judgement
 

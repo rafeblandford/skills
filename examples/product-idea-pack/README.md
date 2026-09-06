@@ -15,7 +15,7 @@ evidence. Select an image to open the full-resolution file.
 
 [![RafeOS People complete pack](rafeos-people/pack-overview.png)](rafeos-people/pack-overview.png)
 
-**Conversation-led full pack · GPT-6 Astra · two human-feedback rounds.** A
+**Conversation-led full pack · two human-feedback rounds.** A
 shared people memory gives authorised agents useful relationship context and
 helps Rafe act on his own intentions without maintaining a conventional
 personal CRM.
@@ -34,16 +34,16 @@ pretending the cover is another format.
 [Explore the complete case study](rafeos-people/) ·
 [Read the working conversation](rafeos-people/conversation.md) ·
 [Read the evaluation](rafeos-people/evaluation.md) ·
-[Open the editable Figma file](https://www.figma.com/design/awAeZePD3Xt9ACXPGlVeII) ·
-[Download the complete editable pack](https://github.com/rafeblandford/skills/releases/latest/download/rafeos-people-example-pack.zip)
+[Open the Figma hand-off (access may be required)](https://www.figma.com/design/awAeZePD3Xt9ACXPGlVeII) ·
+[Download the complete editable pack](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.1/rafeos-people-example-pack.zip)
 
 ## Tide Window
 
-### Astra proposition sketch
+### One-shot proposition sketch
 
-[![Tide Window Astra proposition sketch](tide-window/astra-proposition-sketch.png)](tide-window/astra-proposition-sketch.png)
+[![Tide Window proposition sketch](tide-window/astra-proposition-sketch.png)](tide-window/astra-proposition-sketch.png)
 
-**Proposition sketch · GPT-6 Astra · zero human-feedback rounds.** A weekend
+**Proposition sketch · zero human-feedback rounds.** A weekend
 dinghy sailor receives one explained two-hour window where tide, daylight and
 wind line up. The supplied prompt resolves the format, audience, intervention
 and trust question; the model chooses the composition and performs normal render
@@ -52,7 +52,7 @@ QA.
 [Read the source prompt](tide-window/astra-prompt.md) ·
 [Read the evaluation](tide-window/astra-evaluation.md)
 
-### Cross-format human revision
+### Later four-format revision
 
 This is a separate four-format run of the broad Tide Window idea. One
 human-feedback round accepted Draft 1 and requested bounded corrections to the
@@ -89,7 +89,7 @@ mechanism boundary, phone clipping and future-day semantics.
 
 [![Return Marker product storyboard](return-marker/product-storyboard.png)](return-marker/product-storyboard.png)
 
-**Product storyboard · Codex GPT-5 family · zero human-feedback rounds.** A
+**Product storyboard · zero human-feedback rounds.** A
 specific re-entry feature is placed inside a neutral long-form reading surface:
 return to the last meaningfully read paragraph, optionally see a compact recap,
 then continue. The host remains deliberately incomplete so the feature, rather
@@ -100,7 +100,7 @@ than a fictional publisher, can be judged.
 
 ## RafeOS Delta Brief
 
-**Interactive HTML prototype · Codex GPT-5 · zero human-feedback rounds.** Later
+**Interactive HTML prototype · zero human-feedback rounds.** Later
 daily briefings lead with what materially changed while preserving access to
 full context. The skill selected the format and the smallest useful three-state
 model from a deliberately thin brief.
@@ -135,17 +135,17 @@ benchmarks.
 
 The value is reaching a concrete, discussable artefact quickly—not outsourcing
 the decision. Inspect each output, challenge what it assumes and refine its
-language, density and framing for the people who will see it. Rafe estimates a
+language, density and framing for the people who will see it. I estimate that a
 comparable multi-board pack could take a working day or longer to create
 manually, but the generated pack still requires judgement and may require
 revision.
 
 ## Reading the provenance
 
-“Zero human-feedback rounds” means no human changed the artefact between the
-saved prompt and Draft 1. It does not mean no human supplied the idea,
-constraints or learning question. Autonomous corrections made during rendering
-and layout QA remain part of the same one-shot run.
+Here, “one-shot” means zero human-feedback rounds: no human changed the artefact
+between the saved prompt and Draft 1. It does not mean one model call or no human
+input to the idea, constraints or learning question. Autonomous corrections
+made during rendering and layout QA remain part of the same run.
 
 Product Idea Pack itself was created through human–AI collaboration. Its format
 taxonomy, visual system and behavioural rules emerged through repeated human

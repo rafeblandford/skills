@@ -19,21 +19,22 @@ control; thin prompts deliberately leave more for the agent to infer.
 
 The lead [RafeOS People case study](examples/product-idea-pack/rafeos-people/)
 shows the full conversation-led workflow: an exploratory discussion, structured
-brief, three formats, human revision, five final concept boards and an editable
-Figma hand-off. In the release tests, a typical generation or revision turn took
-roughly 15–20 minutes. That speed gets an idea to a useful discussion object;
-the output still needs human judgement and audience-specific refinement.
+brief, three formats, two human-feedback rounds, five final concept boards and
+an editable Figma hand-off. In the release tests, a typical generation or
+revision turn took roughly 15–20 minutes. That speed gets an idea to a useful
+discussion object; the output still needs human judgement and audience-specific
+refinement.
 
 [Read the standalone guide](skills/product-idea-pack/README.md) ·
 [See the examples](examples/product-idea-pack/) ·
-[Download the latest release](https://github.com/rafeblandford/skills/releases/latest)
+[Download Product Idea Pack v0.1.1](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.1)
 
 ## Other skills
 
 ### Working with rafeblandford.com
 
 **[`using-rafeblandford-com`](skills/using-rafeblandford-com/)** — find out what
-Rafe Blandford has done, written or can evidence through the site's MCP endpoint,
+I have done, written or can evidence through the site's MCP endpoint,
 Content API and machine-readable pages, without scraping the HTML or overstating
 what the published selection proves.
 
@@ -89,7 +90,7 @@ mechanism. Project-local clients commonly discover `.agents/skills/<name>/`.
 ## Provenance
 
 These skills are created through human–AI collaboration and carry a provenance
-field in their frontmatter. For Product Idea Pack, Rafe set the product intent,
+field in their frontmatter. For Product Idea Pack, I set the product intent,
 format taxonomy, visual system and release decisions; Codex and Claude agents
 helped research, draft, generate, test and refine it. Individual examples record
 their harness, model and number of human feedback rounds where known.
