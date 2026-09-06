@@ -1,15 +1,41 @@
 # Product Idea Pack examples
 
-[![Four current Product Idea Pack examples](product-idea-pack-overview.png)](product-idea-pack-overview.png)
+[![Four current Product Idea Pack formats](product-idea-pack-overview.png)](product-idea-pack-overview.png)
 
-These public-safe examples cover the four formats and different amounts of human
-direction. The overview is a replaceable selection of the strongest current
-images, not a permanent benchmark. Every value, name and product surface is
-illustrative unless the accompanying evaluation says otherwise.
+These public-safe examples cover the four formats, different idea scales and
+different amounts of human direction. The overview selects the strongest
+current format examples; it is not a permanent benchmark or a grid of every
+retained case. Every value, name and product surface is illustrative unless an
+evaluation says otherwise.
 
-The gallery shows full artefact captures rather than using contact sheets as its
-primary evidence. Select any image to open its full-resolution file. Each case
-also includes the source prompt and a concise evaluation.
+The gallery uses full artefact captures rather than contact sheets as its main
+evidence. Select an image to open the full-resolution file.
+
+## RafeOS People — lead case study
+
+[![RafeOS People complete pack](rafeos-people/pack-overview.png)](rafeos-people/pack-overview.png)
+
+**Conversation-led full pack · GPT-6 Astra · two human-feedback rounds.** A
+shared people memory gives authorised agents useful relationship context and
+helps Rafe act on his own intentions without maintaining a conventional
+personal CRM.
+
+This example begins with an exploratory conversation rather than a prepared
+brief. The skill is invoked only when Rafe says the concept is ready. Three core
+formats become five content boards, including two distinct product storyboards;
+human feedback then changes the product emphasis, host context and mechanism.
+A cover, PDF and actual Figma import show the optional delivery workflow without
+pretending the cover is another format.
+
+### Primary feedback target
+
+[![RafeOS People review storyboard](rafeos-people/people-review.png)](rafeos-people/people-review.png)
+
+[Explore the complete case study](rafeos-people/) ·
+[Read the working conversation](rafeos-people/conversation.md) ·
+[Read the evaluation](rafeos-people/evaluation.md) ·
+[Open the editable Figma file](https://www.figma.com/design/awAeZePD3Xt9ACXPGlVeII) ·
+[Download the complete editable pack](https://github.com/rafeblandford/skills/releases/latest/download/rafeos-people-example-pack.zip)
 
 ## Tide Window
 
@@ -28,11 +54,9 @@ QA.
 
 ### Cross-format human revision
 
-This is a separate four-format run of the broad Tide Window idea, not a
-before-and-after pair with the Astra sketch. One human-feedback round accepted
-Draft 1 and requested three bounded corrections: restore a missing box edge,
-clip phone content correctly, and stop a future-day storyboard view implying a
-current reading.
+This is a separate four-format run of the broad Tide Window idea. One
+human-feedback round accepted Draft 1 and requested bounded corrections to the
+mechanism boundary, phone clipping and future-day semantics.
 
 <details>
 <summary>See the full Draft 2 artefacts</summary>
@@ -61,31 +85,6 @@ current reading.
 [Read the evaluation](tide-window/human-revision/evaluation.md) ·
 [Read the revision decisions](tide-window/human-revision/decisions.md)
 
-This remains supporting revision evidence for v0.1. It is expected to be
-replaced by a stronger conversation-led case with two attributable human
-revisions.
-
-## Borrow Nearby
-
-**Two-format pack · GPT-6 Astra · zero human-feedback rounds.** A neighbour asks
-for an item and time, another chooses whether to offer it, both agree collection
-and return, and the product keeps the loop visible until the item is safely
-back. Identity, payment, insurance and liability remain explicitly unresolved.
-
-### Proposition sketch
-
-[![Borrow Nearby proposition sketch](borrow-nearby/proposition-sketch.png)](borrow-nearby/proposition-sketch.png)
-
-### Mechanism board
-
-[![Borrow Nearby mechanism board](borrow-nearby/mechanism-board.png)](borrow-nearby/mechanism-board.png)
-
-The sketch makes the human hand-off tangible; the workshop board exposes the
-same proposition as a rearrangeable service loop.
-
-[Read the source prompt](borrow-nearby/prompt.md) ·
-[Read the evaluation](borrow-nearby/evaluation.md)
-
 ## Return Marker
 
 [![Return Marker product storyboard](return-marker/product-storyboard.png)](return-marker/product-storyboard.png)
@@ -104,8 +103,7 @@ than a fictional publisher, can be judged.
 **Interactive HTML prototype · Codex GPT-5 · zero human-feedback rounds.** Later
 daily briefings lead with what materially changed while preserving access to
 full context. The skill selected the format and the smallest useful three-state
-model: establish a baseline, inspect material changes, then recover the complete
-current briefing.
+model from a deliberately thin brief.
 
 ### Primary change-led state
 
@@ -127,8 +125,20 @@ current briefing.
 [Read the source prompt](rafeos-delta-brief/prompt.md) ·
 [Read the evaluation](rafeos-delta-brief/evaluation.md)
 
-This is the provisional interactive example. A stronger conversation-led RafeOS
-case may replace it before the next documentation release.
+## Time and human judgement
+
+Across the release tests, a typical generation or revision turn took roughly
+15–20 minutes. RafeOS People took about one hour of recorded agent runtime
+across three main production turns, plus its preceding discussion and human
+pauses. These are observations, not performance guarantees or controlled
+benchmarks.
+
+The value is reaching a concrete, discussable artefact quickly—not outsourcing
+the decision. Inspect each output, challenge what it assumes and refine its
+language, density and framing for the people who will see it. Rafe estimates a
+comparable multi-board pack could take a working day or longer to create
+manually, but the generated pack still requires judgement and may require
+revision.
 
 ## Reading the provenance
 
@@ -140,10 +150,3 @@ and layout QA remain part of the same one-shot run.
 Product Idea Pack itself was created through human–AI collaboration. Its format
 taxonomy, visual system and behavioural rules emerged through repeated human
 critique of generated outputs, supported by Codex and Claude agents.
-
-## Planned conversation-led example
-
-The next case study begins with a longer exploratory conversation rather than a
-prepared brief, then preserves two human-directed revisions. It will test context
-reconstruction and revision discipline more directly than the current examples
-and is expected to become the lead example for the website and launch article.

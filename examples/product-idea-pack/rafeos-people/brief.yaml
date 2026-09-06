@@ -1,0 +1,189 @@
+idea_name: RafeOS People
+idea_scale: feature
+idea: >-
+  A shared people memory for RafeOS that gives agents reliable relationship
+  context and helps Rafe give people the attention he intends to give them.
+audience: Rafe, across personal and professional relationships, and his authorised assistants.
+decision_to_support: >-
+  Discuss whether the proposed memory, review and nudge model feels useful,
+  trustworthy and light enough to maintain.
+current_situation: >-
+  Useful context is distributed across email, messaging, meeting notes,
+  agent conversations and personal knowledge. Relationships cross work and social contexts.
+current_friction: >-
+  Manual personal CRMs have required too much upkeep. Agents lack shared person
+  context, and intentions to stay in touch can drift amid ordinary life.
+what_if: >-
+  Ordinary activity supplied the memory, human conversation supplied meaning,
+  and the same curated context powered both everyday assistance and timely nudges?
+value_promised:
+  - Agents recognise people, remember context and retrieve supporting history.
+  - Rafe receives useful reasons to reconnect and follow through on intentions.
+decisive_interaction: >-
+  During a people review, Rafe says he already met Anna on Saturday. The system
+  records the event, closes the obsolete dinner nudge, restricts confidential
+  context and asks before preserving a new check-in intention.
+system_response: >-
+  One correction updates the shared people memory and the nudge state across
+  Cockpit, WhatsApp and subsequent assistant conversations.
+changed_outcome: >-
+  A useful conversation improves the underlying memory while helping Rafe
+  decide what attention he wants to give a relationship.
+important_uncertainty: >-
+  Whether suggestions are timely and grounded enough to be welcome without
+  introducing another recurring administrative burden.
+question_to_provoke: When should RafeOS prompt you, and when should it wait?
+
+truth:
+  known:
+    - The user describes an existing RafeOS wiki based on source ingestion and curation.
+    - The user supplied a Cockpit screenshot as a host-interface reference.
+    - The user wants both everyday agent context and active relationship support.
+    - The user wants Markdown records, graduation, provenance and information access tiers.
+    - The user prefers Cockpit, WhatsApp and conversational reviews as interaction surfaces.
+    - Anna Mercer must remain wholly fictional and unrelated to any real person.
+  proposed:
+    - Scheduled extraction and comparison, with supported updates applied automatically.
+    - Human graduation for new people and review of identity ambiguity or consequential judgements.
+    - An API filters facts by assistant authorisation and purpose before returning context.
+    - All surfaces share the state of nudges, corrections, deferrals and commitments.
+    - A fortnightly human review starts with relationships, then offers curation.
+    - More frequent background preparation is independent of the human review rhythm.
+    - A specific timely reason is needed to elevate an item to WhatsApp.
+  assumed:
+    - Authorised source connectors and adequate identity resolution can be implemented.
+    - The fictional review takes place on 6 September 2026; dinner occurred on 5 September.
+    - The later everyday-assistance scene uses the corrected record from that review.
+    - The proposed job check-in in late October remains pending until Rafe answers.
+    - All names, organisations, messages, dates, events, source IDs and task IDs in examples are invented.
+  to_learn:
+    - Which sources can be accessed with sufficient coverage and reliability?
+    - Which candidate people deserve graduation and how can queue growth be limited?
+    - Which update categories are safe to accept without human review?
+    - Which prompts belong in Cockpit, WhatsApp or the next people review?
+    - How should stale information, conflicting sources and missed offline contact be handled?
+    - How should equivalent access restrictions work for agents reading files directly?
+
+brand_or_context: >-
+  RafeOS feature concept. Cockpit supplies the existing mobile hierarchy;
+  the everyday assistant uses a labelled Codex-style reconstruction. Exact app fidelity is not claimed.
+must_show:
+  - Both passive context and proactive relationship support.
+  - Personal and professional contexts can coexist for one person.
+  - Graduation, provenance, your intention and access scope.
+  - A meaningful correction during a richer conversational review.
+  - Existing task integration for definite commitments.
+  - Incomplete source coverage and recorded rather than assumed contact history.
+must_avoid:
+  - Real people, private conversations or personal details from the supplied screenshot.
+  - Relationship scores, emotional diagnoses or inferred intentions presented as facts.
+  - Automatic outreach to contacts.
+  - Treating every suggestion as an overdue task.
+  - Claiming working integrations or implemented access controls.
+  - Requiring a review before everyday assistance can remain useful.
+evidence_or_sources:
+  - Product discussion with Rafe in this task, 6 September 2026.
+  - User-supplied Cockpit screenshot, used for layout conventions only and omitted from the pack.
+
+prototype_profile:
+  focus: product-experience
+  scope: system
+  audience_for_artefact: Rafe and collaborators discussing the concept.
+  deliberately_omits:
+    - Live integrations, implementation feasibility, identity matching accuracy and operational security tests.
+    - An interactive prototype, production UI, authentication flows and detailed API or storage schemas.
+    - Market demand validation, exact scheduling and notification thresholds.
+references:
+  host:
+    - User-supplied Cockpit screenshot.
+    - Official desktop-app documentation at https://learn.chatgpt.com/docs/app (interface conventions only).
+  precedent: []
+  treatment:
+    - editorial-instrument@2
+  borrow:
+    - Cockpit Today view, serif greeting, blue accents, briefing card and five-item bottom navigation.
+  avoid:
+    - Actual names, messages, home readings, travel information and other screenshot content.
+
+format: full-pack
+format_basis: >-
+  The user authorised the product idea pack after discussing the proposed
+  proposition sketch, mechanism board and storyboard deliverables.
+house_style: editorial-instrument@2
+presentation_mode: editorial
+format_modes:
+  proposition-sketch: editorial
+  mechanism-board: editorial
+  product-storyboard: native
+sketch_emphasis: product-led
+editorial_beats:
+  - Gather useful context.
+  - Curate a trusted memory.
+  - Help at the right moment.
+brand_profile:
+  id: none
+  apply_to: []
+evidence_record: none
+output: pack
+pack:
+  status: draft
+  house_style: editorial-instrument@2
+  purpose: multi-deliverable
+  primary_format: product-storyboard
+  primary_revision_target: 03-product-storyboard/02-people-review-editable-draft-2.svg
+  formats:
+    - proposition-sketch
+    - mechanism-board
+    - product-storyboard
+  current_revision: 2
+  private_test_material_included: false
+delivery:
+  core: true
+  output_profiles:
+    - presentation
+    - design-handoff
+  presentation_format: pdf-only-as-requested
+  pdf_mode: vector-text-and-geometry-with-original-raster-artwork
+  powerpoint_mode: not-requested
+  design_target: figma
+  design_file: https://www.figma.com/design/awAeZePD3Xt9ACXPGlVeII
+  cover: 00-cover/editable.svg
+  cover_basis: Generated London photographic scene with the fictional native product mock-ups in physical devices.
+
+revision:
+  request: >-
+    Integrate Anna among wider RafeOS nudges, bring everyday assistance into a
+    recognisable AI-assistant interface, align the source markers, add other
+    future API uses, improve the sketch information and phone treatment, and
+    add a separate as-if-built native product board.
+  preserve:
+    - Draft 1 editable sources, PNGs, ink layer and original archive.
+    - The proposition, two principal outcomes, fictional Anna example and trust boundaries.
+    - The richer review as the primary feedback target.
+  change:
+    - Mixed Cockpit briefing with people alongside task, messaging, travel and home items.
+    - Codex-style everyday-assistance mock-up with sidebar, task, source activity and composer.
+    - Aligned source markers and a third open API branch for other uses to explore.
+    - Product-led proposition composition and monochrome phone copy.
+    - A native preview board plus standalone Cockpit, Codex and WhatsApp mock-ups.
+  accepted_decisions:
+    - People is part of the wider RafeOS briefing.
+    - Scoped access supports multiple use cases as well as multiple surfaces.
+    - Native product contexts make the integration more tangible.
+  introduced_in_draft_2:
+    - 03-product-storyboard/03-native-product-preview-editable.svg
+    - assets/native/cockpit.svg
+    - assets/native/codex.svg
+    - assets/native/whatsapp.svg
+  illustrative_detail:
+    - Sam is a separate wholly fictional contact used only in the WhatsApp birthday example.
+    - The native board contains different moments rather than simultaneous state.
+
+example_run:
+  mode: iterated
+  source_prompt: input.md
+  human_feedback_rounds: 2
+  agent_qa: >-
+    Rendered and visually inspected every board, ran the pack checker, verified
+    the six-page PDF, and imported the final boards and standalone surfaces into
+    Figma to check editability and destination limitations.

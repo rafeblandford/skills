@@ -145,6 +145,26 @@ The skill preserves earlier accepted drafts when the draft number changes and
 records material human decisions. Translating an idea into another format is not
 treated as a revision: each format answers a different question.
 
+## How long it takes
+
+In the release tests, a typical generation or revision turn took approximately
+**15–20 minutes**. Image generation, the number of boards, browser testing and
+destination hand-offs can make an individual turn shorter or longer. This is an
+observed range, not a performance guarantee.
+
+The RafeOS People example began with an exploratory discussion, then used three
+main production turns of approximately 17, 20 and 22 minutes. In about an hour
+of agent runtime—plus the preceding conversation and human pauses—it produced
+five concept boards, a cover, PDF and editable Figma hand-off. Rafe's estimate
+is that a comparable multi-board pack could take a working day or longer to
+produce manually; that is an informed personal comparison rather than a
+controlled benchmark.
+
+Speed is useful because it creates a concrete object while the idea is still
+cheap to change. Treat every board as stimulus, inspect it closely and apply
+human judgement. The first output may need changes to its proposition, language,
+density or framing before it is appropriate for a particular audience.
+
 ## Examples
 
 The published examples deliberately cover different starting points and levels
@@ -152,8 +172,8 @@ of human intervention.
 
 | Example | What it demonstrates |
 | --- | --- |
-| [Tide Window](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#tide-window) | A zero-feedback Astra proposition sketch, plus a later cross-format human revision |
-| [Borrow Nearby](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#borrow-nearby) | One proposition expressed as both a human sketch and a rearrangeable mechanism board |
+| [RafeOS People](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#rafeos-people) | The hero example: a longer conversation, structured brief, three formats, two human interventions and a verified Figma hand-off |
+| [Tide Window](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#tide-window) | A zero-feedback Astra proposition sketch, plus a later four-format human revision including an interactive prototype |
 | [Return Marker](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#return-marker) | A specific feature shown inside a neutral host product rather than as a whole new service |
 | [RafeOS Delta Brief](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack#rafeos-delta-brief) | A thin brief where the skill selected an interactive prototype and the number of states |
 
@@ -268,6 +288,29 @@ expressive without generated imagery.
 
 Missing convenience exports are disclosed rather than faked. The editable source
 remains the primary deliverable.
+
+## Connected tools improve the hand-off
+
+The skill works from capabilities rather than requiring one provider's tool
+names. Connections and local tools improve particular parts of the workflow:
+
+- **Image generation** makes scanned proposition sketches, illustrative
+  storyboards and optional covers possible.
+- **Browser automation** can operate HTML states, check narrow layouts and
+  console errors, and create consistent prototype captures.
+- **A connected design tool such as Figma** allows the agent to import the
+  hand-off, check fonts, groups and arrows in the actual destination, and leave
+  an editable file. Without that connection, the skill supplies portable,
+  normalised SVGs and import notes.
+- **Presentation and PDF renderers** allow PowerPoint and PDF outputs to be
+  compared with the approved source boards rather than assumed to match.
+- **Screenshots and host-product references** reduce invention when a concept
+  must sit inside an existing service.
+
+The agent should use relevant capabilities when they are already available and
+requested by the workflow. It does not automatically install packages, connect
+accounts or broaden access. A missing convenience export is disclosed; a
+missing capability that defines the chosen format is raised before composition.
 
 ## Provenance
 

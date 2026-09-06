@@ -17,6 +17,13 @@ skill later, provide a structured brief, or ask it to guide a rough thought with
 one useful question. Better inputs and purposeful references provide more
 control; thin prompts deliberately leave more for the agent to infer.
 
+The lead [RafeOS People case study](examples/product-idea-pack/rafeos-people/)
+shows the full conversation-led workflow: an exploratory discussion, structured
+brief, three formats, human revision, five final concept boards and an editable
+Figma hand-off. In the release tests, a typical generation or revision turn took
+roughly 15–20 minutes. That speed gets an idea to a useful discussion object;
+the output still needs human judgement and audience-specific refinement.
+
 [Read the standalone guide](skills/product-idea-pack/README.md) ·
 [See the examples](examples/product-idea-pack/) ·
 [Download the latest release](https://github.com/rafeblandford/skills/releases/latest)
