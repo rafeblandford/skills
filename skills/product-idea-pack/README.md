@@ -1,23 +1,41 @@
 # Product Idea Pack
 
-Product Idea Pack turns an early digital-product idea into a visual object that
-people can discuss before anyone commits to polished interface design.
+Product Idea Pack helps you turn an early digital-product idea into useful,
+shareable artefacts without spending a day starting from a blank page. It turns
+a conversation, transcript or brief into something visual that team members,
+workshop participants and stakeholders can look at, discuss and challenge.
 
 It can create a proposition sketch, mechanism board, product storyboard,
-interactive HTML prototype, or a connected pack of several formats. The output
-is deliberately a discussion artefact: clear enough to make the idea tangible,
-open enough for somebody to disagree with it.
+interactive HTML prototype, or a connected pack of several formats. These can
+complement a brief, research summary, strategy or proposal by giving people a
+concrete expression of the idea. Every output is deliberately open to change:
+clear enough to make the proposition tangible, editable enough to refine, and
+unfinished enough for somebody to disagree with it.
+
+The skill itself follows the same principle. Format guidance, house style,
+templates, branding and delivery packaging are separate layers, so a team can
+adapt the method without rewriting it end to end.
 
 [![Four Product Idea Pack formats](https://raw.githubusercontent.com/rafeblandford/skills/main/examples/product-idea-pack/product-idea-pack-overview.png)](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack)
 
+## Start here
+
+- [Choose the question and format](#four-formats)
+- [Give the skill an idea](#three-ways-to-begin)
+- [See worked examples](#examples)
+- [Customise the pack](#customising-the-pack)
+- [Install it](#installation)
+
 ## What it is for
 
-The skill helps you:
+The skill reduces the time needed to make a product idea visible and discussable.
+It helps you:
 
 - make a product proposition visible quickly;
 - expose a mechanism, hand-off or weak link before polishing the interface;
 - compare different manifestations of one idea;
 - capture a concept in editable and shareable forms;
+- create a visual complement to a brief, research note, proposal or workshop;
 - move from a loose thought to a prototype through short human critique rounds.
 
 You might use it alone to create and develop an idea, but it also works well in
@@ -194,7 +212,57 @@ After an artefact is accepted, the skill can optionally produce:
 - a **design-handoff profile**: normalised SVGs, reference PNGs and import notes
   for tools such as Figma.
 
-## Optional branding
+The four formats and two hand-off profiles are supported defaults, not a closed
+catalogue of everything the skill may create. You can request another board,
+layout or piece of packaging when it helps a particular discussion. Additional
+artefacts are strongest after one or more core boards have established the
+proposition, language, mechanism and visual rules that they should inherit.
+
+The [RafeOS People case study](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack/rafeos-people)
+shows this distinction: its native product preview and cover are useful
+additional boards, but they are not treated as fifth and sixth core formats.
+
+## Customising the pack
+
+The pack separates its decisions into layers so that you can change the smallest
+relevant part without rewriting the whole skill.
+
+| Layer | What it controls | Starting point |
+| --- | --- | --- |
+| **Format guidance** | The learning question, content and required files for each kind of artefact | [Format references](references/formats/) |
+| **House style** | Page anatomy, spacing, palette, typography, annotation and editorial rhythm | [Default house style](references/house-styles/default-v2.md) |
+| **Templates** | Repeatable SVG or HTML scaffolds and starting geometry | [Template assets](assets/templates/) |
+| **Brand profile** | Approved marks, wordmark, type and colour roles applied as an overlay | [Brand profile guide](references/brand-profile.md) |
+| **Output profile** | Packaging for presentation or onward design work | [Output profile guide](references/output-profiles.md) |
+
+### Additional boards and layouts
+
+Ask for an additional board by naming its purpose and audience: for example, a
+cover, native product preview, workshop summary, role-specific extract or a
+different overview layout. Say which accepted artefacts it should use as source
+material and whether it is another feedback object or simply packaging. The
+skill should carry forward the brief, decisions, truth labels and house style
+rather than reinventing the idea.
+
+### House styles and templates
+
+A house style controls both appearance and editorial behaviour: colour roles,
+typography, margins, density, page anatomy, connector treatment and the order in
+which explanation is presented. The default is `editorial-instrument@2`.
+
+To create a different visual system, duplicate the default house-style reference,
+give it a new versioned identifier and describe the roles you want each choice to
+play. In a personal fork you can then make that style the default, or name it in
+an individual request. Keeping it as a separate reference makes later changes
+consistent across every format.
+
+Templates are starting scaffolds rather than fixed designs. Copy or adapt one
+when you want repeatable canvas geometry, wrappers or document structure. Change
+the house style for a new visual language; change a template when you want a new
+repeatable layout. The format references should continue to describe what each
+artefact is for.
+
+### Branding
 
 Branding is separate from the output profiles and is never applied by default.
 Ask for a named brand profile when creating or revising an artefact and the skill
@@ -204,6 +272,21 @@ or third-party product surface.
 
 An example `rafeblandford@1` profile is included. You can edit or duplicate it to
 make another profile using your own cleared brand assets and guidance.
+
+### Agent-agnostic structure
+
+The core follows the open
+[Agent Skills specification](https://github.com/agentskills/agentskills/blob/main/docs/specification.mdx):
+instructions live in `SKILL.md`, conditional guidance in `references/`, reusable
+starting points in `assets/`, and deterministic helpers in `scripts/`. It
+describes required capabilities instead of hard-coding one provider's tool
+names. Installation packaging is kept outside the core skill.
+
+This makes the method portable, not identical in every client. Models, image
+generation, browser control and design-tool connections still affect the result.
+Forking and modification are encouraged under the Apache 2.0 licence: preserve
+the layer boundaries, change the part that represents your practice, and test
+the result in the agent environments you intend to use.
 
 ## Installation
 
