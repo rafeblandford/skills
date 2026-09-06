@@ -1,9 +1,10 @@
 # Product Idea Pack
 
-Product Idea Pack helps you turn an early digital-product idea into useful,
-shareable artefacts without spending a day starting from a blank page. It turns
-a conversation, transcript or brief into something visual that team members,
-workshop participants and stakeholders can look at, discuss and challenge.
+Product Idea Pack is a reusable Agent Skill for turning an early digital-product
+idea into visual, editable artefacts that people can share, discuss and
+challenge. It can work from a conversation, transcript or brief, helping a team
+create a useful discussion object without spending a day starting from a blank
+page.
 
 It can create a proposition sketch, mechanism board, product storyboard,
 interactive HTML prototype, or a connected pack of several formats. These can

@@ -1,8 +1,11 @@
-# Rafe Blandford — Agent Skills
+# Rafe Blandford’s Agent Skills
 
-Skills I have built and found useful, published so other people's agents can use
-them too. Each is a folder containing a `SKILL.md` in the open
-[Agent Skills][spec] format.
+Reusable workflows I have built and found useful for extending AI agents. They
+are published for other people to use, adapt and learn from.
+
+Each skill is a self-contained folder built in the open [Agent Skills][spec]
+format, combining a `SKILL.md` with any supporting references, assets, templates
+and helper scripts it needs.
 
 ## Featured: Product Idea Pack
 
