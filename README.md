@@ -29,9 +29,10 @@ discussion object; the output still needs human judgement and audience-specific
 refinement.
 
 [Read the website guide](https://rafeblandford.com/product-idea-pack/) ·
+[Read the launch article](https://rafeblandford.com/making-product-ideas-visible/) ·
 [Read the standalone documentation](skills/product-idea-pack/README.md) ·
 [See the examples](examples/product-idea-pack/) ·
-[Download Product Idea Pack v0.1.1](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.1)
+[Download Product Idea Pack v0.1.2](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.2)
 
 ## Other skills
 

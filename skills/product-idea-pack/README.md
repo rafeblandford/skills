@@ -19,6 +19,9 @@ adapt the method without rewriting it end to end.
 
 [![Four Product Idea Pack formats](https://raw.githubusercontent.com/rafeblandford/skills/main/examples/product-idea-pack/product-idea-pack-overview.png)](https://github.com/rafeblandford/skills/tree/main/examples/product-idea-pack)
 
+[Read the website guide](https://rafeblandford.com/product-idea-pack/) ·
+[Read why the skill was made](https://rafeblandford.com/making-product-ideas-visible/)
+
 ## Start here
 
 - [Choose the question and format](#four-formats)
@@ -332,7 +335,7 @@ from an ordinary matching request.
 ### Claude Cowork
 
 Download `product-idea-pack.plugin` from the
-[Product Idea Pack v0.1.1 release](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.1),
+[Product Idea Pack v0.1.2 release](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.2),
 open **Customize → Plugins**, and upload the file. Start a fresh Cowork session
 after replacing an older version.
 

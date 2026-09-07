@@ -6,7 +6,7 @@ compatibility: Works in Agent Skills-compatible harnesses with file access. Comp
 metadata:
   short-description: Create consistent visual product-idea packs
   author: Rafe Blandford
-  version: "0.1.1"
+  version: "0.1.2"
   provenance: written-with-ai
 ---
 
