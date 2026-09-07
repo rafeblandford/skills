@@ -28,6 +28,7 @@ revision turn took roughly 15–20 minutes. That speed gets an idea to a useful
 discussion object; the output still needs human judgement and audience-specific
 refinement.
 
+[Install in ChatGPT](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e) ·
 [Read the website guide](https://rafeblandford.com/product-idea-pack/) ·
 [Read the launch article](https://rafeblandford.com/making-product-ideas-visible/) ·
 [Read the standalone documentation](skills/product-idea-pack/README.md) ·
@@ -50,6 +51,13 @@ verified AI crawler traffic from user-agent claims using published ranges,
 signatures and appropriately cautious reporting.
 
 ## Installing
+
+### ChatGPT
+
+Open the [Product Idea Pack listing](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e)
+and select **Install plugin**. This is the simplest route when using ChatGPT or
+Codex and gives the skill access to the visual capabilities available in that
+environment.
 
 ### Easiest cross-client route
 

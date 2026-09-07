@@ -294,6 +294,13 @@ the result in the agent environments you intend to use.
 
 ## Installation
 
+### ChatGPT
+
+Open the [Product Idea Pack listing](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e)
+and select **Install plugin**. This is the simplest route when using ChatGPT or
+Codex and gives the skill access to the visual capabilities available in that
+environment.
+
 ### Quickest cross-client route
 
 If you use the community `skills` installer and have Node.js available:
