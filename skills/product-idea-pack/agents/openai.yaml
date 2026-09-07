@@ -1,4 +1,7 @@
 interface:
   display_name: "Product Idea Pack"
   short_description: "Turn early ideas into consistent visual concept packs"
+  icon_small: "./assets/product-idea-pack-icon.png"
+  icon_large: "./assets/product-idea-pack-icon.png"
+  brand_color: "#C29B00"
   default_prompt: "Use $product-idea-pack to turn this idea into the most useful visual format and guide me through refining it."
