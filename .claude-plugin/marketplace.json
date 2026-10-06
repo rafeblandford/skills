@@ -53,6 +53,36 @@
         "name": "Rafe Blandford"
       },
       "homepage": "https://rafeblandford.com/product-idea-pack/"
+    },
+    {
+      "name": "voice",
+      "description": "Draft writing that goes out under your own name, in your voice and argument, from a voice pack. Asks rather than inventing reasoning. An open, early version.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/voice"
+      ],
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "author": {
+        "name": "Rafe Blandford"
+      },
+      "homepage": "https://rafeblandford.com/voice-and-deslop/"
+    },
+    {
+      "name": "deslop",
+      "description": "Review a draft before it goes out under your name: flags what isn't yours and what a reader might take as AI, with one proposed edit each, and leaves every decision to you. An open, early version.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/deslop"
+      ],
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "author": {
+        "name": "Rafe Blandford"
+      },
+      "homepage": "https://rafeblandford.com/voice-and-deslop/"
     }
   ]
 }

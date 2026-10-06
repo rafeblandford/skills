@@ -37,6 +37,20 @@ refinement.
 
 ## Other skills
 
+### Writing in your own voice
+
+**[`voice`](skills/voice/)** drafts writing that goes out under your name, from
+your dictation, notes or brief, keeping the argument yours: where a step in the
+reasoning is missing, it asks rather than inventing one.
+**[`deslop`](skills/deslop/)** reviews a draft before it goes out, flagging what
+isn't yours and what readers are likely to take as AI, and leaves every
+decision to you. Both set their depth by how much the piece matters.
+
+They are open, early versions (0.1.0). Everything about the writer lives in a
+separate voice pack; each skill ships with a fictional example pack to show the
+shape, and a guide to building your own in `references/pack/README.md`.
+[Read the website guide](https://rafeblandford.com/voice-and-deslop/).
+
 ### Working with rafeblandford.com
 
 **[`using-rafeblandford-com`](skills/using-rafeblandford-com/)** — find out what
@@ -83,7 +97,8 @@ Use the same pattern for the other catalogue entries. Start a new session or run
 
 Download the `.plugin` file from the relevant
 [GitHub release](https://github.com/rafeblandford/skills/releases) and upload it
-through **Customize → Plugins**.
+through **Customize → Plugins**. For `voice` and `deslop`, download the skill
+`.zip` from their release and upload it as a skill.
 
 ### Codex
 
