@@ -54,6 +54,7 @@ button { font: inherit; cursor: pointer; }
 .seg button { border: 0; background: var(--surface); color: var(--ink); padding: 6px 11px; font-size: 13.5px; }
 .seg button + button { border-left: 1px solid var(--line); }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+a { color: var(--accent); text-underline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .warn { background: var(--mixed-soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; font-size: 13.5px; }
 .warn summary { cursor: pointer; font-weight: 600; }
@@ -188,6 +189,10 @@ const wide = matchMedia("(min-width: 901px)");
 const calm = matchMedia("(prefers-reduced-motion: reduce)");
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+// A link keeps its address as the style "a:<url>"; only web, mail, in-page and relative links are drawn.
+const linkTo = (url, inner) => /^(https?:|mailto:|#|\/|\.{1,2}\/|[^:]*$)/i.test(url)
+  ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${inner}</a>` : inner;
+const styled = (st, inner) => st.startsWith("a:") ? linkTo(st.slice(2), inner) : st === "code" ? `<code>${inner}</code>` : `<${st}>${inner}</${st}>`;
 const byId = Object.fromEntries(D.cards.map((c) => [c.id, c]));
 const ORIGIN_INITIAL = { author: "A", source: "S", drafter: "D", mixed: "M", unknown: "?" };
 let notes = {};
@@ -197,7 +202,7 @@ let view = "changes", pinned = null, hover = null, hoverTimer = null;
 function piecesHTML(p, num) {
   return p.pieces.map((x, k) => {
     let h = esc(x.t);
-    for (const st of x.st) h = st === "code" ? `<code>${h}</code>` : `<${st}>${h}</${st}>`;
+    for (const st of x.st) h = styled(st, h);
     if (x.k === "ins") h = `<ins>${h}</ins>`;
     if (x.k === "del") h = `<del>${h}</del>`;
     if (x.a.length) h = `<span class="an" data-cards="${x.a.join(" ")}">${h}</span>`;

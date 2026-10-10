@@ -1,11 +1,11 @@
 ---
 name: deslop
-description: Review a draft that will go out under a person's own name at its stated care tier, returning located flags in priority order, each with one proposed edit. Use after drafting, or when asked to check or edit a piece in their name; not for ordinary assistant replies. An open, early version (0.2.1).
+description: Review a draft that will go out under a person's own name at its stated care tier, returning located flags in priority order, each with one proposed edit. Use after drafting, or when asked to check or edit a piece in their name; not for ordinary assistant replies. An open, early version (0.2.2).
 license: Apache-2.0
 metadata:
   short-description: Review writing under a person's own name
   author: Rafe Blandford
-  version: "0.2.1"
+  version: "0.2.2"
   provenance: written-with-ai
 ---
 

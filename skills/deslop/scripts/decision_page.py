@@ -27,7 +27,7 @@ INLINE_RE = re.compile(
     r"`([^`]+)`"                         # code
     r"|\*\*(.+?)\*\*|__(.+?)__"          # strong
     r"|(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])"  # em; leaves 2*3*4 alone
-    r"|\[([^\]]+)\]\([^)]*\)"            # link: keep the text
+    r"|\[([^\]]+)\]\(\s*<?([^)\s>]*)>?(?:\s+\"[^\"]*\")?\s*\)"  # link: the text, with its address as the style
 )
 LIST_RE = re.compile(r"^\s*([-*+]|\d+[.)])\s+")
 SEVERITIES = ("act on", "minor", "their call")
@@ -93,9 +93,11 @@ def md_inline(src: str) -> tuple[str, list[list]]:
         before = src[pos:m.start()]
         plain.append(before)
         length += len(before)
-        for group, style in ((1, "code"), (2, "strong"), (3, "strong"), (4, "em"), (5, None)):
+        for group, style in ((1, "code"), (2, "strong"), (3, "strong"), (4, "em"), (5, "a:")):
             inner = m.group(group)
             if inner is not None:
+                if style == "a:":
+                    style = "a:" + (m.group(6) or "")
                 if style != "code" and INLINE_RE.search(inner):
                     inner_plain, inner_styles = md_inline(inner)
                     styles.extend([s + length, e + length, st] for s, e, st in inner_styles)
@@ -531,6 +533,7 @@ h1 { font-family: var(--font-read); font-weight: 500; font-size: 28px; line-heig
 button { font: inherit; cursor: pointer; }
 .btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 7px 12px; font-size: 14px; }
 .btn:hover { border-color: var(--accent); }
+a { color: var(--accent); text-underline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .warn { background: var(--minor-soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13.5px; }
 .warn summary { cursor: pointer; font-weight: 600; }
@@ -685,6 +688,10 @@ let docRef = null, canSave = false, saveTimer = null;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const rich = (s) => esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
+// A link keeps its address as the style "a:<url>"; only web, mail, in-page and relative links are drawn.
+const linkTo = (url, inner) => /^(https?:|mailto:|#|\/|\.{1,2}\/|[^:]*$)/i.test(url)
+  ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${inner}</a>` : inner;
+const styled = (st, inner) => st.startsWith("a:") ? linkTo(st.slice(2), inner) : st === "code" ? `<code>${inner}</code>` : `<${st}>${inner}</${st}>`;
 const get = (id) => state.flags[id] || (state.flags[id] = { decision: null, why: [], note: "" });
 const sev = (id) => SEV[(byId[id] || {}).severity] || "minor";
 const choicesOf = (f) => Object.assign({}, DEFAULT_CHOICES, f.choices || {});
@@ -729,7 +736,7 @@ function paraHTML(i) {
       continue;
     }
     let inner = esc(text.slice(a, b));
-    for (const [s, e, st] of P.styles) if (s <= a && e >= b) inner = st === "code" ? `<code>${inner}</code>` : `<${st}>${inner}</${st}>`;
+    for (const [s, e, st] of P.styles) if (s <= a && e >= b) inner = styled(st, inner);
     plain += text.slice(a, b);
     html += mark(inner, a, b) + tags(b);
   }
