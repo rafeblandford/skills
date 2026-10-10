@@ -1,0 +1,10 @@
+Changes from draft-r1.md to draft-r2.md:
+  1  question removed: "[Q1] Is the 1.4 km detour from the council notice, or your own measurement?"
+  2  table: "Detour | 1.4 km | none" → "Detour | 1.4 km, for three weeks | none"
+  3  diagram new: "[DIAGRAM: the bearing end, before and after]"
+  4  ¶3: after "different story. Coring", "each joist" → "the four flagged joists"
+  5  ¶3: after "the bearing ends", cut "simply"
+  6  ¶3: after "of the deck.", ".. and the" → "The"
+  7  ¶4 moved from ¶6: "The full report goes to the parish council at next month's meeting."
+  8  ¶6 new: "The school run is the point: parents asked us to have the crossing open before term, and i…"
+  9  r1 ¶5 removed: "Why does six weeks matter? Because a nine-week closure on a school route is the kind of th…"

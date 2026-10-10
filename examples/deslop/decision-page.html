@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mill Lane footbridge post, r1</title>
+<style>
+/* The draft sits in its own scrolling pane on the left; the flags scroll with the page on the right. One column below 900px. */
+:root {
+  --bg: #f5f6f8; --surface: #ffffff; --ink: #18202c; --muted: #5b6676; --line: #dde2ea;
+  --accent: #1f4fbf; --accent-soft: #e6ecfa;
+  --act: #b4361f; --act-soft: #fbe4de; --act-strong: #f4c3b6;
+  --minor: #7d5f0c; --minor-soft: #fbf0cc; --minor-strong: #f2dc8e;
+  --their: #4b5a70; --their-soft: #e8ecf2; --their-strong: #cdd6e3;
+  --ok: #1d7a4c; --ok-soft: #e2f3ea;
+  --font-read: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --ink: #e5e9f0; --muted: #98a3b3; --line: #2c3442;
+    --accent: #8fb0ff; --accent-soft: #1f2b45;
+    --act: #f08a74; --act-soft: #3a211c; --act-strong: #6a3427;
+    --minor: #e0c26a; --minor-soft: #342c14; --minor-strong: #5e4c1c;
+    --their: #a9b6c8; --their-soft: #252d39; --their-strong: #3b475a;
+    --ok: #6fd3a0; --ok-soft: #173126; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --ink: #e5e9f0; --muted: #98a3b3; --line: #2c3442;
+  --accent: #8fb0ff; --accent-soft: #1f2b45;
+  --act: #f08a74; --act-soft: #3a211c; --act-strong: #6a3427;
+  --minor: #e0c26a; --minor-soft: #342c14; --minor-strong: #5e4c1c;
+  --their: #a9b6c8; --their-soft: #252d39; --their-strong: #3b475a;
+  --ok: #6fd3a0; --ok-soft: #173126; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+@media (min-width: 600px) { .wrap { padding-inline: 24px; } }
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 20px; margin-bottom: 20px; }
+h1 { font-family: var(--font-read); font-weight: 500; font-size: 28px; line-height: 1.15; margin: 0 0 6px; text-wrap: balance; }
+.sub { color: var(--muted); margin: 0; max-width: 64ch; }
+.status { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.progress { font-variant-numeric: tabular-nums; font-weight: 600; }
+.save { font-size: 13px; color: var(--muted); }
+.save.err { color: var(--act); }
+button { font: inherit; cursor: pointer; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 7px 12px; font-size: 14px; }
+.btn:hover { border-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.warn { background: var(--minor-soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13.5px; }
+.warn summary { cursor: pointer; font-weight: 600; }
+.warn ul { margin: 6px 0 0; padding-left: 20px; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.pane { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; overscroll-behavior: contain;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px 18px 48px; min-width: 0; }
+@media (max-width: 900px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .pane { position: static; max-height: none; overflow: visible; }
+}
+.pane-head { display: flex; justify-content: space-between; gap: 8px 12px; flex-wrap: wrap; align-items: baseline; margin: 0 0 14px -28px; }
+.label { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.count { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.count.out { color: var(--act); }
+.para { position: relative; font-family: var(--font-read); font-size: 18px; line-height: 1.6; margin: 0 0 14px; max-width: 65ch; }
+.para.list { white-space: pre-line; }
+.para.aside { font-family: var(--font-ui); font-size: 14.5px; color: var(--muted); }
+h2.para { font-size: 21px; font-weight: 600; line-height: 1.3; }
+.pn { position: absolute; left: -44px; top: 6px; width: 22px; text-align: right; font-family: var(--font-mono); font-size: 11px; line-height: 1; color: var(--muted); }
+.para code { font-family: var(--font-mono); font-size: .82em; background: var(--accent-soft); padding: 1px 4px; border-radius: 3px; }
+
+/* Inline flags: severity colours the highlight; the id is always shown as text, so colour is never the only signal. */
+.hl { color: inherit; border-radius: 3px; padding: 0 1px; cursor: pointer; transition: background-color .15s, box-shadow .15s; }
+.hl.sev-act { background: var(--act-soft); }
+.hl.sev-minor { background: var(--minor-soft); }
+.hl.sev-their { background: var(--their-soft); }
+.hl.multi { box-shadow: inset 0 -2px 0 var(--muted); }          /* a span nested inside another flag's span */
+.hl.done { background: transparent; text-decoration: underline 2px var(--ok); text-underline-offset: 4px; }
+.hl.applied { background: var(--ok-soft); text-decoration: none; }
+.hl.on.sev-act { background: var(--act-strong); }
+.hl.on.sev-minor { background: var(--minor-strong); }
+.hl.on.sev-their { background: var(--their-strong); }
+.hl.on { box-shadow: 0 0 0 2px var(--accent); }
+.tag { font-family: var(--font-mono); font-size: 10.5px; line-height: 1; vertical-align: super; color: var(--muted);
+  background: none; border: 0; padding: 0 2px; margin-left: 1px; border-radius: 3px; }
+.tag:hover, .tag.on { color: var(--surface); background: var(--accent); }
+/* Paragraph-level flags: a bar in the gutter, labelled. */
+.gut { position: absolute; left: -8px; top: 3px; bottom: 3px; display: flex; gap: 2px; transform: translateX(-100%); }
+.gut button { width: 6px; padding: 0; border: 0; border-radius: 3px; position: relative; }
+.gut button span { position: absolute; top: 16px; right: 9px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); white-space: nowrap; }
+.gut .sev-act { background: var(--act); } .gut .sev-minor { background: var(--minor); } .gut .sev-their { background: var(--their); }
+.gut button.done { opacity: .35; }
+.gut button.on { box-shadow: 0 0 0 2px var(--accent); }
+.slot { display: block; width: 100%; max-width: 65ch; margin: -4px 0 14px; padding: 6px 10px; text-align: left; font-size: 13px; color: var(--muted);
+  background: transparent; border: 1.5px dashed var(--line); border-radius: 6px; }
+.slot.on { border-color: var(--accent); color: var(--accent); }
+.slot.done { opacity: .5; }
+.legend { display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 16px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+.flags { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.group-title { margin: 6px 0 -4px; }
+.flag { background: var(--surface); border: 1px solid var(--line); border-left-width: 4px; border-radius: 10px; padding: 14px 16px; min-width: 0; scroll-margin-top: 16px; transition: box-shadow .2s, border-color .2s; }
+.flag.sev-act { border-left-color: var(--act); } .flag.sev-minor { border-left-color: var(--minor); } .flag.sev-their { border-left-color: var(--their); }
+.flag.on { box-shadow: 0 0 0 2px var(--accent-soft), 0 1px 6px rgb(0 0 0 / .06); }
+.flag.pulse { box-shadow: 0 0 0 4px var(--accent); }
+.flag-head { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+.id { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+.chip { font-size: 11.5px; font-weight: 600; letter-spacing: .03em; padding: 2px 8px; border-radius: 20px; }
+.chip.sev-act { background: var(--act-soft); color: var(--act); }
+.chip.sev-minor { background: var(--minor-soft); color: var(--minor); }
+.chip.sev-their { background: var(--their-soft); color: var(--their); }
+.chip.where { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.chip.step { border: 1px solid transparent; cursor: pointer; }
+.chip.step:hover { border-color: var(--accent); }
+.chip.state { margin-left: auto; background: var(--ok-soft); color: var(--ok); }
+.flag h3 { font-size: 16px; font-weight: 600; margin: 0 0 6px; text-wrap: balance; }
+.quote { font-family: var(--font-read); font-size: 16px; border-left: 3px solid var(--line); padding-left: 10px; margin: 8px 0; }
+.quote del { color: var(--muted); } .quote ins { text-decoration: none; background: var(--ok-soft); }
+.flag p { margin: 6px 0; color: var(--muted); max-width: 65ch; }
+.flag p strong { color: var(--ink); }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.choice { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 6px; padding: 7px 12px; font-size: 14px; text-align: left; }
+.choice[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.why { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 10px; font-size: 13px; color: var(--muted); }
+.why button { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 20px; padding: 2px 10px; font-size: 12.5px; }
+.why button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+textarea { width: 100%; min-height: 60px; margin-top: 10px; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; resize: vertical; }
+textarea::placeholder { color: var(--muted); }
+
+.summary { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+.summary-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.summary h2 { font-size: 17px; margin: 0; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+td.mono { font-family: var(--font-mono); font-size: 13px; }
+td.pending { color: var(--muted); font-style: italic; }
+#md { position: absolute; left: -9999px; white-space: pre; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title"></h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div class="status">
+      <span class="progress" id="progress"></span>
+      <span class="save" id="save"></span>
+    </div>
+  </header>
+  <div id="warn"></div>
+  <div class="grid">
+    <article class="pane" id="pane" aria-label="The draft, with your accepted edits">
+      <div class="pane-head"><span class="label">Draft · with accepted edits</span><span class="count" id="count"></span></div>
+      <div id="text"></div>
+      <div class="legend">
+        <span><i style="background:var(--act-soft)"></i>act on</span>
+        <span><i style="background:var(--minor-soft)"></i>minor</span>
+        <span><i style="background:var(--their-soft)"></i>their call</span>
+        <span><i style="background:var(--ok-soft)"></i>accepted edit</span>
+        <span><i style="border-bottom:2px solid var(--ok);border-radius:0"></i>decided</span>
+      </div>
+    </article>
+    <section class="flags" id="flags" aria-label="Flags"></section>
+  </div>
+  <section class="summary">
+    <div class="summary-head">
+      <h2>Decision table</h2>
+      <button class="btn" id="copy" type="button">Copy as Markdown</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Flag</th><th>Question</th><th>Decision</th><th>Why</th><th>Note</th></tr></thead>
+      <tbody id="table"></tbody>
+    </table></div>
+  </section>
+  <pre id="md" aria-hidden="true"></pre>
+</div>
+<script>
+const D = {"ranges": [{"p": 4, "s": 27, "e": 189, "flag": "P1"}, {"p": 0, "s": 37, "e": 49, "flag": "S1"}, {"p": 3, "s": 69, "e": 79, "flag": "S1"}, {"p": 5, "s": 46, "e": 58, "flag": "S1"}, {"p": 2, "s": 35, "e": 52, "flag": "S2"}, {"p": 2, "s": 181, "e": 194, "flag": "S3"}, {"p": 2, "s": 240, "e": 251, "flag": "S4"}, {"p": 4, "s": 0, "e": 26, "flag": "S5"}, {"p": 4, "s": 76, "e": 98, "flag": "S6"}], "gutter": [{"p": 3, "flag": "P2"}], "slots": [{"after": 4, "flag": "A1"}], "proposals": {"S2": {"p": 2, "s": 35, "e": 52, "to": "Coring the four flagged joists"}, "S3": {"p": 2, "s": 181, "e": 194, "to": "solved"}}, "warnings": [], "title": "Mill Lane footbridge post, r1", "slug": "mill-lane-footbridge-post-r1-deslop-r1", "review": "deslop-r1.md", "draft": "draft.md", "length": {"unit": "characters", "min": 800, "max": 1300, "label": "register range"}, "paras": [{"kind": "p", "text": "We reopened the Mill Lane footbridge this morning, three weeks into a nine-week programme, which is a nice thing to be able to write.", "styles": [], "label": "¶1"}, {"kind": "p", "text": "The background: the bridge's timber deck had been flagged in the spring inspection for rot in four of the twenty-two joists. The original plan was to replace the whole deck, which meant closing the crossing for nine weeks and sending pedestrians on a 1.4 km detour.", "styles": [[251, 257, "strong"]], "label": "¶2"}, {"kind": "p", "text": "The survey told a different story. Coring each joist showed the rot was confined to the bearing ends, where water had been sitting on the abutment shelf. Replacing the bearing ends simply solved the problem without touching the rest of the deck... and the new weep-hole drainage stops it coming back.", "styles": [[260, 269, "code"]], "label": "¶3"}, {"kind": "p", "text": "Credit goes to the site team, who did the coring in a single weekend this month. Thank you, all.", "styles": [], "label": "¶4"}, {"kind": "p", "text": "Why does six weeks matter? Because a nine-week closure on a school route is the kind of thing that turns a maintenance job into a council agenda item, and nobody's deck is improved by that.", "styles": [], "label": "¶5"}, {"kind": "p", "text": "The full report goes to the parish council at next month's meeting.", "styles": [], "label": "¶6"}], "flags": [{"id": "P1", "severity": "act on", "where": "¶5", "title": "Is this your reason the closure mattered?", "body": "This is the post's only argument, and the drafter wrote it. If it's yours, it stays.", "spans": [{"para": 5, "quote": "Because a nine-week closure on a school route is the kind of thing that turns a maintenance job into a council agenda item, and nobody’s deck is improved by that."}], "proposal": null, "choices": {"accept": "Yes, that's my reason", "keep": "Leave it as written", "revise": "No, or only partly; here's my real reason"}, "note": "Your reason in your own words. Rough is fine.", "origin": "drafter"}, {"id": "S1", "severity": "act on", "where": "¶1 ¶4 ¶6", "title": "Are you posting today?", "body": "All three are written for posting today. If it goes out next week, **all three** go stale.", "spans": [{"para": 1, "quote": "this morning"}, {"para": 4, "quote": "this month"}, {"para": 6, "quote": "next month’s"}], "proposal": null, "choices": {"accept": "Yes, posting today", "keep": "Leave it as written", "revise": "No; posting later, so fix the dates"}, "note": null, "origin": "drafter"}, {"id": "S2", "severity": "act on", "where": "¶3", "title": "“each joist” → “the four flagged joists”", "body": "The notes say only the four flagged joists were cored. The claim stays; the scope becomes accurate.", "spans": [{"para": 3, "quote": "Coring each joist"}], "proposal": {"from": "Coring each joist", "to": "Coring the four flagged joists"}, "choices": null, "note": null, "origin": "drafter"}, {"id": "S3", "severity": "minor", "where": "¶3", "title": "“simply solved” → “solved”", "body": "“Simply” overstates how easy the repair was.", "spans": [{"para": 3, "quote": "simply solved"}], "proposal": {"from": "simply solved", "to": "solved"}, "choices": null, "note": null, "origin": "drafter"}, {"id": "S4", "severity": "minor", "where": "¶3", "title": "The ellipsis after “deck”", "body": "The drafter placed this one. No wording proposed.", "spans": [{"para": 3, "quote": "deck… and"}], "proposal": null, "choices": {"accept": "Fine where it is", "keep": "Leave it as written", "revise": "I'll place it myself"}, "note": null, "origin": "drafter"}, {"id": "S5", "severity": "minor", "where": "¶5", "title": "Opening on a question the post answers itself", "body": "A recognised staging pattern. No wording proposed; P1 may replace the paragraph anyway.", "spans": [{"para": 5, "quote": "Why does six weeks matter?"}], "proposal": null, "choices": {"accept": "Fine as is", "keep": "Leave it as written", "revise": "Revise differently"}, "note": null, "origin": "drafter"}, {"id": "S6", "severity": "minor", "where": "¶5", "title": "“the kind of thing that”", "body": "A staging phrase inside P1's sentence. Your answer on P1 may settle it.", "spans": [{"para": 5, "quote": "the kind of thing that"}], "proposal": null, "choices": {"accept": "Fine as is", "keep": "Leave it as written", "revise": "Revise differently"}, "note": null, "origin": "drafter"}, {"id": "P2", "severity": "their call", "where": "¶4", "title": "The thank-you to the site team", "body": "Your notes thank the team; whether to do it publicly is your call. Keep as is, or tell me otherwise.", "spans": [{"para": 4}], "proposal": null, "choices": {"accept": "Fine as is", "keep": "Keep as is", "revise": "Tell me otherwise"}, "note": null, "origin": "author"}, {"id": "A1", "severity": "minor", "where": "after ¶5", "title": "Your view on closures, if you want one in the post", "body": "The post reports what happened rather than what you think. I won't write a view for you.", "spans": [{"after": 5}], "proposal": null, "choices": {"accept": "Yes; here's my view", "keep": "No view needed", "revise": "Something else"}, "note": "Your view, rough is fine.", "origin": "unknown"}]};
+const ARTIFACT = false;
+const KEY = "deslop-decisions:" + D.slug;
+const WHY = ["meaning", "voice", "reads as AI"];
+const SEV = { "act on": "act", "minor": "minor", "their call": "their" };
+const SEV_ORDER = ["act on", "minor", "their call"];
+const DEFAULT_CHOICES = { accept: "Accept the proposal", keep: "Keep the original", revise: "Revise differently" };
+const byId = Object.fromEntries(D.flags.map((f) => [f.id, f]));
+const wide = matchMedia("(min-width: 901px)");
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+let state = { flags: {} };
+let pinned = null, hover = null, hoverTimer = null;
+const step = {};
+let docRef = null, canSave = false, saveTimer = null;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const rich = (s) => esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
+const get = (id) => state.flags[id] || (state.flags[id] = { decision: null, why: [], note: "" });
+const sev = (id) => SEV[(byId[id] || {}).severity] || "minor";
+const choicesOf = (f) => Object.assign({}, DEFAULT_CHOICES, f.choices || {});
+const accepted = (id) => get(id).decision === "accept";
+
+// One paragraph: cut the text at every range, style and accepted-proposal boundary, then
+// wrap each piece in a mark for the flags that cover it. The innermost flag is on top.
+function paraHTML(i) {
+  const P = D.paras[i], text = P.text;
+  const rs = D.ranges.filter((r) => r.p === i);
+  const props = [];
+  for (const [id, x] of Object.entries(D.proposals)) {
+    if (x.p === i && accepted(id) && !props.some((y) => x.s < y.e && y.s < x.e)) props.push({ id, ...x });
+  }
+  const cuts = new Set([0, text.length]);
+  for (const r of rs) { cuts.add(r.s); cuts.add(r.e); }
+  for (const [s, e] of P.styles) { cuts.add(s); cuts.add(e); }
+  for (const x of props) { cuts.add(x.s); cuts.add(x.e); }
+  const pts = [...cuts].sort((a, b) => a - b);
+  const swallowed = (r) => props.some((x) => r.s >= x.s && r.e <= x.e && r.flag !== x.id);
+  let html = "", plain = "";
+  const mark = (inner, a, b, extra) => {
+    const cover = rs.filter((r) => r.s <= a && r.e >= b && !swallowed(r));
+    if (extra && !cover.some((r) => r.flag === extra)) cover.push({ flag: extra, s: a, e: b });
+    if (!cover.length) return inner;
+    cover.sort((x, y) => (x.e - x.s) - (y.e - y.s));
+    const top = cover[0].flag, ids = [...new Set(cover.map((r) => r.flag))];
+    const cls = ["hl", "sev-" + sev(top)];
+    if (ids.length > 1) cls.push("multi");
+    if (extra) cls.push("applied"); else if (get(top).decision) cls.push("done");
+    return `<mark class="${cls.join(" ")}" data-flags="${ids.join(" ")}" data-top="${top}">${inner}</mark>`;
+  };
+  const tags = (pos) => rs.filter((r) => r.e === pos && !swallowed(r))
+    .sort((x, y) => (x.e - x.s) - (y.e - y.s))
+    .map((r) => `<button type="button" class="tag" data-flag="${r.flag}" aria-label="Go to ${r.flag}">${r.flag}</button>`).join("");
+  for (let k = 0; k < pts.length - 1; k++) {
+    const a = pts[k], b = pts[k + 1];
+    const pr = props.find((x) => a >= x.s && b <= x.e);
+    if (pr) {
+      if (a === pr.s) { html += mark(esc(pr.to), pr.s, pr.e, pr.id); plain += pr.to; }
+      if (b === pr.e) html += tags(b);
+      continue;
+    }
+    let inner = esc(text.slice(a, b));
+    for (const [s, e, st] of P.styles) if (s <= a && e >= b) inner = st === "code" ? `<code>${inner}</code>` : `<${st}>${inner}</${st}>`;
+    plain += text.slice(a, b);
+    html += mark(inner, a, b) + tags(b);
+  }
+  const gut = D.gutter.filter((g) => g.p === i);
+  const gutIds = [...new Set(gut.map((g) => g.flag))];
+  const bars = gutIds.length ? `<span class="gut">${gutIds.map((id) =>
+    `<button type="button" class="sev-${sev(id)}${get(id).decision ? " done" : ""}" data-flag="${id}" aria-label="${id}: whole paragraph"><span>${id}</span></button>`).join("")}</span>` : "";
+  const tag = P.kind === "h" ? "h2" : "div";
+  const cls = "para" + (P.kind === "list" || P.kind === "table" ? " list" : "") + (P.kind === "q" || P.kind === "cap" || P.kind === "fig" ? " aside" : "");
+  return { plain, html: `<${tag} class="${cls}" data-p="${i + 1}"${gutIds.length ? ` data-gutter="${gutIds.join(" ")}"` : ""}><span class="pn">${P.label}</span>${bars}${html}</${tag}>` };
+}
+
+function slotHTML(after) {
+  return D.slots.filter((s) => s.after === after).map((s) =>
+    `<button type="button" class="slot${get(s.flag).decision ? " done" : ""}" data-flag="${s.flag}">${s.flag} · an addition here: ${esc((byId[s.flag] || {}).title || "")}</button>`).join("");
+}
+
+function renderText() {
+  const plains = [];
+  let html = slotHTML(-1);
+  D.paras.forEach((_, i) => { const r = paraHTML(i); plains.push(r.plain); html += r.html + slotHTML(i); });
+  $("text").innerHTML = html;
+  const all = plains.join("\n\n");
+  const chars = all.length, words = (all.match(/\S+/g) || []).length;
+  let msg = `${chars.toLocaleString("en-GB")} characters · ${words.toLocaleString("en-GB")} words`;
+  const L = D.length, el = $("count");
+  el.classList.remove("out");
+  if (L && (L.min || L.max)) {
+    const n = L.unit === "words" ? words : chars;
+    msg += ` · ${esc(L.label || "range")} ${(L.min ?? 0).toLocaleString("en-GB")}–${(L.max ?? "").toLocaleString("en-GB")}`;
+    if ((L.min && n < L.min) || (L.max && n > L.max)) el.classList.add("out");
+  }
+  el.textContent = msg;
+}
+
+function quoteHTML(f) {
+  const p = f.proposal;
+  if (p && p.from) return `<div class="quote"><del>${esc(p.from)}</del> → <ins>${esc(p.to ?? "")}</ins></div>`;
+  const qs = (f.spans || []).filter((s) => s.quote).map((s) => "“" + esc(s.quote) + "”");
+  return qs.length ? `<div class="quote">${qs.join(" · ")}</div>` : "";
+}
+
+function whereChip(f) {
+  const places = new Set([...D.ranges, ...D.gutter].filter((r) => r.flag === f.id).map((r) => "p" + r.p)
+    .concat(D.slots.filter((x) => x.flag === f.id).map((x) => "s" + x.after)));
+  if (places.size < 2) return f.where ? `<span class="chip where">${esc(f.where)}</span>` : "";
+  return `<button type="button" class="chip where step" data-step="${f.id}" title="Show the next place in the draft">${esc(f.where || places.size + " places")} ↓</button>`;
+}
+
+function renderFlags() {
+  let html = "", last = null;
+  for (const f of D.flags) {
+    if (f.severity !== last) {
+      html += `<div class="label group-title">${esc(f.severity || "")}</div>`;
+      last = f.severity;
+    }
+    const s = get(f.id), ch = choicesOf(f);
+    const choice = (k) => `<button type="button" class="choice" data-flag="${f.id}" data-choice="${k}" aria-pressed="${s.decision === k}">${esc(ch[k])}</button>`;
+    const why = WHY.map((w) => `<button type="button" data-flag="${f.id}" data-why="${w}" aria-pressed="${s.why.includes(w)}">${w}</button>`).join("");
+    html += `<article class="flag sev-${sev(f.id)}${f.id === pinned ? " on" : ""}" id="flag-${f.id}" data-flag="${f.id}" tabindex="-1">
+      <div class="flag-head"><span class="id">${esc(f.id)}</span><span class="chip sev-${sev(f.id)}">${esc(f.severity || "")}</span>${whereChip(f)}${s.decision ? `<span class="chip state">Decided</span>` : ""}</div>
+      <h3>${rich(f.title || "")}</h3>
+      ${quoteHTML(f)}
+      ${f.body ? `<p>${rich(f.body)}</p>` : ""}
+      <div class="choices">${choice("accept")}${choice("keep")}${choice("revise")}</div>
+      <div class="why"><span>Why:</span>${why}</div>
+      <textarea data-flag="${f.id}" aria-label="Note on ${f.id}" placeholder="${esc(f.note || "A note, if you want one.")}">${esc(s.note)}</textarea>
+    </article>`;
+  }
+  $("flags").innerHTML = html;
+}
+
+function renderSummary() {
+  const done = D.flags.filter((f) => get(f.id).decision).length;
+  $("progress").textContent = `${done} of ${D.flags.length} decided`;
+  $("table").innerHTML = D.flags.map((f) => {
+    const s = get(f.id);
+    const d = s.decision ? `${s.decision}: ${esc(choicesOf(f)[s.decision])}` : "Not yet";
+    return `<tr><td class="mono">${esc(f.id)}</td><td>${rich(f.title || "")}</td><td class="${s.decision ? "" : "pending"}">${d}</td><td>${esc(s.why.join(", "))}</td><td>${esc(s.note)}</td></tr>`;
+  }).join("");
+}
+
+function toMarkdown() {
+  const cell = (s) => String(s ?? "").replace(/\n+/g, " ").replace(/\|/g, "\\|");
+  const rows = D.flags.map((f) => {
+    const s = get(f.id);
+    const d = s.decision ? `${s.decision}: ${choicesOf(f)[s.decision]}` : "undecided";
+    return `| ${f.id} | ${cell(f.title)} | ${cell(d)} | ${cell(s.why.join(", "))} | ${cell(s.note)} |`;
+  });
+  return [`## Decisions: ${D.title}`, "", `Review: ${D.review}`, "", "| Flag | Question | Decision | Why | Note |", "|---|---|---|---|---|", ...rows].join("\n");
+}
+
+function renderAll() {
+  const y = scrollY, py = $("pane").scrollTop;
+  renderText(); renderFlags(); renderSummary(); paint();
+  scrollTo(0, y); $("pane").scrollTop = py;
+}
+
+// Two-way linking. The active flag is the hovered card, else the last one chosen.
+function paint() {
+  const id = hover || pinned;
+  document.querySelectorAll(".on").forEach((e) => e.classList.remove("on"));
+  if (!id || !byId[id]) return;
+  document.querySelectorAll(`[data-flags~="${id}"], .tag[data-flag="${id}"], .gut [data-flag="${id}"], .slot[data-flag="${id}"], #flag-${id}`)
+    .forEach((e) => e.classList.add("on"));
+}
+// Each paragraph or slot a flag touches is one place; a flag in several places steps through them.
+function placesOf(id) {
+  const seen = new Set(), out = [];
+  for (const el of $("pane").querySelectorAll(`mark[data-flags~="${id}"], .gut [data-flag="${id}"], .slot[data-flag="${id}"]`)) {
+    const key = el.closest(".para, .slot");
+    if (!seen.has(key)) { seen.add(key); out.push(el); }
+  }
+  return out;
+}
+function revealInText(id, n = 0, always = false) {
+  const pane = $("pane"), t = placesOf(id)[n];
+  if (!t) return;
+  if (!wide.matches) {
+    if (always) t.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "center" });
+    return;
+  }
+  // Aim for the part of the pane that is on screen: near the end of the page the sticky
+  // pane is pushed partly off the top, and the bottom can sit below the fold.
+  const pr = pane.getBoundingClientRect(), tr = t.getBoundingClientRect();
+  const top = Math.max(pr.top, 0), bottom = Math.min(pr.bottom, innerHeight);
+  if (bottom - top < 120) return;
+  if (tr.top < top + 48 || tr.bottom > bottom - 48) {
+    pane.scrollBy({ top: tr.top - top - (bottom - top) / 3, behavior: calm.matches ? "auto" : "smooth" });
+  }
+}
+function pin(id, fromText) {
+  step[id] = 0;
+  pinned = id; hover = null; paint();
+  if (fromText) {
+    const card = $("flag-" + id);
+    if (!card) return;
+    card.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "start" });
+    card.classList.add("pulse");
+    setTimeout(() => card.classList.remove("pulse"), 1100);
+  } else {
+    revealInText(id);
+  }
+}
+
+$("flags").addEventListener("mouseover", (e) => {
+  const card = e.target.closest(".flag");
+  const id = card ? card.dataset.flag : null;
+  if (id === hover) return;
+  clearTimeout(hoverTimer);
+  hover = id; paint();
+  if (id) hoverTimer = setTimeout(() => revealInText(id), 160);
+});
+$("flags").addEventListener("mouseleave", () => { clearTimeout(hoverTimer); hover = null; paint(); });
+$("flags").addEventListener("focusin", (e) => {
+  const card = e.target.closest(".flag");
+  if (card && card.dataset.flag !== pinned) pin(card.dataset.flag, false);
+});
+
+document.addEventListener("click", (e) => {
+  const c = e.target.closest("[data-choice]");
+  if (c) {
+    const s = get(c.dataset.flag);
+    s.decision = s.decision === c.dataset.choice ? null : c.dataset.choice;
+    pinned = c.dataset.flag; renderAll(); persist();
+    const again = document.querySelector(`[data-flag="${c.dataset.flag}"][data-choice="${c.dataset.choice}"]`);
+    if (again) again.focus({ preventScroll: true });
+    return;
+  }
+  const w = e.target.closest("[data-why]");
+  if (w) {
+    const s = get(w.dataset.flag), v = w.dataset.why;
+    s.why = s.why.includes(v) ? s.why.filter((x) => x !== v) : [...s.why, v];
+    w.setAttribute("aria-pressed", s.why.includes(v)); renderSummary(); persist(); return;
+  }
+  const st = e.target.closest("[data-step]");
+  if (st) {
+    const id = st.dataset.step, n = placesOf(id).length;
+    step[id] = ((step[id] ?? 0) + 1) % n;
+    pinned = id; hover = null; paint(); revealInText(id, step[id], true);
+    return;
+  }
+  const t = e.target.closest("#text [data-flag]");
+  if (t) { pin(t.dataset.flag, true); return; }
+  const m = e.target.closest("#text .hl");
+  if (m) { pin(m.dataset.top, true); return; }
+  const card = e.target.closest(".flag");
+  if (card && card.dataset.flag !== pinned) pin(card.dataset.flag, false);
+});
+document.addEventListener("input", (e) => {
+  if (e.target.matches("textarea[data-flag]")) { get(e.target.dataset.flag).note = e.target.value; renderSummary(); persist(); }
+});
+$("copy").addEventListener("click", async () => {
+  const md = toMarkdown(), btn = $("copy");
+  try { await navigator.clipboard.writeText(md); btn.textContent = "Copied"; }
+  catch (err) {
+    const pre = $("md"); pre.textContent = md;
+    const r = document.createRange(); r.selectNodeContents(pre);
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    btn.textContent = "Selected: press Copy";
+  }
+  setTimeout(() => { btn.textContent = "Copy as Markdown"; }, 2200);
+});
+
+function setSave(text, err) { const el = $("save"); el.textContent = text; el.classList.toggle("err", !!err); }
+function persist() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  if (!canSave) return;
+  clearTimeout(saveTimer);
+  setSave("Saving…");
+  saveTimer = setTimeout(async () => {
+    try { await docRef.set({ flags: state.flags, review: D.review, updatedAt: new Date().toISOString() }); setSave("Saved"); }
+    catch (e) { setSave("Not saved. Use Copy as Markdown.", true); }
+  }, 700);
+}
+
+$("title").textContent = D.title;
+document.title = D.title;
+$("sub").textContent = `${D.flags.length} flags on ${D.draft}, from ${D.review}. Pick an answer on each; click highlighted text to jump to its flag. `
+  + (ARTIFACT ? "Choices save as you go." : "Choices stay in this browser: when you're done, use Copy as Markdown and paste it back.");
+if (D.warnings.length) {
+  $("warn").innerHTML = `<details class="warn"><summary>${D.warnings.length} anchor${D.warnings.length > 1 ? "s" : ""} to check</summary><ul>${D.warnings.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></details>`;
+}
+try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved && saved.flags) state = saved; } catch (e) {}
+renderAll();
+setSave(ARTIFACT ? "Connecting…" : "");
+
+// Optional: on claude.ai, publish with capabilities {db: {}} and the decisions save to the artifact's store.
+if (ARTIFACT) (async () => {
+  let db = null;
+  try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { db = null; }
+  if (!db) { setSave("Saving in this browser only. Use Copy as Markdown.", true); return; }
+  docRef = db.doc("reviews/" + D.slug);
+  try {
+    const snap = await docRef.get();
+    const d = snap.exists ? snap.data() : null;
+    if (d && d.flags) { state = { flags: JSON.parse(JSON.stringify(d.flags)) }; renderAll(); }
+    canSave = true;
+    setSave(snap.exists ? "Saved" : "Ready: choices save as you go");
+  } catch (e) { setSave("Can't reach the store. Use Copy as Markdown.", true); }
+})();
+</script>
+</body>
+</html>

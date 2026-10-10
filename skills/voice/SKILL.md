@@ -1,11 +1,11 @@
 ---
 name: voice
-description: Draft or revise writing that goes out under a person's own name, in their voice and argument, working from a loaded voice pack. Use when writing on someone's behalf; not for ordinary assistant replies. An open, early version (0.1.0).
+description: Draft or revise writing that goes out under a person's own name, in their voice and argument, working from a loaded voice pack. Use when writing on someone's behalf; not for ordinary assistant replies. An open, early version (0.2.0).
 license: Apache-2.0
 metadata:
   short-description: Draft in a person's own voice and argument
   author: Rafe Blandford
-  version: "0.1.0"
+  version: "0.2.0"
   provenance: written-with-ai
 ---
 
@@ -41,7 +41,7 @@ Where one is missing, infer the obvious choice, say in one line which you chose,
 
 At tier 2 and 3, every substantive claim, causal bridge, qualification and conclusion must trace to something they said, wrote or explicitly approved. Where a bridge is missing, ask a targeted question instead of inventing one. Never supply a personal judgement, ranking, lesson or experience in their voice that the source doesn't contain: that is the most convincing kind of invention and the hardest for them to spot. Restating a view the source does contain is paraphrase, and fine.
 
-Mark what is yours in a short note after the draft — what is theirs, what is yours, what you inferred and couldn't source — so the draft itself still reads aloud cleanly. Mark inline only when asked. Review the final third on its own: that is where drafts drift into generic prose.
+Mark what is yours in a short note after the draft — what is theirs, what is yours, what you inferred and couldn't source — so the draft itself still reads aloud cleanly. Mark inline only when asked. Keep every note out of the text: in the hand-back, in its own file, or after the text under a heading of its own. Never put a note above the text, where it reads as the piece's first paragraph. **Questions are the exception:** put each one in the draft where its answer would go, as a line of its own, `> **[Q1]** …`, numbered from 1 in each revision, and list them again in the hand-back. Leave the gap a question marks; don't fill it with a placeholder claim. When answers come back, the next revision removes the answered questions. Review the final third on its own: that is where drafts drift into generic prose.
 
 At tier 3, also record provenance **while you draft**, in `provenance-r<n>.md` beside each draft. One line per paragraph, and a line per claim where a paragraph mixes sources:
 
@@ -70,5 +70,7 @@ Expect to paraphrase rather than quote them, and check the argument rather than 
 State which pack and register you used, the tier, and what source material you had, including anything you couldn't open. List anything you supplied or couldn't trace to them, and the questions they need to answer. If you loaded no pack, say that first.
 
 Record who drafted it: the most specific model identity your harness exposes (or "unknown" — never guess) and the setup (harness, and whether you worked from dictation, notes, a brief or their draft), in the piece's `meta.md` when it has one and in the hand-back when it doesn't. The review uses it to prioritise what to look for.
+
+Where it would help them read the draft, `scripts/revision_page.py` turns it into one self-contained HTML page. For a first draft, the page shows whose argument each paragraph carries, from the provenance record. For a later one, it compares with the previous revision and numbers every change, with what the record says about why. Offer the page; don't make it a step. They ask for changes by talking to you, often by number ("on change 3…"). To find what a number refers to, run the script with `--list` on the same two drafts: it prints the same numbered changes as text.
 
 Edit-time review at the stated tier is a separate step, done with the `deslop` skill.

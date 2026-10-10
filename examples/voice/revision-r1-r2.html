@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mill Lane footbridge reopening</title>
+<style>
+/* The draft sits in its own scrolling pane on the left; the cards scroll with the page on the right. One column below 900px. */
+:root {
+  --bg: #f5f6f8; --surface: #ffffff; --ink: #18202c; --muted: #5b6676; --line: #dde2ea;
+  --accent: #1f4fbf; --accent-soft: #e6ecfa;
+  --theirs: #1d7a4c; --theirs-soft: #e2f3ea;
+  --drafter: #1f4fbf; --drafter-soft: #e6ecfa;
+  --mixed: #8a6a12; --mixed-soft: #f8f0d9;
+  --none: #98a3b3;
+  --ins: #dcf2e4; --ins-ink: #14532d; --del: #fbe4de; --del-ink: #8a2a17;
+  --ask: #b4361f; --ask-soft: #fbe4de;
+  --font-read: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --ink: #e5e9f0; --muted: #98a3b3; --line: #2c3442;
+    --accent: #8fb0ff; --accent-soft: #1f2b45;
+    --theirs: #6fd3a0; --theirs-soft: #173126; --drafter: #8fb0ff; --drafter-soft: #1f2b45;
+    --mixed: #e0c26a; --mixed-soft: #342c14; --none: #5b6676;
+    --ins: #173a26; --ins-ink: #9be3b9; --del: #3a211c; --del-ink: #f4a593;
+    --ask: #f08a74; --ask-soft: #3a211c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --ink: #e5e9f0; --muted: #98a3b3; --line: #2c3442;
+  --accent: #8fb0ff; --accent-soft: #1f2b45;
+  --theirs: #6fd3a0; --theirs-soft: #173126; --drafter: #8fb0ff; --drafter-soft: #1f2b45;
+  --mixed: #e0c26a; --mixed-soft: #342c14; --none: #5b6676;
+  --ins: #173a26; --ins-ink: #9be3b9; --del: #3a211c; --del-ink: #f4a593;
+  --ask: #f08a74; --ask-soft: #3a211c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+@media (min-width: 600px) { .wrap { padding-inline: 24px; } }
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 20px; margin-bottom: 16px; }
+h1 { font-family: var(--font-read); font-weight: 500; font-size: 28px; line-height: 1.15; margin: 0 0 6px; text-wrap: balance; }
+.sub { color: var(--muted); margin: 0; max-width: 70ch; }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; margin: 0 0 14px; }
+.stats b { color: var(--ink); font-weight: 600; }
+button { font: inherit; cursor: pointer; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 6px 11px; font-size: 14px; }
+.btn:hover { border-color: var(--accent); }
+.status { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg button { border: 0; background: var(--surface); color: var(--ink); padding: 6px 11px; font-size: 13.5px; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.warn { background: var(--mixed-soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; font-size: 13.5px; }
+.warn summary { cursor: pointer; font-weight: 600; }
+.warn ul { margin: 6px 0 0; padding-left: 20px; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.pane { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; overscroll-behavior: contain;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px 18px 52px; min-width: 0; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } .pane { position: static; max-height: none; overflow: visible; } }
+.pane-head { display: flex; justify-content: space-between; gap: 8px 12px; flex-wrap: wrap; align-items: center; margin: 0 0 14px -32px; }
+.label { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.blk { position: relative; font-family: var(--font-read); font-size: 18px; line-height: 1.6; margin: 0 0 14px; max-width: 66ch; border-radius: 4px; overflow-wrap: anywhere; }  /* long URLs and paths wrap rather than push the page wide */
+.blk.list { white-space: pre-line; }
+.blk hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+.blk.code { font-family: var(--font-mono); font-size: 13px; line-height: 1.5; white-space: pre-wrap; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; overflow-wrap: anywhere; }
+.blk.h { font-size: 21px; font-weight: 600; line-height: 1.3; margin-top: 22px; }
+.blk.q { font-family: var(--font-ui); font-size: 15px; background: var(--ask-soft); border-left: 3px solid var(--ask); padding: 6px 10px; cursor: pointer; }
+.blk code { font-family: var(--font-mono); font-size: .82em; background: var(--accent-soft); padding: 1px 4px; border-radius: 3px; }
+.pn { position: absolute; left: -48px; top: 6px; width: 30px; text-align: right; font-family: var(--font-mono); font-size: 11px; line-height: 1.2; color: var(--muted); }
+/* Origin: a bar in the margin, with its initial as text so colour is never the only signal. */
+.og { position: absolute; left: -12px; top: 4px; bottom: 4px; width: 5px; border-radius: 3px; border: 0; padding: 0; background: var(--none); }
+.og span { position: absolute; top: 18px; right: 9px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+.og.o-author, .og.o-source { background: var(--theirs); }
+.og.o-drafter { background: var(--drafter); }
+.og.o-mixed { background: repeating-linear-gradient(180deg, var(--theirs) 0 6px, var(--drafter) 6px 12px); }
+.blk.on { box-shadow: 0 0 0 2px var(--accent-soft); background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+.blk.on .og { box-shadow: 0 0 0 2px var(--accent); }
+.blk.removed { opacity: .85; }
+.blk .tagline { display: block; font-family: var(--font-ui); font-size: 12px; color: var(--muted); }
+ins, del { text-decoration: none; border-radius: 3px; padding: 0 1px; }
+ins { background: var(--ins); color: var(--ins-ink); }
+del { background: var(--del); color: var(--del-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
+del + ins, ins + del { margin-left: 2px; }  /* keep a replaced word and its replacement apart */
+.v-new del, .v-new .blk.removed { display: none; }
+.v-new ins { background: none; color: inherit; }
+.v-old ins, .v-old .blk.new { display: none; }
+.v-old del { background: none; color: inherit; text-decoration: none; }
+.v-old .blk.removed { opacity: 1; }
+.an { border-bottom: 2px dotted var(--muted); cursor: pointer; }
+.hk { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; line-height: 1; vertical-align: super; color: var(--surface);
+  background: var(--accent); border: 0; border-radius: 8px; padding: 1px 5px; margin-left: 2px; }
+.tagline .hk { vertical-align: 1px; margin: 0 4px 0 0; }
+.v-new .hk, .v-old .hk { display: none; }
+.card ol.edits { margin: 6px 0; padding-left: 26px; font-family: var(--font-read); font-size: 14.5px; }
+.card ol.edits li { margin: 2px 0; }
+.card ol.edits li::marker { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 600; }
+.an.on { background: var(--accent-soft); border-bottom-color: var(--accent); }
+.tw { overflow-x: auto; }
+.blk.table { max-width: none; font-family: var(--font-ui); font-size: 14px; line-height: 1.4; }
+.blk table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.blk th, .blk td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.blk th { font-size: 12px; color: var(--muted); font-weight: 600; }
+.blk tr.ins td, .blk tr.ins th { background: var(--ins); color: var(--ins-ink); }
+.blk tr.del td, .blk tr.del th { background: var(--del); color: var(--del-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
+.v-new tr.del, .v-old tr.ins { display: none; }
+.v-new tr.ins td, .v-new tr.ins th, .v-old tr.del td, .v-old tr.del th { background: none; color: inherit; text-decoration: none; }
+.blk figure { margin: 0; } .blk img { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+.blk figcaption, .blk.cap { font-family: var(--font-ui); font-size: 13.5px; font-style: italic; color: var(--muted); line-height: 1.45; }
+.figph { font-family: var(--font-ui); font-size: 14px; color: var(--muted); border: 1.5px dashed var(--line); border-radius: 8px; padding: 18px 14px; text-align: center; }
+.was { font-family: var(--font-ui); font-size: 13px; color: var(--muted); }
+/* Read: the current revision at reading width, cards hidden, change numbers kept to jump between. */
+body.read .grid { display: block; }
+body.read .cards, body.read .summary, body.read .legend, body.read .og, body.read .stats { display: none; }
+body.read .pane { position: static; max-height: none; overflow: visible; border: 0; background: transparent; max-width: 780px; margin: 0 auto; padding: 8px 16px 8px 56px; }
+body.read .v-new .hk { display: inline-block; }
+body.read .v-new ins { text-decoration: underline 2px var(--theirs); text-underline-offset: 4px; }
+body.read .blk.new ins { text-decoration: none; }  /* a wholly new block: a bar beside it, not every line underlined */
+body.read .blk.new { box-shadow: -10px 0 0 -7px var(--theirs); }
+body.read .blk.new .tagline .tl { display: none; }  /* keep its number, so Prev/Next reaches it */
+body.read .blk.on { background: transparent; box-shadow: none; }
+#nav { position: fixed; right: 16px; bottom: 16px; display: none; align-items: center; gap: 4px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 4px; box-shadow: 0 2px 10px rgb(0 0 0 / .12); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+#nav button { border: 0; background: var(--bg); color: var(--ink); border-radius: 7px; padding: 6px 10px; }
+#nav span { padding: 0 6px; color: var(--muted); }
+body.read #nav.on { display: flex; }
+.hk.pulse { box-shadow: 0 0 0 4px var(--accent-soft); }
+.legend { display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 16px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+.cards { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px; min-width: 0; scroll-margin-top: 16px; transition: box-shadow .2s; }
+.card.change { border-left: 4px solid var(--accent); }
+.card.change.st-new { border-left-color: var(--theirs); } .card.change.st-removed { border-left-color: var(--ask); }
+.card.record { margin-left: 18px; }
+.card.on { box-shadow: 0 0 0 2px var(--accent-soft), 0 1px 6px rgb(0 0 0 / .06); }
+.card.pulse { box-shadow: 0 0 0 4px var(--accent); }
+.card-head { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+.chip { font-size: 11.5px; font-weight: 600; letter-spacing: .03em; padding: 2px 8px; border-radius: 20px; background: var(--bg); color: var(--muted); }
+.chip.origin-author, .chip.origin-source { background: var(--theirs-soft); color: var(--theirs); }
+.chip.origin-drafter { background: var(--drafter-soft); color: var(--drafter); }
+.chip.origin-mixed { background: var(--mixed-soft); color: var(--mixed); }
+.chip.ask { background: var(--ask-soft); color: var(--ask); }
+.chip.ok { background: var(--theirs-soft); color: var(--theirs); }
+.chip.ins { background: var(--ins); color: var(--ins-ink); } .chip.del { background: var(--del); color: var(--del-ink); }
+.chip.chg, .chip.mov { background: var(--accent-soft); color: var(--accent); }
+.chip.rev { font-family: var(--font-mono); font-weight: 500; }
+.card h3 { font-size: 15.5px; font-weight: 600; margin: 2px 0 4px; }
+.card .q { font-family: var(--font-read); font-size: 15.5px; color: var(--ink); }
+.card p { margin: 4px 0; color: var(--muted); font-size: 14px; max-width: 70ch; overflow-wrap: anywhere; }
+.card p strong { color: var(--ink); }
+.card .old { font-family: var(--font-read); font-size: 15px; color: var(--del-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
+.card textarea { width: 100%; min-height: 42px; margin-top: 8px; font: inherit; font-size: 13.5px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; resize: vertical; }
+.summary { margin-top: 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+#md { position: absolute; left: -9999px; white-space: pre; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div><h1 id="title"></h1><p class="sub" id="sub"></p></div>
+    <div class="status"><div id="views"></div><div class="seg" role="group" aria-label="Mode" id="modes"><button type="button" data-mode="review" aria-pressed="true">Review</button><button type="button" data-mode="read" aria-pressed="false">Read</button></div></div>
+  </header>
+  <div class="stats" id="stats"></div>
+  <div id="warn"></div>
+  <div class="grid">
+    <article class="pane" id="pane" aria-label="The draft">
+      <div class="pane-head"><span class="label" id="panelabel"></span></div>
+      <div id="text"></div>
+      <div class="legend" id="legend"></div>
+    </article>
+    <section class="cards" id="cards" aria-label="Changes and provenance"></section>
+  </div>
+  <div class="summary"><button class="btn" id="copy" type="button">Copy notes as Markdown</button><span class="sub" id="copyhint"></span></div>
+  <pre id="md" aria-hidden="true"></pre>
+</div>
+<nav id="nav" aria-label="Changes"><button type="button" data-step="-1" aria-label="Previous change">‹ Prev</button><span id="navpos"></span><button type="button" data-step="1" aria-label="Next change">Next ›</button></nav>
+<script>
+const D = {"title": "The Mill Lane footbridge reopening", "draft": "draft-r2.md", "rev": 2, "compare": "draft-r1.md", "rev_old": 1, "records": ["provenance-r1.md", "provenance-r2.md"], "history": 1, "paras": [{"i": 0, "kind": "p", "label": "¶1", "status": "same", "origin": "mixed", "cards": [], "pieces": [{"k": "eq", "t": "We reopened the Mill Lane footbridge this morning, three weeks into a nine-week programme, which is a nice thing to be able to write.", "st": [], "a": []}], "from": ""}, {"i": 1, "kind": "p", "label": "¶2", "status": "same", "origin": "source", "cards": [], "pieces": [{"k": "eq", "t": "The background: the bridge's timber deck had been flagged in the spring inspection for rot in four of the twenty-two joists. The original plan was to replace the whole deck, which meant closing the crossing for nine weeks and sending pedestrians on a ", "st": [], "a": []}, {"k": "eq", "t": "1.4 km", "st": ["strong"], "a": []}, {"k": "eq", "t": " detour.", "st": [], "a": []}], "from": ""}, {"i": null, "kind": "q", "label": "r1", "status": "removed", "origin": null, "cards": ["c1"], "pieces": [{"k": "del", "t": "[Q1] Is the 1.4 km detour from the council notice, or your own measurement?", "st": [], "a": [], "h": 1}], "hunks": [1]}, {"i": 2, "kind": "table", "label": "", "status": "changed", "origin": null, "cards": ["c2"], "pieces": [{"k": "eq", "t": " | Planned | Actual\nClosure | nine weeks | three weeks\nDetour | 1.4 km, for three weeks | none", "st": [], "a": []}], "from": "", "rows": [["", "Planned", "Actual"], ["Closure", "nine weeks", "three weeks"], ["Detour", "1.4 km, for three weeks", "none"]], "rowdiff": [{"k": "eq", "cells": ["", "Planned", "Actual"]}, {"k": "eq", "cells": ["Closure", "nine weeks", "three weeks"]}, {"k": "del", "cells": ["Detour", "1.4 km", "none"], "h": 2}, {"k": "ins", "cells": ["Detour", "1.4 km, for three weeks", "none"], "h": 2}], "hunks": [2]}, {"i": 3, "kind": "cap", "label": "", "status": "same", "origin": null, "cards": [], "pieces": [{"k": "eq", "t": "The plan against what happened.", "st": ["em"], "a": []}], "from": ""}, {"i": 4, "kind": "fig", "label": "", "status": "new", "origin": null, "cards": ["c3"], "pieces": [{"k": "ins", "t": "[DIAGRAM: the bearing end, before and after]", "st": [], "a": [], "h": 3}], "from": "", "alt": "the bearing end, before and after", "hunks": [3]}, {"i": 5, "kind": "p", "label": "¶3", "status": "changed", "origin": "mixed", "cards": ["c4"], "pieces": [{"k": "eq", "t": "The survey told a different story. ", "st": [], "a": []}, {"k": "eq", "t": "Coring ", "st": [], "a": ["c4"]}, {"k": "del", "t": "each joist", "st": [], "a": [], "h": 4}, {"k": "ins", "t": "the four flagged joists", "st": [], "a": ["c4"], "h": 4}, {"k": "eq", "t": " showed the rot was confined to the bearing ends, where water had been sitting on the abutment shelf. Replacing the bearing ends ", "st": [], "a": []}, {"k": "del", "t": "simply ", "st": [], "a": [], "h": 5}, {"k": "eq", "t": "solved", "st": [], "a": ["c4"]}, {"k": "eq", "t": " the problem without touching the rest of the deck.", "st": [], "a": []}, {"k": "del", "t": ".. and the", "st": [], "a": [], "h": 6}, {"k": "ins", "t": " The", "st": [], "a": [], "h": 6}, {"k": "eq", "t": " new ", "st": [], "a": []}, {"k": "eq", "t": "weep-hole", "st": ["code"], "a": []}, {"k": "eq", "t": " drainage stops it coming back.", "st": [], "a": []}], "from": "", "hunks": [4, 5, 6]}, {"i": 6, "kind": "p", "label": "¶4", "status": "moved", "origin": "source", "cards": ["c5"], "pieces": [{"k": "eq", "t": "The full report goes to the parish council at next month's meeting.", "st": [], "a": [], "h": 7}], "from": "¶6", "hunks": [7]}, {"i": 7, "kind": "p", "label": "¶5", "status": "same", "origin": "author", "cards": [], "pieces": [{"k": "eq", "t": "Credit goes to the site team, who did the coring in a single weekend this month. Thank you, all.", "st": [], "a": []}], "from": ""}, {"i": 8, "kind": "p", "label": "¶6", "status": "new", "origin": "author", "cards": ["c6"], "pieces": [{"k": "ins", "t": "The school run is the point: parents asked us to have the crossing open before term, and it is.", "st": [], "a": [], "h": 8}], "from": "", "hunks": [8]}, {"i": null, "kind": "p", "label": "r1 ¶5", "status": "removed", "origin": null, "cards": ["c7"], "pieces": [{"k": "del", "t": "Why does six weeks matter? Because a nine-week closure on a school route is the kind of thing that turns a maintenance job into a council agenda item, and nobody's deck is improved by that.", "st": [], "a": [], "h": 9}], "hunks": [9]}], "cards": [{"id": "c1", "kind": "change", "status": "removed", "title": "Change 1 · question removed", "record": [], "chips": [["del", "removed"]], "old": "[Q1] Is the 1.4 km detour from the council notice, or your own measurement?", "words": [14, 0], "hunks": [1], "edits": []}, {"id": "c2", "kind": "change", "status": "changed", "title": "Change 2 · table changed", "chips": [["chg", "changed"]], "words": [17, 20], "block": 2, "preview": " | Planned | Actual\nClosure | nine weeks | three weeks\nDetour | 1.4 km, for three weeks | none", "from": "", "why": [], "hunks": [2], "edits": [{"n": 2, "del": "Detour | 1.4 km | none", "ins": "Detour | 1.4 km, for three weeks | none", "after": "", "table": true}]}, {"id": "c3", "kind": "change", "status": "new", "title": "Change 3 · diagram new", "chips": [["ins", "new"]], "words": [0, 7], "block": 4, "preview": "[DIAGRAM: the bearing end, before and after]", "from": "", "why": [], "hunks": [3], "edits": []}, {"id": "c4", "kind": "change", "status": "changed", "title": "Changes 4–6 · ¶3 changed", "chips": [["chg", "changed"]], "words": [51, 51], "block": 5, "preview": "The survey told a different story. Coring the four flagged joists showed the rot was confined to the bearing ends, where water had been sitting on the abutment shelf. Replacing the bearing ends solved the problem without touching the rest of the deck. The new weep-hole drainage stops it coming back.", "from": "¶3", "why": [], "hunks": [4, 5, 6], "edits": [{"n": 4, "del": "each joist", "ins": "the four flagged joists", "after": "different story. Coring"}, {"n": 5, "del": "simply ", "ins": "", "after": "the bearing ends"}, {"n": 6, "del": ".. and the", "ins": " The", "after": "of the deck."}], "record": ["drafter (deslop S2, accepted in D)", "drafter (deslop S3, accepted in D)"]}, {"id": "c5", "kind": "change", "status": "moved", "title": "Change 7 · ¶4 moved from ¶6", "chips": [["mov", "moved"]], "words": [12, 12], "block": 6, "preview": "The full report goes to the parish council at next month's meeting.", "from": "¶6", "why": [], "hunks": [7], "edits": [], "record": ["source (N); moved up so the post ends on the reason"]}, {"id": "c6", "kind": "change", "status": "new", "title": "Change 8 · ¶6 new", "chips": [["ins", "new"]], "words": [0, 19], "block": 8, "preview": "The school run is the point: parents asked us to have the crossing open before term, and it is.", "from": "", "why": [], "hunks": [8], "edits": [], "record": ["author (D, note on P1: \"the school run is the point\")"]}, {"id": "c7", "kind": "change", "status": "removed", "title": "Change 9 · r1 ¶5 removed", "record": ["\"Why does six weeks matter?…\" paragraph REMOVED (D: P1 answered with the author's own reason)."], "chips": [["del", "removed"]], "old": "Why does six weeks matter? Because a nine-week closure on a school route is the kind of thing that turns a maintenance job into a council agenda item, and nobody's deck is improved by that.", "words": [35, 0], "hunks": [9], "edits": []}], "warnings": [], "stats": {"words": 203, "words_old": 209, "origins": {"mixed": 2, "source": 2, "author": 2}, "paragraphs": 6}, "slug": "the-mill-lane-footbridge-reopening-draft-r2-draft-r1"};
+const KEY = "voice-revision-notes:" + D.slug;
+const wide = matchMedia("(min-width: 901px)");
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const byId = Object.fromEntries(D.cards.map((c) => [c.id, c]));
+const ORIGIN_INITIAL = { author: "A", source: "S", drafter: "D", mixed: "M", unknown: "?" };
+let notes = {};
+try { notes = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+let view = "changes", pinned = null, hover = null, hoverTimer = null;
+
+function piecesHTML(p, num) {
+  return p.pieces.map((x, k) => {
+    let h = esc(x.t);
+    for (const st of x.st) h = st === "code" ? `<code>${h}</code>` : `<${st}>${h}</${st}>`;
+    if (x.k === "ins") h = `<ins>${h}</ins>`;
+    if (x.k === "del") h = `<del>${h}</del>`;
+    if (x.a.length) h = `<span class="an" data-cards="${x.a.join(" ")}">${h}</span>`;
+    const next = p.pieces[k + 1];
+    if (num && x.h && (!next || next.h !== x.h)) h += num(x.h);  // the change's number after its last word
+    return h;
+  }).join("");
+}
+
+// Tables, images, diagram placeholders and captions, drawn as they read; prose as pieces.
+function bodyHTML(p, num) {
+  if (p.kind === "table") {
+    const whole = p.status === "new" ? "ins" : p.status === "removed" ? "del" : "eq";
+    const rows = p.rowdiff || (p.rows || []).map((cells) => ({ k: whole, cells }));
+    const tr = rows.map((r, k) => {
+      const tag = k === 0 ? "th" : "td";
+      const last = num && r.h && (!rows[k + 1] || rows[k + 1].h !== r.h) ? num(r.h) : "";
+      return `<tr class="${r.k}">${r.cells.map((c, ci) => `<${tag}>${esc(c)}${ci === r.cells.length - 1 ? last : ""}</${tag}>`).join("")}</tr>`;
+    }).join("");
+    return `<div class="tw"><table>${tr}</table></div>`;
+  }
+  if (p.kind === "img") {
+    const was = p.was ? `<p class="was">Was: <del>${esc(p.was.alt || p.was.src || "")}</del>${num ? num(p.hunks[0]) : ""}</p>` : "";
+    const img = p.missing ? `<div class="figph">Image not found beside the draft: ${esc(p.src)}</div>` : `<img src="${esc(p.data || p.src)}" alt="${esc(p.alt)}">`;
+    return `<figure>${img}${p.alt ? `<figcaption>${esc(p.alt)}</figcaption>` : ""}${was}</figure>`;
+  }
+  if (p.kind === "hr") return "<hr>";
+  if (p.kind === "fig") {
+    const was = p.was ? ` <span class="was">(was: <del>${esc(p.was.text)}</del>)</span>${num ? num(p.hunks[0]) : ""}` : "";
+    return `<div class="figph">Diagram: ${esc(p.alt)}${was}</div>`;
+  }
+  return piecesHTML(p, num);
+}
+
+function renderText() {
+  $("text").innerHTML = D.paras.map((p) => {
+    const origin = D.compare ? "" : p.origin || (p.kind === "p" || p.kind === "list" ? "none" : "");
+    const bar = origin ? `<button type="button" class="og o-${origin}" aria-label="Origin: ${origin === "none" ? "no record" : origin}"${p.cards.length ? ` data-cards="${p.cards.join(" ")}"` : ""}><span>${ORIGIN_INITIAL[origin] || "–"}</span></button>` : "";
+    const card = p.cards.find((id) => byId[id] && byId[id].kind === "change") || "";
+    const num = (n) => `<button type="button" class="hk" data-cards="${card}" aria-label="Change ${n}">${n}</button>`;
+    const whole = p.status === "moved" || p.status === "removed" || p.status === "new";
+    const tag = p.status === "moved" ? `<span class="tagline">${num(p.hunks[0])} moved from ${esc(p.from)}</span>`
+      : p.status === "removed" ? `<span class="tagline">${num(p.hunks[0])} removed</span>`
+      : p.status === "new" ? `<span class="tagline">${num(p.hunks[0])} <span class="tl">new</span></span>` : "";
+    const cls = `blk ${p.kind} ${p.status}`;
+    return `<div class="${cls}" data-cards="${p.cards.join(" ")}"><span class="pn">${esc(p.label)}</span>${bar}${tag}${bodyHTML(p, whole ? null : num)}</div>`;
+  }).join("");
+  $("text").className = "v-" + view;
+}
+
+function cardHTML(c) {
+  const chips = c.chips.map(([k, t]) => `<span class="chip ${k}">${esc(t)}</span>`).join("");
+  let body = "";
+  if (c.kind === "change") {
+    const [ow, nw] = c.words || [0, 0];
+    const delta = nw - ow;
+    body += `<p>${c.from && c.status !== "new" ? `From ${esc(c.from)}. ` : ""}${ow} → ${nw} words${delta ? ` (${delta > 0 ? "+" : ""}${delta})` : ""}.</p>`;
+    if (c.old) body += `<p class="old">${esc(c.old)}</p>`;
+    if (c.edits && c.edits.length) body += `<ol class="edits">${c.edits.map((e) => `<li value="${e.n}">${e.del.trim() ? `<del>${esc(e.del.trim())}</del>` : ""}${e.del.trim() && e.ins.trim() ? " → " : ""}${e.ins.trim() ? `<ins>${esc(e.ins.trim())}</ins>` : ""}</li>`).join("")}</ol>`;
+    if (c.why && c.why.length) body += `<p><strong>Record:</strong> ${c.why.map((id) => esc(byId[id].body || byId[id].title)).join(" · ")}</p>`;
+    else if (c.record && c.record.length) body += `<p><strong>Record:</strong> ${c.record.map(esc).join(" · ")}</p>`;
+  } else if (c.kind === "question") {
+    body += `<p class="q">${esc(c.body)}</p>`;
+  } else {
+    body += `<p class="q">“${esc(c.title)}”</p>`;
+    if (c.body) body += `<p>${esc(c.body)}</p>`;
+    if (c.approval) body += `<p><strong>Approval:</strong> ${esc(c.approval)}</p>`;
+    if (c.question) body += `<p><strong>Asked:</strong> ${esc(c.question)}</p>`;
+  }
+  const head = c.kind === "change" ? `<h3>${esc(c.title)}</h3>` : c.kind === "question" ? `<h3>${esc(c.title)}</h3>` : "";
+  return `<article class="card ${c.kind}${c.status ? " st-" + c.status : ""}" id="card-${c.id}" data-card="${c.id}" tabindex="-1">
+    <div class="card-head">${chips}</div>${head}${body}
+    <textarea data-note="${c.id}" aria-label="Note" placeholder="A note for the next revision, if you want one.">${esc(notes[c.id] || "")}</textarea>
+  </article>`;
+}
+
+function renderCards() {
+  $("cards").innerHTML = D.cards.length ? D.cards.map(cardHTML).join("") : `<p class="sub">No changes, and no record lines to show.</p>`;
+}
+
+function renderHead() {
+  $("title").textContent = D.title;
+  document.title = D.title;
+  const s = D.stats;
+  if (D.compare) {
+    $("sub").textContent = `What changed from ${D.compare} to ${D.draft}, numbered. To change something, say or type it to the assistant and name the change ("on change 3…"); jot notes on the cards as you go.`;
+    const k = {};
+    for (const c of D.cards) if (c.kind === "change") k[c.status] = (k[c.status] || 0) + 1;
+    const delta = s.words - s.words_old;
+    $("stats").innerHTML = `<span><b>${s.words_old.toLocaleString("en-GB")} → ${s.words.toLocaleString("en-GB")}</b> words (${delta >= 0 ? "+" : ""}${delta})</span>`
+      + ["changed", "new", "moved", "removed"].filter((x) => k[x]).map((x) => `<span><b>${k[x]}</b> ${x}</span>`).join("");
+    $("views").innerHTML = `<div class="seg" role="group" aria-label="View">${[["changes", "Changes"], ["new", "r" + D.rev + " only"], ["old", "r" + D.rev_old + " only"]]
+      .map(([v, t]) => `<button type="button" data-view="${v}" aria-pressed="${view === v}">${esc(t)}</button>`).join("")}</div>`;
+    $("panelabel").textContent = view === "old" ? `r${D.rev_old}` : view === "new" ? `r${D.rev}` : `r${D.rev_old} → r${D.rev}`;
+  } else {
+    $("sub").textContent = `${D.draft}, with whose argument each part carries, from ${D.records.length ? D.records.join(", ") : "no provenance record"}. Click the text or a card to link the two.`;
+    $("stats").innerHTML = `<span><b>${s.words.toLocaleString("en-GB")}</b> words</span><span><b>${s.paragraphs}</b> paragraphs</span>`
+      + Object.entries(s.origins).map(([o, n]) => `<span><b>${n}</b> ${esc(o)}</span>`).join("");
+    $("panelabel").textContent = D.rev ? `Draft r${D.rev}` : "Draft";
+  }
+  $("legend").innerHTML = (D.compare
+    ? `<span><i style="background:var(--ins)"></i>added</span><span><i style="background:var(--del)"></i>removed</span><span><i style="background:var(--accent);border-radius:8px"></i>change number</span>`
+    : `<span><i style="background:var(--theirs)"></i>A author · S source</span><span><i style="background:var(--drafter)"></i>D drafter</span><span><i style="background:repeating-linear-gradient(180deg,var(--theirs) 0 4px,var(--drafter) 4px 8px)"></i>M mixed</span><span><i style="background:var(--none)"></i>– no record</span>`)
+    + `<span><i style="border-bottom:2px dotted var(--muted);border-radius:0"></i>a sentence with its own record line</span>`;
+  if (D.warnings.length) $("warn").innerHTML = `<details class="warn"><summary>${D.warnings.length} record line${D.warnings.length > 1 ? "s" : ""} not placed in the text</summary><ul>${D.warnings.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></details>`;
+}
+
+// Two-way linking, as on the deslop decision page.
+function paint() {
+  const id = hover || pinned;
+  document.querySelectorAll(".on").forEach((e) => e.classList.remove("on"));
+  if (!id) return;
+  document.querySelectorAll(`#text [data-cards~="${id}"], #card-${id}`).forEach((e) => e.classList.add("on"));
+}
+function reveal(id, always) {
+  // Aim at the edit itself, not the top of a long paragraph.
+  const blk = pane.querySelector(`.an[data-cards~="${id}"], .blk[data-cards~="${id}"]`);
+  if (!blk) return;
+  const t = (blk.classList.contains("changed") && blk.querySelector("ins, del")) || blk;
+  if (!wide.matches) { if (always) t.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "center" }); return; }
+  const pr = pane.getBoundingClientRect(), tr = t.getBoundingClientRect();
+  const top = Math.max(pr.top, 0), bottom = Math.min(pr.bottom, innerHeight);
+  if (bottom - top < 120) return;
+  const dy = tr.top - top - (bottom - top) / 3;
+  if (tr.top < top + 48 || tr.bottom > bottom - 48) pane.scrollBy({ top: dy, behavior: calm.matches || Math.abs(dy) > 1200 ? "auto" : "smooth" });
+}
+function pin(id, fromText) {
+  pinned = id; hover = null; paint();
+  if (fromText) {
+    const card = $("card-" + id);
+    if (!card) return;
+    card.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "start" });
+    card.classList.add("pulse"); setTimeout(() => card.classList.remove("pulse"), 1100);
+  } else reveal(id);
+}
+$("cards").addEventListener("mouseover", (e) => {
+  const c = e.target.closest(".card"), id = c ? c.dataset.card : null;
+  if (id === hover) return;
+  clearTimeout(hoverTimer); hover = id; paint();
+  if (id) hoverTimer = setTimeout(() => reveal(id), 160);
+});
+$("cards").addEventListener("mouseleave", () => { clearTimeout(hoverTimer); hover = null; paint(); });
+$("cards").addEventListener("focusin", (e) => { const c = e.target.closest(".card"); if (c && c.dataset.card !== pinned) pin(c.dataset.card, false); });
+document.addEventListener("click", (e) => {
+  const v = e.target.closest("[data-view]");
+  if (v) { view = v.dataset.view; renderHead(); renderText(); paint(); return; }
+  const m = e.target.closest("[data-mode]");
+  if (m) { setMode(m.dataset.mode); return; }
+  const st = e.target.closest("#nav [data-step]");
+  if (st) { stepChange(+st.dataset.step); return; }
+  const t = e.target.closest("#text [data-cards]");
+  if (t && t.dataset.cards) {
+    // The innermost link wins: a sentence's own record before its paragraph's.
+    const ids = t.dataset.cards.split(" ").filter(Boolean);
+    const cur = ids.indexOf(pinned);
+    pin(ids[(cur + 1) % ids.length], true);  // a second click steps to the next card on the same text
+    return;
+  }
+  const c = e.target.closest(".card");
+  if (c && c.dataset.card !== pinned) pin(c.dataset.card, false);
+});
+document.addEventListener("input", (e) => {
+  if (e.target.matches("[data-note]")) {
+    notes[e.target.dataset.note] = e.target.value;
+    try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (err) {}
+  }
+});
+$("copy").addEventListener("click", async () => {
+  const lines = [`## Notes on ${D.draft}${D.compare ? ` (compared with ${D.compare})` : ""}`, ""];
+  for (const c of D.cards) {
+    const n = (notes[c.id] || "").trim();
+    if (!n) continue;
+    const what = c.kind === "change" ? c.title : c.kind === "question" ? c.title : `“${c.title.slice(0, 60)}${c.title.length > 60 ? "…" : ""}”`;
+    lines.push(`- **${what}:** ${n.replace(/\n+/g, " ")}`);
+  }
+  if (lines.length === 2) lines.push("(No notes.)");
+  const md = lines.join("\n"), btn = $("copy");
+  try { await navigator.clipboard.writeText(md); btn.textContent = "Copied"; }
+  catch (err) {
+    const pre = $("md"); pre.textContent = md;
+    const r = document.createRange(); r.selectNodeContents(pre);
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    btn.textContent = "Selected: press Copy";
+  }
+  setTimeout(() => { btn.textContent = "Copy notes as Markdown"; }, 2200);
+});
+$("copyhint").textContent = "Notes stay in this browser; copy them and paste them back for the next revision.";
+// Review is the split view; Read shows the current revision on its own, with the change numbers.
+let mode = "review", reviewView = view, navAt = -1;
+function setMode(next) {
+  if (next === mode) return;
+  if (next === "read") { reviewView = view; view = D.compare ? "new" : "changes"; } else { view = reviewView; }
+  mode = next;
+  document.body.classList.toggle("read", mode === "read");
+  document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mode === mode));
+  $("views").style.display = mode === "read" ? "none" : "";
+  renderHead(); renderText(); paint();
+  $("nav").classList.toggle("on", !!D.compare && mode === "read");
+  navAt = -1; updateNav();
+}
+function visibleChanges() { return [...document.querySelectorAll("#text .hk")].filter((b) => b.offsetParent); }
+function updateNav() {
+  const all = visibleChanges();
+  $("navpos").textContent = all.length ? (navAt < 0 ? `${all.length} changes` : `Change ${all[navAt].textContent} · ${navAt + 1} of ${all.length}`) : "No changes";
+}
+function stepChange(d) {
+  const all = visibleChanges();
+  if (!all.length) return;
+  navAt = navAt < 0 ? (d > 0 ? 0 : all.length - 1) : (navAt + d + all.length) % all.length;
+  const b = all[navAt];
+  b.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "center" });
+  b.classList.add("pulse"); setTimeout(() => b.classList.remove("pulse"), 1100);
+  updateNav();
+}
+document.addEventListener("keydown", (e) => {
+  if (mode !== "read" || e.target.closest("textarea, input")) return;
+  if (e.key === "j" || e.key === "n") stepChange(1);
+  if (e.key === "k" || e.key === "p") stepChange(-1);
+});
+renderHead(); renderText(); renderCards();
+</script>
+</body>
+</html>
