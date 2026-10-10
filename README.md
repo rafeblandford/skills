@@ -46,7 +46,7 @@ reasoning is missing, it asks rather than inventing one.
 isn't yours and what readers are likely to take as AI, and leaves every
 decision to you. Both set their depth by how much the piece matters.
 
-They are open, early versions (0.2.0). Everything about the writer lives in a
+They are open, early versions (0.2.1). Everything about the writer lives in a
 separate voice pack; each skill ships with a fictional example pack to show the
 shape, and a guide to building your own in `references/pack/README.md`.
 Each also includes a small script that turns its output into one

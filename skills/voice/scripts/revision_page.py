@@ -580,12 +580,20 @@ def build(draft: Path, compare: Path | None, provenance: list[Path] | None, head
                           "origin": origin_of.get(i), "cards": para_cards[i], "pieces": pieces, **media(b)})
     else:
         pairs = align(old, new)
-        # A removed paragraph that reappears unchanged elsewhere has moved.
+        # A removed paragraph that reappears elsewhere has moved: unchanged first, then one
+        # that moved and was reworded (the closest match of the same kind, if close enough).
         removed_text = {normalise(old[i]["text"])[0]: i for i, j in pairs if j is None}
         moved = {}
         for i, j in pairs:
             if i is None and normalise(new[j]["text"])[0] in removed_text:
                 moved[j] = removed_text[normalise(new[j]["text"])[0]]
+        spare_old = [i for i, j in pairs if j is None and i not in moved.values()]
+        spare_new = [j for i, j in pairs if i is None and j not in moved]
+        scored = sorted(((difflib.SequenceMatcher(None, normalise(old[i]["text"])[0], normalise(new[j]["text"])[0], autojunk=False).ratio(), i, j)
+                         for i in spare_old for j in spare_new if family(old[i]) == family(new[j])), reverse=True)
+        for r, i, j in scored:
+            if r >= 0.5 and i not in moved.values() and j not in moved:
+                moved[j] = i
         moved_old = set(moved.values())
         changes = 0
         for i, j in pairs:
@@ -605,7 +613,8 @@ def build(draft: Path, compare: Path | None, provenance: list[Path] | None, head
             b = new[j]
             if i is None and j in moved:
                 o = old[moved[j]]
-                status, pieces = "moved", [["eq", b["text"], 0]]
+                status = "moved"
+                pieces = [["eq", b["text"], 0]] if normalise(o["text"])[0] == normalise(b["text"])[0] else word_diff(o["text"], b["text"])
             elif i is None:
                 status, pieces = "new", [["ins", b["text"], 0]]
             elif b["kind"] in ("table", "img", "fig") or old[i]["kind"] in ("table", "img", "fig"):
@@ -692,6 +701,24 @@ def build(draft: Path, compare: Path | None, provenance: list[Path] | None, head
     }
 
 
+def number_edits(pieces: list[dict], n: int, nums: list[int], edits: list[dict]) -> int:
+    """Give each run of word edits in a paragraph its own number, with the words before it."""
+    prev, before = None, ""
+    for piece in pieces:
+        if piece["k"] == "eq":
+            prev, before = None, (before + piece["t"])[-60:]
+            continue
+        if piece["k"] == "ins":
+            before = (before + piece["t"])[-60:]  # context is the new text, edits included
+        if prev is None:
+            # The few words before an edit say where it is, which a short edit can't.
+            after = " ".join((before[:-len(piece["t"])] if piece["k"] == "ins" else before).split()[-3:])
+            n += 1; nums.append(n); edits.append({"n": n, "del": "", "ins": "", "after": after}); prev = n
+        piece["h"] = prev
+        edits[-1][piece["k"]] += piece["t"]
+    return n
+
+
 def number_changes(paras: list[dict], cards: list[dict]) -> None:
     """Number every edit in reading order, so the author can say "change 3" to whoever revises it.
     A changed paragraph holds one number per run of edits; a new, moved or removed one holds one."""
@@ -716,19 +743,10 @@ def number_changes(paras: list[dict], cards: list[dict]) -> None:
             n += 1; nums.append(n)
             edits.append({"n": n, "del": (p.get("was") or {}).get("text", ""), "ins": p["pieces"][0]["t"] if p["pieces"] else "", "after": ""})
         elif p["status"] == "changed":
-            prev, before = None, ""
-            for piece in p["pieces"]:
-                if piece["k"] == "eq":
-                    prev, before = None, (before + piece["t"])[-60:]
-                    continue
-                if piece["k"] == "ins":
-                    before = (before + piece["t"])[-60:]  # context is the new text, edits included
-                if prev is None:
-                    # The few words before an edit say where it is, which a short edit can't.
-                    after = " ".join((before[:-len(piece["t"])] if piece["k"] == "ins" else before).split()[-3:])
-                    n += 1; nums.append(n); edits.append({"n": n, "del": "", "ins": "", "after": after}); prev = n
-                piece["h"] = prev
-                edits[-1][piece["k"]] += piece["t"]
+            n = number_edits(p["pieces"], n, nums, edits)
+        elif p["status"] == "moved":
+            n += 1; nums.append(n)  # the move itself
+            n = number_edits(p["pieces"], n, nums, edits)  # and any rewording on the way
         else:
             n += 1; nums.append(n)
             for piece in p["pieces"]:
@@ -737,7 +755,7 @@ def number_changes(paras: list[dict], cards: list[dict]) -> None:
         if card:
             name = p["label"] if "¶" in p["label"] else KIND_NAME.get(p["kind"], p["kind"])
             what = {"changed": f"{name} changed", "new": f"{name} new",
-                    "moved": f"{name} moved from {p.get('from') or 'earlier'}", "removed": f"{p['label'] if '¶' in p['label'] else card['title'].split(': ', 1)[-1]} removed"}[p["status"]]
+                    "moved": f"{name} moved from {p.get('from') or 'earlier'}" + (", and changed" if edits else ""), "removed": f"{p['label'] if '¶' in p['label'] else card['title'].split(': ', 1)[-1]} removed"}[p["status"]]
             nums_txt = f"Change {nums[0]}" if len(nums) == 1 else f"Changes {nums[0]}–{nums[-1]}"
             card.update({"hunks": nums, "edits": edits, "title": f"{nums_txt} · {what}"})
 
@@ -749,9 +767,11 @@ def change_list(data: dict) -> str:
     for c in data["cards"]:
         if c["kind"] != "change":
             continue
+        if c.get("status") == "moved" and c.get("edits"):
+            lines.append(f"{c['hunks'][0]:>3}  {c['title'].split(' · ', 1)[1].replace(', and changed', '')}")
         if c.get("edits"):
             for e in c["edits"]:
-                where = c["title"].split(" · ", 1)[1].replace(" changed", "")
+                where = re.sub(r" (moved from .*|changed)$", "", c["title"].split(" · ", 1)[1])
                 old, new = clip(e["del"].strip()), clip(e["ins"].strip())
                 body = f'"{old}" → "{new}"' if old and new else f'added "{new}"' if new else f'cut "{old}"'
                 if e.get("after") and len((old + " " + new).split()) <= 6:
@@ -1047,7 +1067,7 @@ function renderText() {
     const bar = origin ? `<button type="button" class="og o-${origin}" aria-label="Origin: ${origin === "none" ? "no record" : origin}"${p.cards.length ? ` data-cards="${p.cards.join(" ")}"` : ""}><span>${ORIGIN_INITIAL[origin] || "–"}</span></button>` : "";
     const card = p.cards.find((id) => byId[id] && byId[id].kind === "change") || "";
     const num = (n) => `<button type="button" class="hk" data-cards="${card}" aria-label="Change ${n}">${n}</button>`;
-    const whole = p.status === "moved" || p.status === "removed" || p.status === "new";
+    const whole = p.status === "removed" || p.status === "new" || (p.status === "moved" && !p.pieces.some((x) => x.k !== "eq"));
     const tag = p.status === "moved" ? `<span class="tagline">${num(p.hunks[0])} moved from ${esc(p.from)}</span>`
       : p.status === "removed" ? `<span class="tagline">${num(p.hunks[0])} removed</span>`
       : p.status === "new" ? `<span class="tagline">${num(p.hunks[0])} <span class="tl">new</span></span>` : "";

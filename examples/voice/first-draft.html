@@ -238,7 +238,7 @@ function renderText() {
     const bar = origin ? `<button type="button" class="og o-${origin}" aria-label="Origin: ${origin === "none" ? "no record" : origin}"${p.cards.length ? ` data-cards="${p.cards.join(" ")}"` : ""}><span>${ORIGIN_INITIAL[origin] || "–"}</span></button>` : "";
     const card = p.cards.find((id) => byId[id] && byId[id].kind === "change") || "";
     const num = (n) => `<button type="button" class="hk" data-cards="${card}" aria-label="Change ${n}">${n}</button>`;
-    const whole = p.status === "moved" || p.status === "removed" || p.status === "new";
+    const whole = p.status === "removed" || p.status === "new" || (p.status === "moved" && !p.pieces.some((x) => x.k !== "eq"));
     const tag = p.status === "moved" ? `<span class="tagline">${num(p.hunks[0])} moved from ${esc(p.from)}</span>`
       : p.status === "removed" ? `<span class="tagline">${num(p.hunks[0])} removed</span>`
       : p.status === "new" ? `<span class="tagline">${num(p.hunks[0])} <span class="tl">new</span></span>` : "";

@@ -1,11 +1,11 @@
 ---
 name: deslop
-description: Review a draft that will go out under a person's own name at its stated care tier, returning located flags in priority order, each with one proposed edit. Use after drafting, or when asked to check or edit a piece in their name; not for ordinary assistant replies. An open, early version (0.2.0).
+description: Review a draft that will go out under a person's own name at its stated care tier, returning located flags in priority order, each with one proposed edit. Use after drafting, or when asked to check or edit a piece in their name; not for ordinary assistant replies. An open, early version (0.2.1).
 license: Apache-2.0
 metadata:
   short-description: Review writing under a person's own name
   author: Rafe Blandford
-  version: "0.2.0"
+  version: "0.2.1"
   provenance: written-with-ai
 ---
 
@@ -80,4 +80,4 @@ A file beside the draft, `deslop-r<n>.md`, unless the caller names another place
 
 End with a table of the actionable flags and an empty **Decision** column for the author, and **always print the three choices beside it, even when there are no flags**: accept the proposal / keep the original / revise differently, with a word on why (meaning, voice, or reads-as-AI). Their decisions are the evidence for which flags are worth raising. Count unwanted proposals on their own words separately from *their call* notes; a note they decline is not a false alarm. In a *their call* row the proposal column says only "keep as is, or tell me otherwise": never "keep or drop X", never a choice that names a cut or a rewrite.
 
-**Always end with a flags block:** the same actionable flags as a fenced `json` block, with an exact quote from the draft for each place a flag touches, so a tool can find it. The format is in `references/flags-block.md`; read it when writing the block. The prose stays the author's reading copy. Where a decision page would help, `scripts/decision_page.py render` turns the review and draft into one self-contained HTML file: the draft beside the flags, each flag highlighted in the text, accepted wording previewed, and decisions copied back as a table. `scripts/decision_page.py record` turns that pasted table into `decisions-r<n>.md` with counts.
+**Always end with a flags block:** the same actionable flags as a fenced `json` block, with an exact quote from the draft for each place a flag touches, so a tool can find it. The format is in `references/flags-block.md`; read it when writing the block. The prose stays the author's reading copy. When you hand back a review, offer the decision page in one line, and build it if they say yes: `scripts/decision_page.py render` turns the review and draft into one self-contained HTML file: the draft beside the flags, each flag highlighted in the text, accepted wording previewed, and decisions copied back as a table. `scripts/decision_page.py record` turns that pasted table into `decisions-r<n>.md` with counts.
