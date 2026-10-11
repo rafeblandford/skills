@@ -7,7 +7,9 @@ Each skill is a self-contained folder built in the open [Agent Skills][spec]
 format, combining a `SKILL.md` with any supporting references, assets, templates
 and helper scripts it needs.
 
-## Featured: Product Idea Pack
+## Featured
+
+### Product Idea Pack
 
 **[`product-idea-pack`](skills/product-idea-pack/)** turns an early
 digital-product idea into a proposition sketch, mechanism board, product
@@ -35,9 +37,7 @@ refinement.
 [See the examples](examples/product-idea-pack/) ·
 [Download Product Idea Pack v0.1.2](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.2)
 
-## Other skills
-
-### Writing in your own voice
+### Writing in your own voice: voice and deslop
 
 **[`voice`](skills/voice/)** drafts writing that goes out under your name, from
 your dictation, notes or brief, keeping the argument yours: where a step in the
@@ -46,18 +46,28 @@ reasoning is missing, it asks rather than inventing one.
 isn't yours and what readers are likely to take as AI, and leaves every
 decision to you. Both set their depth by how much the piece matters.
 
-They are open, early versions (0.2.2). Everything about the writer lives in a
-separate voice pack; each skill ships with a fictional example pack to show the
-shape, and a guide to building your own in `references/pack/README.md`.
-Each also includes a small script that turns its output into one
-self-contained page to review: `deslop` puts its flags beside the draft for
-you to decide, and `voice` shows what changed from the last revision,
-numbered.
-
 [![deslop's decision page](examples/deslop/decision-page.png)](examples/deslop/)
 [![voice's revision page](examples/voice/revision-compare.png)](examples/voice/)
 
-[Read the website guide](https://rafeblandford.com/voice-and-deslop/).
+Everything about the writer lives in a separate voice pack; each skill ships
+with a fictional example pack to show the shape. **Build your own pack before relying on either skill:** until you do,
+both say they are working without one.
+[The guide to building your own](skills/voice/references/pack/README.md)
+explains how, and how to point the skills at it. Each
+also turns its output into one self-contained page to review: `deslop` puts its
+flags beside the draft for you to decide, and `voice` shows where each
+paragraph came from, then what changed from the last revision, numbered. They
+are open, early versions (0.2.3).
+
+[Watch them in Claude (2 minutes)](https://rafeblandford.com/writing-with-ai-in-my-own-voice/) ·
+[Read the website guide](https://rafeblandford.com/voice-and-deslop/) ·
+[Read the launch article](https://rafeblandford.com/writing-with-ai-in-my-own-voice/) ·
+Read the standalone documentation: [voice](skills/voice/README.md), [deslop](skills/deslop/README.md) ·
+See the examples: [voice](examples/voice/), [deslop](examples/deslop/) ·
+[Download for the Claude app](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.3/voice-and-deslop.plugin) ·
+Releases: [voice v0.2.3](https://github.com/rafeblandford/skills/releases/tag/voice-v0.2.3), [deslop v0.2.3](https://github.com/rafeblandford/skills/releases/tag/deslop-v0.2.3)
+
+## Other skills
 
 ### Working with rafeblandford.com
 
@@ -74,46 +84,33 @@ signatures and appropriately cautious reporting.
 
 ## Installing
 
-### ChatGPT
-
-Open the [Product Idea Pack listing](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e)
-and select **Install plugin**. This is the simplest route when using ChatGPT or
-Codex and gives the skill access to the visual capabilities available in that
-environment.
-
-### Easiest cross-client route
-
-If you use the community `skills` installer and have Node.js:
-
-```sh
-npx skills add rafeblandford/skills
-```
-
-Choose the skill you want when prompted.
+| | Product Idea Pack | voice and deslop |
+|---|---|---|
+| **ChatGPT** | [Install the plugin](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e) | Not listed; use Codex |
+| **Claude app** | Download [`product-idea-pack.plugin`](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.2/product-idea-pack.plugin) and upload it in **Settings → Customize → Plugins** | Download [`voice-and-deslop.plugin`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.3/voice-and-deslop.plugin) (both skills) and upload it in **Settings → Customize → Plugins**. Or upload [`voice-skill-v0.2.3.zip`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.3/voice-skill-v0.2.3.zip) and [`deslop-skill-v0.2.3.zip`](https://github.com/rafeblandford/skills/releases/download/deslop-v0.2.3/deslop-skill-v0.2.3.zip) one at a time in **Settings → Customize → Skills** |
+| **Claude Code** | `/plugin install product-idea-pack@rafeblandford` | `/plugin install voice@rafeblandford`, then `deslop@rafeblandford` |
+| **Codex** | Ask Codex to install it (below) | The same, one skill at a time |
+| **Any client, with Node.js** | `npx skills add rafeblandford/skills` | The same; choose the skill when prompted |
 
 ### Claude Code
+
+Add the catalogue once, then install the skills you want:
 
 ```text
 /plugin marketplace add rafeblandford/skills
 /plugin install product-idea-pack@rafeblandford
+/plugin install voice@rafeblandford
+/plugin install deslop@rafeblandford
 ```
 
-Use the same pattern for the other catalogue entries. Start a new session or run
-`/reload-plugins` after installation.
-
-### Claude Cowork
-
-Download the `.plugin` file from the relevant
-[GitHub release](https://github.com/rafeblandford/skills/releases) and upload it
-through **Customize → Plugins**. For `voice` and `deslop`, download the skill
-`.zip` from their release and upload it as a skill.
+Start a new session or run `/reload-plugins` after installation.
 
 ### Codex
 
-Ask Codex to install the required skill from this repository, for example:
+Ask Codex to install the skill from this repository, for example:
 
-> Install `product-idea-pack` from
-> `https://github.com/rafeblandford/skills/tree/main/skills/product-idea-pack`.
+> Install `voice` from
+> `https://github.com/rafeblandford/skills/tree/main/skills/voice`.
 
 Alternatively, copy the complete skill folder into `~/.codex/skills/` and start
 a new task.
@@ -122,6 +119,16 @@ a new task.
 
 Copy the complete skill directory using the client's normal Agent Skills
 mechanism. Project-local clients commonly discover `.agents/skills/<name>/`.
+Each release also has a `SHA256SUMS` file for checking a download.
+
+### After installing voice and deslop
+
+They ship with a fictional example pack, so build your own voice pack next.
+Keep it private, in one place, and point the skills at it when you ask ("use my
+voice pack in `voice-pack/`") or with a `voice_pack:` line in your project's
+instruction file. That works in every client, including the Claude app, where
+an installed skill's files can't easily be edited. The
+[pack guide](skills/voice/references/pack/README.md) explains how to build one.
 
 ## Provenance
 

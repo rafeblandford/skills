@@ -127,7 +127,10 @@ def paragraphs(text: str) -> list[dict]:
             kind, raw = "h", heading.group(2)
         elif len(lines) >= 2 and all(ln.lstrip().startswith("|") for ln in lines) and re.match(r"^\|?\s*:?-{2,}", lines[1]):
             kind, raw = "table", "\n".join(" | ".join(c.strip() for c in ln.strip().strip("|").split("|")) for ln in [lines[0]] + lines[2:])
-        elif len(lines) == 1 and re.match(r"^!\[[^\]]*\]\([^)]*\)$|^\[(DIAGRAM|FIGURE|IMAGE|CHART)\b", lines[0], re.I):
+        elif len(lines) == 1 and re.match(r"^!\[[^\]]*\]\([^)]*\)$", lines[0]):
+            # An image: shown by its description, never as Markdown or a link.
+            kind, raw = "fig", "Image: " + re.match(r"^!\[([^\]]*)\]", lines[0]).group(1).replace("*", "").replace("`", "")
+        elif len(lines) == 1 and re.match(r"^\[(DIAGRAM|FIGURE|IMAGE|CHART)\b", lines[0], re.I):
             kind, raw = "fig", lines[0]
         elif all(ln.lstrip().startswith(">") for ln in lines):
             kind, raw = "q", " ".join(ln.lstrip()[1:].strip() for ln in lines)
@@ -372,6 +375,8 @@ def parse_pasted(text: str) -> dict[str, dict]:
             if parts and parts[0].lower().startswith("why:"):
                 why = parts.pop(0)[4:].strip()
             note = " · ".join(parts)
+        if decision == "undecided" and note.strip():
+            decision, label = "revise", label or "as in the note"  # a note with no choice is a revision (1.6a)
         rows[cells[0]] = {"decision": decision, "label": label,
                           "why": [w.strip() for w in why.split(",") if w.strip()], "note": note}
     return rows
@@ -625,7 +630,8 @@ th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--lin
 th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
 td.mono { font-family: var(--font-mono); font-size: 13px; }
 td.pending { color: var(--muted); font-style: italic; }
-#md { position: absolute; left: -9999px; white-space: pre; }
+#mdbox { margin-top: 12px; }
+#mdbox textarea { width: 100%; min-height: 9em; font: 13px/1.45 var(--font-mono); padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -666,7 +672,7 @@ td.pending { color: var(--muted); font-style: italic; }
       <tbody id="table"></tbody>
     </table></div>
   </section>
-  <pre id="md" aria-hidden="true"></pre>
+  <div id="mdbox" hidden><p class="sub" id="mdmsg"></p><textarea id="md" readonly aria-label="Markdown to copy"></textarea></div>
 </div>
 <script>
 const D = __DATA__;
@@ -696,6 +702,8 @@ const get = (id) => state.flags[id] || (state.flags[id] = { decision: null, why:
 const sev = (id) => SEV[(byId[id] || {}).severity] || "minor";
 const choicesOf = (f) => Object.assign({}, DEFAULT_CHOICES, f.choices || {});
 const accepted = (id) => get(id).decision === "accept";
+// A note on a flag left undecided is a revision in the note's words (backlog 1.6a, 10 Oct 2026).
+const decisionOf = (s) => s.decision || ((s.note || "").trim() ? "revise" : null);
 
 // One paragraph: cut the text at every range, style and accepted-proposal boundary, then
 // wrap each piece in a mark for the flags that cover it. The innermost flag is on top.
@@ -810,12 +818,12 @@ function renderFlags() {
 }
 
 function renderSummary() {
-  const done = D.flags.filter((f) => get(f.id).decision).length;
+  const done = D.flags.filter((f) => decisionOf(get(f.id))).length;
   $("progress").textContent = `${done} of ${D.flags.length} decided`;
   $("table").innerHTML = D.flags.map((f) => {
-    const s = get(f.id);
-    const d = s.decision ? `${s.decision}: ${esc(choicesOf(f)[s.decision])}` : "Not yet";
-    return `<tr><td class="mono">${esc(f.id)}</td><td>${rich(f.title || "")}</td><td class="${s.decision ? "" : "pending"}">${d}</td><td>${esc(s.why.join(", "))}</td><td>${esc(s.note)}</td></tr>`;
+    const s = get(f.id), dec = decisionOf(s);
+    const d = s.decision ? `${s.decision}: ${esc(choicesOf(f)[s.decision])}` : dec ? "revise: as in the note" : "Not yet";
+    return `<tr><td class="mono">${esc(f.id)}</td><td>${rich(f.title || "")}</td><td class="${dec ? "" : "pending"}">${d}</td><td>${esc(s.why.join(", "))}</td><td>${esc(s.note)}</td></tr>`;
   }).join("");
 }
 
@@ -823,7 +831,7 @@ function toMarkdown() {
   const cell = (s) => String(s ?? "").replace(/\n+/g, " ").replace(/\|/g, "\\|");
   const rows = D.flags.map((f) => {
     const s = get(f.id);
-    const d = s.decision ? `${s.decision}: ${choicesOf(f)[s.decision]}` : "undecided";
+    const d = s.decision ? `${s.decision}: ${choicesOf(f)[s.decision]}` : decisionOf(s) ? "revise: as in the note" : "undecided";
     return `| ${f.id} | ${cell(f.title)} | ${cell(d)} | ${cell(s.why.join(", "))} | ${cell(s.note)} |`;
   });
   return [`## Decisions: ${D.title}`, "", `Review: ${D.review}`, "", "| Flag | Question | Decision | Why | Note |", "|---|---|---|---|---|", ...rows].join("\n");
@@ -929,17 +937,22 @@ document.addEventListener("click", (e) => {
 document.addEventListener("input", (e) => {
   if (e.target.matches("textarea[data-flag]")) { get(e.target.dataset.flag).note = e.target.value; renderSummary(); persist(); }
 });
-$("copy").addEventListener("click", async () => {
-  const md = toMarkdown(), btn = $("copy");
-  try { await navigator.clipboard.writeText(md); btn.textContent = "Copied"; }
-  catch (err) {
-    const pre = $("md"); pre.textContent = md;
-    const r = document.createRange(); r.selectNodeContents(pre);
-    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
-    btn.textContent = "Selected: press Copy";
+// Some embedded panels refuse the clipboard API (Cowork's side panel did, 11 Oct 2026). Try it, then the
+// older copy command, then leave the text visible and selected so the person can copy it themselves.
+async function copyOut(md, btn, label) {
+  const box = $("mdbox"), ta = $("md"), msg = $("mdmsg");
+  let done = false;
+  try { await navigator.clipboard.writeText(md); done = true; } catch (err) {}
+  if (!done) {
+    ta.value = md; box.hidden = false; ta.focus(); ta.select();
+    try { done = document.execCommand("copy"); } catch (err) {}
   }
-  setTimeout(() => { btn.textContent = "Copy as Markdown"; }, 2200);
-});
+  if (done) { box.hidden = true; btn.textContent = "Copied"; setTimeout(() => { btn.textContent = label; }, 2200); return; }
+  msg.textContent = "This window doesn't allow copying from a button. The text below is selected: press \u2318C (Ctrl+C on Windows), then paste it back.";
+  box.scrollIntoView({block: "nearest"}); ta.focus(); ta.select();
+  btn.textContent = label;
+}
+$("copy").addEventListener("click", () => copyOut(toMarkdown(), $("copy"), "Copy as Markdown"));
 
 function setSave(text, err) { const el = $("save"); el.textContent = text; el.classList.toggle("err", !!err); }
 function persist() {
@@ -955,7 +968,7 @@ function persist() {
 
 $("title").textContent = D.title;
 document.title = D.title;
-$("sub").textContent = `${D.flags.length} flags on ${D.draft}, from ${D.review}. Pick an answer on each; click highlighted text to jump to its flag. `
+$("sub").textContent = `${D.flags.length} flag${D.flags.length === 1 ? "" : "s"} on ${D.draft}, from ${D.review}. Pick an answer on each; click highlighted text to jump to its flag. `
   + (ARTIFACT ? "Choices save as you go." : "Choices stay in this browser: when you're done, use Copy as Markdown and paste it back.");
 if (D.warnings.length) {
   $("warn").innerHTML = `<details class="warn"><summary>${D.warnings.length} anchor${D.warnings.length > 1 ? "s" : ""} to check</summary><ul>${D.warnings.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></details>`;

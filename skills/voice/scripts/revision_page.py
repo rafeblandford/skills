@@ -41,6 +41,7 @@ ORIGINS = ("source", "author", "drafter", "mixed", "unknown")
 ORIGIN_RE = re.compile(r"\b(source|author|drafter|mixed|unknown)\b", re.I)
 QUOTE_RE = re.compile(r"[“\"]([^”\"]{3,}?)[”\"]")
 TOKEN_RE = re.compile(r"\w+|[^\w\s]|\s+")
+JOIN_RE = re.compile(r"\s+|[^\w\s]{1,2}")  # what can sit between two changes in one edit
 
 
 class PageError(Exception):
@@ -316,6 +317,8 @@ def parse_record(path: Path) -> list[dict]:
 def records_for(draft: Path, upto: int | None, given: list[Path] | None) -> list[Path]:
     if given:
         return given
+    if upto is None:
+        return []  # no revision number in the name: no way to tell which records belong to it
     found = []
     for p in draft.parent.glob("provenance-r*.md"):
         r = revision_of(p)
@@ -376,14 +379,15 @@ def word_diff(old: str, new: str) -> list[list]:
         else:
             clean.append([k, t, off])
     # One edit per run of changes that only spaces separate: "each joist" -> "the four flagged
-    # joists", not two fragments. Within a run, the old words come first, then the new.
+    # joists", not two fragments. A dot or comma inside a word joins a run too: v0.1.0 -> v0.2.2 is
+    # one change, not two. Within a run, the old words come first, then the new.
     out, k = [], 0
     while k < len(clean):
         if clean[k][0] == "eq":
             out.append(clean[k]); k += 1
             continue
         run = [clean[k]]; k += 1
-        while k < len(clean) and (clean[k][0] != "eq" or (not clean[k][1].strip() and k + 1 < len(clean) and clean[k + 1][0] != "eq")):
+        while k < len(clean) and (clean[k][0] != "eq" or (JOIN_RE.fullmatch(clean[k][1]) and k + 1 < len(clean) and clean[k + 1][0] != "eq")):
             if clean[k][0] == "eq":
                 run += [["del", clean[k][1], None], ["ins", clean[k][1], clean[k][2]]]
             else:
@@ -802,7 +806,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("-o", "--out", type=Path, help="default: <draft>.html beside the draft")
     args = ap.parse_args(argv)
     rev = revision_of(args.draft)
-    if not args.compare and not args.alone and rev and rev > 1:
+    if not args.compare and not args.alone and rev is not None and rev >= 1:  # r1 compares with an r0 beside it
         prev = args.draft.with_name(re.sub(rf"-r{rev}\b", f"-r{rev - 1}", args.draft.name))
         if prev.exists():
             args.compare = prev
@@ -989,7 +993,8 @@ body.read #nav.on { display: flex; }
 .card .old { font-family: var(--font-read); font-size: 15px; color: var(--del-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
 .card textarea { width: 100%; min-height: 42px; margin-top: 8px; font: inherit; font-size: 13.5px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; resize: vertical; }
 .summary { margin-top: 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-#md { position: absolute; left: -9999px; white-space: pre; }
+#mdbox { margin-top: 12px; }
+#mdbox textarea { width: 100%; min-height: 9em; font: 13px/1.45 var(--font-mono); padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -1010,7 +1015,7 @@ body.read #nav.on { display: flex; }
     <section class="cards" id="cards" aria-label="Changes and provenance"></section>
   </div>
   <div class="summary"><button class="btn" id="copy" type="button">Copy notes as Markdown</button><span class="sub" id="copyhint"></span></div>
-  <pre id="md" aria-hidden="true"></pre>
+  <div id="mdbox" hidden><p class="sub" id="mdmsg"></p><textarea id="md" readonly aria-label="Markdown to copy"></textarea></div>
 </div>
 <nav id="nav" aria-label="Changes"><button type="button" data-step="-1" aria-label="Previous change">‹ Prev</button><span id="navpos"></span><button type="button" data-step="1" aria-label="Next change">Next ›</button></nav>
 <script>
@@ -1201,7 +1206,22 @@ document.addEventListener("input", (e) => {
     try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (err) {}
   }
 });
-$("copy").addEventListener("click", async () => {
+// Some embedded panels refuse the clipboard API (Cowork's side panel did, 11 Oct 2026). Try it, then the
+// older copy command, then leave the text visible and selected so the person can copy it themselves.
+async function copyOut(md, btn, label) {
+  const box = $("mdbox"), ta = $("md"), msg = $("mdmsg");
+  let done = false;
+  try { await navigator.clipboard.writeText(md); done = true; } catch (err) {}
+  if (!done) {
+    ta.value = md; box.hidden = false; ta.focus(); ta.select();
+    try { done = document.execCommand("copy"); } catch (err) {}
+  }
+  if (done) { box.hidden = true; btn.textContent = "Copied"; setTimeout(() => { btn.textContent = label; }, 2200); return; }
+  msg.textContent = "This window doesn't allow copying from a button. The text below is selected: press \u2318C (Ctrl+C on Windows), then paste it back.";
+  box.scrollIntoView({block: "nearest"}); ta.focus(); ta.select();
+  btn.textContent = label;
+}
+$("copy").addEventListener("click", () => {
   const lines = [`## Notes on ${D.draft}${D.compare ? ` (compared with ${D.compare})` : ""}`, ""];
   for (const c of D.cards) {
     const n = (notes[c.id] || "").trim();
@@ -1210,15 +1230,7 @@ $("copy").addEventListener("click", async () => {
     lines.push(`- **${what}:** ${n.replace(/\n+/g, " ")}`);
   }
   if (lines.length === 2) lines.push("(No notes.)");
-  const md = lines.join("\n"), btn = $("copy");
-  try { await navigator.clipboard.writeText(md); btn.textContent = "Copied"; }
-  catch (err) {
-    const pre = $("md"); pre.textContent = md;
-    const r = document.createRange(); r.selectNodeContents(pre);
-    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
-    btn.textContent = "Selected: press Copy";
-  }
-  setTimeout(() => { btn.textContent = "Copy notes as Markdown"; }, 2200);
+  copyOut(lines.join("\n"), $("copy"), "Copy notes as Markdown");
 });
 $("copyhint").textContent = "Notes stay in this browser; copy them and paste them back for the next revision.";
 // Review is the split view; Read shows the current revision on its own, with the change numbers.
@@ -1237,7 +1249,10 @@ function setMode(next) {
 function visibleChanges() { return [...document.querySelectorAll("#text .hk")].filter((b) => b.offsetParent); }
 function updateNav() {
   const all = visibleChanges();
-  $("navpos").textContent = all.length ? (navAt < 0 ? `${all.length} changes` : `Change ${all[navAt].textContent} · ${navAt + 1} of ${all.length}`) : "No changes";
+  // Removals have no place in the new text, so Read can show fewer numbers than the page has.
+  const total = Math.max(0, ...D.paras.flatMap((p) => p.hunks || []));
+  const count = all.length < total ? `${all.length} of ${total} changes in the text` : `${all.length} changes`;
+  $("navpos").textContent = all.length ? (navAt < 0 ? count : `Change ${all[navAt].textContent} · ${navAt + 1} of ${all.length}`) : "No changes";
 }
 function stepChange(d) {
   const all = visibleChanges();
