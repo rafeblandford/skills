@@ -37,7 +37,7 @@ refinement.
 [See the examples](examples/product-idea-pack/) ·
 [Download Product Idea Pack v0.1.2](https://github.com/rafeblandford/skills/releases/tag/product-idea-pack-v0.1.2)
 
-### Writing in your own voice: voice and deslop
+### Writing in your own voice
 
 **[`voice`](skills/voice/)** drafts writing that goes out under your name, from
 your dictation, notes or brief, keeping the argument yours: where a step in the
