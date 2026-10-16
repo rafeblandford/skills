@@ -259,6 +259,36 @@ def load_draft(path: Path, heading: str | None) -> tuple[str | None, list[dict]]
     return title, bl
 
 
+def is_question(raw: str) -> bool:
+    """A question written into the draft ("> **[Q1]** …"): part of the page, not of the piece."""
+    lines = [ln.strip() for ln in raw.strip("\n").splitlines()]
+    if all(ln.startswith(">") for ln in lines):
+        return bool(QUESTION_RE.match(" ".join(ln[1:].strip() for ln in lines)))
+    return bool(QUESTION_RE.match(lines[0]))
+
+
+def plain_of(text: str, styles: list[list]) -> str:
+    """Plain text for pasting where Markdown doesn't work: a link keeps its address in brackets."""
+    for s, e, st in sorted(styles, key=lambda x: -x[1]):
+        url = st[2:] if st.startswith("a:") else ""
+        if url and not url.startswith("#") and url != text[s:e]:
+            text = f"{text[:e]} ({url}){text[e:]}"
+    return text
+
+
+def copy_texts(path: Path, heading: str | None) -> dict:
+    """The piece as it stands, for the Copy buttons: as written (Markdown) and as plain text.
+    Questions in the draft are left out of both."""
+    raws = [r for r in split_blocks(reviewed_text(path.read_text(encoding="utf-8"), heading)) if not is_question(r)]
+    title, bl = blocks("\n\n".join(raws))
+    parts = [title] if title else []
+    for b in bl:
+        if b["kind"] in ("hr", "img"):
+            continue
+        parts.append(b["text"] if b["kind"] in ("code", "table", "fig") else plain_of(b["text"], b["styles"]))
+    return {"md": "\n\n".join(r.strip("\n") for r in raws) + "\n", "text": "\n\n".join(parts) + "\n"}
+
+
 def revision_of(path: Path) -> int | None:
     m = re.search(r"-r(\d+)\b", path.stem)
     return int(m.group(1)) if m else None
@@ -701,6 +731,7 @@ def build(draft: Path, compare: Path | None, provenance: list[Path] | None, head
         "title": title or draft.stem, "draft": draft.name, "rev": rev_n,
         "compare": compare.name if compare else None, "rev_old": rev_m,
         "records": [p.name for p in recs], "history": history, "paras": paras, "cards": cards, "warnings": warnings,
+        "copy": copy_texts(draft, heading),
         "stats": {"words": words(new), "words_old": words(old) if old else None, "origins": origins,
                   "paragraphs": sum(1 for b in new if b["kind"] in ("p", "list"))},
         "slug": re.sub(r"[^a-z0-9]+", "-", f"{title or draft.stem} {draft.stem} {compare.stem if compare else ''}".lower()).strip("-"),
@@ -995,6 +1026,10 @@ body.read #nav.on { display: flex; }
 .summary { margin-top: 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 #mdbox { margin-top: 12px; }
 #mdbox textarea { width: 100%; min-height: 9em; font: 13px/1.45 var(--font-mono); padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); }
+.copies { display: flex; gap: 6px; }
+.btn.small { font-size: 12px; padding: 3px 9px; }
+/* Paragraph numbers, origin bars and change numbers aren't part of the text: selecting it leaves them out. */
+.pn, .og, .hk, .tagline, .was { -webkit-user-select: none; user-select: none; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -1008,7 +1043,7 @@ body.read #nav.on { display: flex; }
   <div id="warn"></div>
   <div class="grid">
     <article class="pane" id="pane" aria-label="The draft">
-      <div class="pane-head"><span class="label" id="panelabel"></span></div>
+      <div class="pane-head"><span class="label" id="panelabel"></span><span class="copies"><button class="btn small" id="copytext" type="button">Copy text</button><button class="btn small" id="copymd" type="button">Copy text as Markdown</button></span></div>
       <div id="text"></div>
       <div class="legend" id="legend"></div>
     </article>
@@ -1208,7 +1243,7 @@ document.addEventListener("input", (e) => {
 });
 // Some embedded panels refuse the clipboard API (Cowork's side panel did, 11 Oct 2026). Try it, then the
 // older copy command, then leave the text visible and selected so the person can copy it themselves.
-async function copyOut(md, btn, label) {
+async function copyOut(md, btn, label, then = "then paste it back") {
   const box = $("mdbox"), ta = $("md"), msg = $("mdmsg");
   let done = false;
   try { await navigator.clipboard.writeText(md); done = true; } catch (err) {}
@@ -1217,7 +1252,7 @@ async function copyOut(md, btn, label) {
     try { done = document.execCommand("copy"); } catch (err) {}
   }
   if (done) { box.hidden = true; btn.textContent = "Copied"; setTimeout(() => { btn.textContent = label; }, 2200); return; }
-  msg.textContent = "This window doesn't allow copying from a button. The text below is selected: press \u2318C (Ctrl+C on Windows), then paste it back.";
+  msg.textContent = `This window doesn't allow copying from a button. The text below is selected: press \u2318C (Ctrl+C on Windows), ${then}.`;
   box.scrollIntoView({block: "nearest"}); ta.focus(); ta.select();
   btn.textContent = label;
 }
@@ -1232,6 +1267,11 @@ $("copy").addEventListener("click", () => {
   if (lines.length === 2) lines.push("(No notes.)");
   copyOut(lines.join("\n"), $("copy"), "Copy notes as Markdown");
 });
+// The piece as it stands (this revision, without the questions), to paste wherever it's going next.
+$("copytext").addEventListener("click", () => copyOut(D.copy.text, $("copytext"), "Copy text", "then paste it where you need it"));
+$("copymd").addEventListener("click", () => copyOut(D.copy.md, $("copymd"), "Copy text as Markdown", "then paste it where you need it"));
+$("copytext").title = `${D.draft} as plain text, without the questions`;
+$("copymd").title = `${D.draft} as written, in Markdown, without the questions`;
 $("copyhint").textContent = "Notes stay in this browser; copy them and paste them back for the next revision.";
 // Review is the split view; Read shows the current revision on its own, with the change numbers.
 let mode = "review", reviewView = view, navAt = -1;

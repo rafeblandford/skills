@@ -66,6 +66,10 @@ changes you want, and the numbers mean you can say "on change 3…" and it knows
 which edit you mean; or jot notes against changes, use **Copy notes as
 Markdown**, and paste them back.
 
+**Copy text** and **Copy text as Markdown**, above the draft, copy the piece as
+it stands, without its questions, to paste wherever it's going next. Selecting
+the text by hand leaves out the paragraph and change numbers too.
+
 ```sh
 python3 scripts/revision_page.py draft-r2.md          # compares with draft-r1.md beside it
 python3 scripts/revision_page.py draft-r2.md --list   # the same numbered changes, as text

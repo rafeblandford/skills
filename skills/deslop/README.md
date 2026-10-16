@@ -67,6 +67,10 @@ answer for each flag (a note on a flag you leave undecided counts as a
 revision), use **Copy as Markdown**, and paste the result back to the assistant,
 which makes the changes.
 
+**Copy text** and **Copy text as Markdown**, above the draft, copy it as it
+stands with the edits you've accepted, to paste wherever it's going next.
+Selecting the text by hand leaves out the paragraph numbers and flag tags too.
+
 ```sh
 python3 scripts/decision_page.py render deslop-r1.md --draft draft-r1.md   # the page
 python3 scripts/decision_page.py record pasted.md --review deslop-r1.md   # decisions-r1.md, with counts

@@ -633,6 +633,10 @@ td.pending { color: var(--muted); font-style: italic; }
 #mdbox { margin-top: 12px; }
 #mdbox textarea { width: 100%; min-height: 9em; font: 13px/1.45 var(--font-mono); padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.copies { display: flex; gap: 6px; }
+.btn.small { font-size: 12px; padding: 3px 9px; }
+/* Paragraph numbers, flag bars and flag tags aren't part of the text: selecting it leaves them out. */
+.pn, .gut, .tag, .slot { -webkit-user-select: none; user-select: none; }
 </style>
 </head>
 <body>
@@ -650,7 +654,7 @@ td.pending { color: var(--muted); font-style: italic; }
   <div id="warn"></div>
   <div class="grid">
     <article class="pane" id="pane" aria-label="The draft, with your accepted edits">
-      <div class="pane-head"><span class="label">Draft · with accepted edits</span><span class="count" id="count"></span></div>
+      <div class="pane-head"><span class="label">Draft · with accepted edits</span><span class="count" id="count"></span><span class="copies"><button class="btn small" id="copytext" type="button" title="The draft with your accepted edits, as plain text">Copy text</button><button class="btn small" id="copymd" type="button" title="The draft with your accepted edits, in Markdown">Copy text as Markdown</button></span></div>
       <div id="text"></div>
       <div class="legend">
         <span><i style="background:var(--act-soft)"></i>act on</span>
@@ -755,6 +759,46 @@ function paraHTML(i) {
   const tag = P.kind === "h" ? "h2" : "div";
   const cls = "para" + (P.kind === "list" || P.kind === "table" ? " list" : "") + (P.kind === "q" || P.kind === "cap" || P.kind === "fig" ? " aside" : "");
   return { plain, html: `<${tag} class="${cls}" data-p="${i + 1}"${gutIds.length ? ` data-gutter="${gutIds.join(" ")}"` : ""}><span class="pn">${P.label}</span>${bars}${html}</${tag}>` };
+}
+
+// One paragraph as it stands with the accepted edits, for the Copy buttons: plain text (a link keeps
+// its address in brackets) and Markdown (the paragraph's styles put back around the new wording).
+const MARKS = { strong: ["**", "**"], em: ["*", "*"], code: ["`", "`"] };
+function paraCopy(i) {
+  const P = D.paras[i], text = P.text;
+  const props = [];
+  for (const [id, x] of Object.entries(D.proposals)) {
+    if (x.p === i && accepted(id) && !props.some((y) => x.s < y.e && y.s < x.e)) props.push({ id, ...x });
+  }
+  // A style an accepted edit cuts through can't be put back, so it's dropped.
+  const live = P.styles.filter(([s, e]) => !props.some((x) => (s < x.e && x.s < e) && !(s <= x.s && e >= x.e)));
+  const mark = (st) => st.startsWith("a:") ? ["[", `](${st.slice(2)})`] : MARKS[st] || ["", ""];
+  const cuts = new Set([0, text.length]);
+  for (const [s, e] of live) { cuts.add(s); cuts.add(e); }
+  for (const x of props) { cuts.add(x.s); cuts.add(x.e); }
+  const pts = [...cuts].sort((a, b) => a - b);
+  let plain = "", md = "";
+  for (let k = 0; k < pts.length; k++) {
+    const at = pts[k];
+    const ending = live.filter(([s, e]) => e === at).sort((x, y) => (x[1] - x[0]) - (y[1] - y[0]));
+    for (const [s, e, st] of ending) {
+      md += mark(st)[1];
+      const url = st.startsWith("a:") ? st.slice(2) : "";
+      if (url && !url.startsWith("#") && url !== text.slice(s, e)) plain += ` (${url})`;
+    }
+    if (k === pts.length - 1) break;
+    for (const [, , st] of live.filter(([s, e]) => s === at).sort((x, y) => (y[1] - y[0]) - (x[1] - x[0]))) md += mark(st)[0];
+    const pr = props.find((x) => at >= x.s && pts[k + 1] <= x.e);
+    if (pr) { if (at === pr.s) { plain += pr.to; md += pr.to; } continue; }
+    plain += text.slice(at, pts[k + 1]); md += text.slice(at, pts[k + 1]);
+  }
+  if (P.kind === "h") md = "## " + md;
+  return { plain, md };
+}
+// The piece as it stands, with the accepted edits and without any questions in the draft.
+function pieceCopy(as) {
+  return D.paras.map((P, i) => P.kind === "q" && /^\s*(\*\*)?\[?Q\d+/.test(P.text) ? null : paraCopy(i)[as])
+    .filter((x) => x !== null).join("\n\n") + "\n";
 }
 
 function slotHTML(after) {
@@ -939,7 +983,7 @@ document.addEventListener("input", (e) => {
 });
 // Some embedded panels refuse the clipboard API (Cowork's side panel did, 11 Oct 2026). Try it, then the
 // older copy command, then leave the text visible and selected so the person can copy it themselves.
-async function copyOut(md, btn, label) {
+async function copyOut(md, btn, label, then = "then paste it back") {
   const box = $("mdbox"), ta = $("md"), msg = $("mdmsg");
   let done = false;
   try { await navigator.clipboard.writeText(md); done = true; } catch (err) {}
@@ -948,11 +992,13 @@ async function copyOut(md, btn, label) {
     try { done = document.execCommand("copy"); } catch (err) {}
   }
   if (done) { box.hidden = true; btn.textContent = "Copied"; setTimeout(() => { btn.textContent = label; }, 2200); return; }
-  msg.textContent = "This window doesn't allow copying from a button. The text below is selected: press \u2318C (Ctrl+C on Windows), then paste it back.";
+  msg.textContent = `This window doesn't allow copying from a button. The text below is selected: press \u2318C (Ctrl+C on Windows), ${then}.`;
   box.scrollIntoView({block: "nearest"}); ta.focus(); ta.select();
   btn.textContent = label;
 }
 $("copy").addEventListener("click", () => copyOut(toMarkdown(), $("copy"), "Copy as Markdown"));
+$("copytext").addEventListener("click", () => copyOut(pieceCopy("plain"), $("copytext"), "Copy text", "then paste it where you need it"));
+$("copymd").addEventListener("click", () => copyOut(pieceCopy("md"), $("copymd"), "Copy text as Markdown", "then paste it where you need it"));
 
 function setSave(text, err) { const el = $("save"); el.textContent = text; el.classList.toggle("err", !!err); }
 function persist() {

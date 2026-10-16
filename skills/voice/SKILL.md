@@ -1,11 +1,11 @@
 ---
 name: voice
-description: Draft or revise writing that goes out under a person's own name, in their voice and argument, working from a loaded voice pack. Use when writing on someone's behalf; not for ordinary assistant replies. An open, early version (0.2.3).
+description: Draft or revise writing that goes out under a person's own name, in their voice and argument, working from a loaded voice pack. Use when writing on someone's behalf; not for ordinary assistant replies. An open, early version (0.2.4).
 license: Apache-2.0
 metadata:
   short-description: Draft in a person's own voice and argument
   author: Rafe Blandford
-  version: "0.2.3"
+  version: "0.2.4"
   provenance: written-with-ai
 ---
 

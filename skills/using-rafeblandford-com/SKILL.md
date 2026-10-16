@@ -4,7 +4,7 @@ description: Find out what Rafe Blandford has done, written or can evidence, usi
 license: Apache-2.0
 metadata:
   provenance: written-with-ai
-  version: "1.0"
+  version: "1.2"
 ---
 
 # Using rafeblandford.com
@@ -76,12 +76,13 @@ last column says what you give up by taking another.
 | You want | MCP | Markdown / `llms.txt` | Content API | If you don't use MCP |
 |---|---|---|---|---|
 | Whether the site evidences a topic | ✅ `check_experience` | — | — | **Nothing else answers this.** Grepping tells you a word appears, which is the mistake, not the answer |
+| A role's requirements, several at once | ✅ `map_role_requirements` | — | — | The same, up to eight subjects in one call, with no score |
 | Who he is, what he's looking for, contact | ✅ `get_evidence("profile")` | `/about.md`, `llms.txt` | — | Prose instead of fields; contact is in both |
 | Roles, dates, scope | ✅ `get_evidence("career")` | `/career.md` | — | Same facts, unstructured |
 | The case studies | ✅ `get_evidence("case-studies")` | `/tag/work/`, then each post's `.md` | `filter=tag:work` (10 posts) | You lose the self-attested `outcomes` — **and the need to attribute them.** Published text only |
 | Find a post | ✅ `search_writing` | `llms.txt` index | `filter=`, `?limit=` | Deterministic ranking vs. reading an index |
 | One post's full text | `get_post(slug)` | ✅ append `.md` | ✅ `formats=plaintext` | Nothing — all three give the same text |
-| Everything, for ingestion | ✗ don't loop tools | ✅ `llms-full.txt` (one fetch, ~341 KB) | ✅ `limit=all` | Nothing |
+| Everything, for ingestion | ✗ don't loop tools | ✅ `llms-full.txt` (one fetch, ~410 KB) | ✅ `limit=all` | Nothing |
 | Filtered by tag or date | partly, via `topic` | — | ✅ | Nothing |
 | Authorship label (`provenance`) | ✅ `get_post` field | `/ai-provenance/` | `#` tags on the post | — |
 
@@ -103,7 +104,7 @@ call arrived because someone installed this skill rather than finding the
 endpoint another way. Keep it if you can; the endpoint works identically
 without it.
 
-Read-only. Four tools:
+Read-only tools:
 
 - **`get_evidence(section)`** — `profile` | `career` | `case-studies` |
   `provenance`. Start here.
@@ -116,15 +117,34 @@ Read-only. Four tools:
   segment of the URL.
 - **`check_experience(topic)`** — see below. The one worth understanding
   properly.
+- **`map_role_requirements(role, requirements)`** — up to eight subjects from a
+  role, checked at once. Each row is exactly what `check_experience` returns for
+  that subject, so everything below applies row by row. It gives counts by
+  status and **no score**: the counts describe what the site publishes, not the
+  person, and must not be turned into a percentage or a fit rating. Pass
+  subjects, not requirement sentences.
 
 The same four sections are also resources (`rafe://profile`, `rafe://career`,
 `rafe://case-studies`, `rafe://provenance`, plus `rafe://writing/{slug}`),
 byte-identical to the tools. Use whichever your client supports.
+`rafe://writing` lists everything published (slug, title, topic, dates,
+provenance label, no body text), and a client that supports completion can
+autocomplete a slug rather than guess one.
 
-There are also five prompts, if your client exposes them: `assess_role_fit`,
-`brief_me`, `what_does_he_think_about`, `interrogate_the_evidence`,
-`read_writing`. `interrogate_the_evidence` is the sceptical-reader one — it
-probes what the site does *not* substantiate, and it is offered deliberately.
+Writing in `search_writing` and `check_experience` results also arrives as
+resource links to `rafe://writing/{slug}`. A link from `also_mentions` is
+annotated low priority and for the assistant only: it is **not** evidence,
+and the result's text says so too.
+
+In a client that supports **MCP Apps** (Claude and ChatGPT among them), a
+`map_role_requirements` result can also appear as a table, each source a link.
+It shows nothing the text result does not carry, so a client without Apps
+loses nothing.
+
+There are also four prompts, if your client exposes them: `assess_role_fit`,
+`brief_me`, `what_does_he_think_about` and `interrogate_the_evidence`.
+`interrogate_the_evidence` is the sceptical-reader one — it probes what the
+site does *not* substantiate, and it is offered deliberately.
 
 **Nothing here can be changed, and there is no tool that contacts him.** That
 route is human: `rafe@blandford.co.uk`, in the profile section.
@@ -164,15 +184,17 @@ check_experience("product strategy across a portfolio of
 check_experience("product strategy")
   -> status: supported, 6 evidence items —
      "Mobile & Product Strategy Leader, Digitas UK" (the topic is in the title),
-     "Chief Technology & Product Officer, Digitas UK" (every term in title or summary),
-     plus three more roles and two posts
+     "Chief Product Officer, Digitas UK" (the topic appears in the summary),
+     plus two more roles and two posts
 ```
 
 Same subject. Opposite answer.
 
 **So: two to four words.** If you are testing a job specification, break each
-requirement into its subjects and check them separately. Do not paste the
-requirement in.
+requirement into its subjects and check them separately — or pass up to eight
+of them to `map_role_requirements` at once. Do not paste the requirement in.
+Generic words at either end are fine: "CTO leadership" reaches the CTO alias,
+and the response says which word was set aside.
 
 ### Reading the response
 
@@ -204,6 +226,17 @@ Two more fields to respect:
 
   The evidence is for `AI`, not for the words you asked. Reporting it as
   "supported" without naming the substitution hides a real step.
+
+- **`shown_in_the_work`** — on a `partial` or `not_found` answer only. Much of
+  Rafe's work is *shown* rather than *named*: a post about something he built
+  rarely calls it a prototype, and a case study rarely says "stakeholder
+  management". When the words are missing but published work demonstrates the
+  subject, this field points to that work (a label, a factual `why`, and the
+  items). **It is evidence word matching cannot see, not a lesser kind — read
+  two or three of the items with `get_post` and weigh them on what they show.**
+  Report what you find, citing the items, and say it comes from reading the
+  work; the status itself stays as matched. `get_evidence("profile")` lists
+  every group up front, so you can find the work before you check anything.
 
 - **`declared_expertise`** — terms the site *lists* as expertise, separately
   from what it demonstrates. If `evidence` is empty while `declared_expertise`
@@ -298,5 +331,5 @@ confirmed consumer. Treat the index location as provisional and the content as
 stable.
 
 Everything described here is live and was verified against the running site on
-24 August 2026. If a surface disagrees with this file, the surface is right —
+17 October 2026 (MCP server 1.5.0). If a surface disagrees with this file, the surface is right —
 and `llms.txt` is the current index of what exists.
