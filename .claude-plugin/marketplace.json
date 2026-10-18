@@ -6,17 +6,13 @@
   },
   "metadata": {
     "description": "Agent Skills published by Rafe Blandford.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "using-rafeblandford-com",
       "description": "Find out what Rafe Blandford has done, written or can evidence, using rafeblandford.com's three agent interfaces — an MCP endpoint for reasoning about his career, a public Content API for bulk retrieval, and llms.txt/Markdown for crawling. Use when asked to assess him for a role, brief someone before a meeting, find his position on a topic, check whether he has experience of something, read his writing, or ingest the site — and instead of scraping the HTML.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/using-rafeblandford-com"
-      ],
+      "source": "./plugins/using-rafeblandford-com",
       "version": "1.2",
       "license": "Apache-2.0",
       "author": {
@@ -27,11 +23,7 @@
     {
       "name": "verifying-ai-crawlers",
       "description": "Work out which AI crawler traffic in a log or analytics dataset is genuine, and report it honestly. Use when asked how much GPTBot/ClaudeBot/Perplexity traffic a site gets, whether a request claiming to be an AI crawler is real, or when analysing server logs, CDN analytics or bot reports for AI agent activity — and before quoting any figure for AI crawler volume.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/verifying-ai-crawlers"
-      ],
+      "source": "./plugins/verifying-ai-crawlers",
       "version": "1.0",
       "license": "Apache-2.0",
       "author": {
@@ -42,11 +34,7 @@
     {
       "name": "product-idea-pack",
       "description": "Explore and develop early digital-product ideas as proposition sketches, mechanism boards, product storyboards, interactive HTML prototypes, or coherent multi-format packs, with optional presentation and vector-design handoffs.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/product-idea-pack"
-      ],
+      "source": "./plugins/product-idea-pack",
       "version": "0.1.2",
       "license": "Apache-2.0",
       "author": {
@@ -57,11 +45,7 @@
     {
       "name": "voice",
       "description": "Draft writing that goes out under your own name, in your voice and argument, from a voice pack. Asks rather than inventing reasoning. An open, early version.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/voice"
-      ],
+      "source": "./plugins/voice",
       "version": "0.2.4",
       "license": "Apache-2.0",
       "author": {
@@ -72,11 +56,7 @@
     {
       "name": "deslop",
       "description": "Review a draft before it goes out under your name: flags what isn't yours and what a reader might take as AI, with one proposed edit each, and leaves every decision to you. An open, early version.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/deslop"
-      ],
+      "source": "./plugins/deslop",
       "version": "0.2.4",
       "license": "Apache-2.0",
       "author": {

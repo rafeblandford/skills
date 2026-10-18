@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941">
+  <title>Editorial Instrument proposition-sketch page scaffold</title>
+  <desc>Editable 16:9 scaffold with an editorial rail, three spatial beats, a white ink field and a subordinate outcome strip.</desc>
+  <defs>
+    <filter id="sheet-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="7" stdDeviation="11" flood-color="#222321" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .label{font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;letter-spacing:1.1px;fill:#222321}
+      .title{font-family:Arial,Helvetica,sans-serif;font-size:40px;font-weight:700;fill:#222321}
+      .body{font-family:Arial,Helvetica,sans-serif;font-size:17px;fill:#3f3f3b}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#6d6b65}
+    </style>
+  </defs>
+  <rect width="1672" height="941" fill="#f7f6f1"/>
+  <line x1="430" y1="40" x2="430" y2="901" stroke="#d8d6cf" stroke-width="1.2"/>
+
+  <g id="editorial-rail">
+    <text x="58" y="56" class="label">[WORKING NAME]</text>
+    <text x="58" y="80" class="small">PROPOSITION SKETCH · DRAFT 1 · FOR DISCUSSION</text>
+    <text x="58" y="127" class="title"><tspan x="58">[Clear proposition</tspan><tspan x="58" dy="43">in two to four lines]</tspan></text>
+
+    <g id="rail-beat-1" transform="translate(58 317)"><rect x="-4" y="-19" width="150" height="25" rx="2" fill="#f2dc72"/><text x="0" y="0" class="label">1 — [FIRST BEAT]</text><text x="0" y="33" class="body"><tspan x="0">[Mechanism and value in</tspan><tspan x="0" dy="23">one or two short lines.]</tspan></text></g>
+    <g id="rail-beat-2" transform="translate(58 447)"><rect x="-4" y="-19" width="170" height="25" rx="2" fill="#f2dc72"/><text x="0" y="0" class="label">2 — [SECOND BEAT]</text><text x="0" y="33" class="body"><tspan x="0">[Mechanism and value in</tspan><tspan x="0" dy="23">one or two short lines.]</tspan></text></g>
+    <g id="rail-beat-3" transform="translate(58 577)"><rect x="-4" y="-19" width="150" height="25" rx="2" fill="#f2dc72"/><text x="0" y="0" class="label">3 — [THIRD BEAT]</text><text x="0" y="33" class="body"><tspan x="0">[Mechanism and value in</tspan><tspan x="0" dy="23">one or two short lines.]</tspan></text></g>
+
+    <line x1="58" y1="703" x2="382" y2="703" stroke="#8b8982" stroke-width="1.2" stroke-dasharray="3 5"/>
+    <text x="58" y="740" class="label">QUESTION TO PROVOKE</text>
+    <text x="58" y="777" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#222321"><tspan x="58">[The real choice or</tspan><tspan x="58" dy="27">uncertainty to discuss?]</tspan></text>
+    <text x="58" y="874" class="label">IMPORTANT ASSUMPTION</text>
+    <text x="58" y="901" class="small">[One material caveat or truth label.]</text>
+  </g>
+
+  <g id="spatial-beats">
+    <g transform="translate(492 78)"><circle r="15" fill="#f2dc72" stroke="#b3a24f"/><text x="0" y="5" text-anchor="middle" class="label">1</text><text x="25" y="5" class="label">[SITUATION]</text></g>
+    <g transform="translate(903 78)"><circle r="15" fill="#f2dc72" stroke="#b3a24f"/><text x="0" y="5" text-anchor="middle" class="label">2</text><text x="25" y="5" class="label">[DECISIVE MOMENT]</text></g>
+    <g transform="translate(1364 78)"><circle r="15" fill="#f2dc72" stroke="#b3a24f"/><text x="0" y="5" text-anchor="middle" class="label">3</text><text x="25" y="5" class="label">[CHANGED OUTCOME]</text></g>
+  </g>
+
+  <g id="sketch-field" filter="url(#sheet-shadow)">
+    <rect x="457" y="108" width="1183" height="675" rx="10" fill="#fffefa"/>
+    <g id="ink-layer-slot" opacity="0.28">
+      <text x="1048" y="435" text-anchor="middle" class="label">PLACE THE INDEPENDENT INK LAYER HERE</text>
+      <text x="1048" y="465" text-anchor="middle" class="small">Compose situation → decisive interaction → changed outcome with clear arrow lanes.</text>
+    </g>
+  </g>
+
+  <g id="outcome-strip">
+    <line x1="492" y1="830" x2="795" y2="830" stroke="#d8d6cf" stroke-width="1.2"/><text x="492" y="861" class="label">[CURRENT FRICTION]</text><text x="492" y="887" class="small">[What is uncertain or difficult now?]</text>
+    <line x1="884" y1="830" x2="1187" y2="830" stroke="#d8d6cf" stroke-width="1.2"/><text x="884" y="861" class="label">[PRODUCT ANSWER]</text><text x="884" y="887" class="small">[What becomes immediately legible?]</text>
+    <line x1="1275" y1="830" x2="1578" y2="830" stroke="#d8d6cf" stroke-width="1.2"/><text x="1275" y="861" class="label">[CHANGED OUTCOME]</text><text x="1275" y="887" class="small">[What can the person do differently?]</text>
+  </g>
+</svg>

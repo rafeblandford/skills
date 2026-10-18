@@ -57,15 +57,15 @@ explains how, and how to point the skills at it. Each
 also turns its output into one self-contained page to review: `deslop` puts its
 flags beside the draft for you to decide, and `voice` shows where each
 paragraph came from, then what changed from the last revision, numbered. They
-are open, early versions (0.2.3).
+are open, early versions (0.2.4).
 
 [Watch them in Claude (2 minutes)](https://rafeblandford.com/writing-with-ai-in-my-own-voice/) ·
 [Read the website guide](https://rafeblandford.com/voice-and-deslop/) ·
 [Read the launch article](https://rafeblandford.com/writing-with-ai-in-my-own-voice/) ·
 Read the standalone documentation: [voice](skills/voice/README.md), [deslop](skills/deslop/README.md) ·
 See the examples: [voice](examples/voice/), [deslop](examples/deslop/) ·
-[Download for the Claude app](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.3/voice-and-deslop.plugin) ·
-Releases: [voice v0.2.3](https://github.com/rafeblandford/skills/releases/tag/voice-v0.2.3), [deslop v0.2.3](https://github.com/rafeblandford/skills/releases/tag/deslop-v0.2.3)
+[Download for the Claude app](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.4/voice-and-deslop.plugin) ·
+Releases: [voice v0.2.4](https://github.com/rafeblandford/skills/releases/tag/voice-v0.2.4), [deslop v0.2.4](https://github.com/rafeblandford/skills/releases/tag/deslop-v0.2.4)
 
 ## Other skills
 
@@ -87,10 +87,17 @@ signatures and appropriately cautious reporting.
 | | Product Idea Pack | voice and deslop |
 |---|---|---|
 | **ChatGPT** | [Install the plugin](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e) | Not listed; use Codex |
-| **Claude app** | Download [`product-idea-pack.plugin`](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.2/product-idea-pack.plugin) and upload it in **Settings → Customize → Plugins** | Download [`voice-and-deslop.plugin`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.3/voice-and-deslop.plugin) (both skills) and upload it in **Settings → Customize → Plugins**. Or upload [`voice-skill-v0.2.3.zip`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.3/voice-skill-v0.2.3.zip) and [`deslop-skill-v0.2.3.zip`](https://github.com/rafeblandford/skills/releases/download/deslop-v0.2.3/deslop-skill-v0.2.3.zip) one at a time in **Settings → Customize → Skills** |
+| **Claude app** | Download [`product-idea-pack.plugin`](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.2/product-idea-pack.plugin) and upload it in **Settings → Customize → Plugins** | Download [`voice-and-deslop.plugin`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.4/voice-and-deslop.plugin) (both skills) and upload it in **Settings → Customize → Plugins**. Or upload [`voice-skill-v0.2.4.zip`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.4/voice-skill-v0.2.4.zip) and [`deslop-skill-v0.2.4.zip`](https://github.com/rafeblandford/skills/releases/download/deslop-v0.2.4/deslop-skill-v0.2.4.zip) one at a time in **Settings → Customize → Skills** |
 | **Claude Code** | `/plugin install product-idea-pack@rafeblandford` | `/plugin install voice@rafeblandford`, then `deslop@rafeblandford` |
-| **Codex** | Ask Codex to install it (below) | The same, one skill at a time |
+| **Codex** | `codex plugin add product-idea-pack@rafeblandford` (after adding the marketplace, below) | `codex plugin add voice@rafeblandford`, then `deslop@rafeblandford` |
+| **VS Code (GitHub Copilot)** | Add the marketplace (below), then install from the Plugins view | The same, one plugin at a time |
 | **Any client, with Node.js** | `npx skills add rafeblandford/skills` | The same; choose the skill when prompted |
+
+Every skill is also its own plugin, in [`plugins/<name>/`](plugins/), so you
+install only what you choose. The `using-rafeblandford-com` plugin is the one
+plugin that also connects an MCP server: rafeblandford.com's public career
+endpoint (`https://machines.rafeblandford.com/mcp?via=plugin`), which needs no
+account and sends no credentials. No other plugin adds a server.
 
 ### Claude Code
 
@@ -107,13 +114,26 @@ Start a new session or run `/reload-plugins` after installation.
 
 ### Codex
 
-Ask Codex to install the skill from this repository, for example:
+Add the catalogue once, then install the plugins you want:
 
-> Install `voice` from
-> `https://github.com/rafeblandford/skills/tree/main/skills/voice`.
+```sh
+codex plugin marketplace add rafeblandford/skills
+codex plugin add product-idea-pack@rafeblandford
+codex plugin add voice@rafeblandford
+codex plugin add deslop@rafeblandford
+```
 
 Alternatively, copy the complete skill folder into `~/.codex/skills/` and start
 a new task.
+
+### VS Code (GitHub Copilot)
+
+Add the catalogue to your settings, then install plugins one at a time from
+**Agent Plugins** in the Extensions view:
+
+```json
+"chat.plugins.marketplaces": ["rafeblandford/skills"]
+```
 
 ### Other Agent Skills clients
 

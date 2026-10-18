@@ -1,0 +1,18 @@
+{
+  "name": "deslop",
+  "version": "0.2.4",
+  "description": "Review a draft before it goes out under your name: flags what isn't yours and what a reader might take as AI, with one proposed edit each, and leaves every decision to you. An open, early version.",
+  "author": {
+    "name": "Rafe Blandford",
+    "url": "https://rafeblandford.com/"
+  },
+  "homepage": "https://rafeblandford.com/voice-and-deslop/",
+  "repository": "https://github.com/rafeblandford/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "writing",
+    "voice",
+    "review",
+    "provenance"
+  ]
+}

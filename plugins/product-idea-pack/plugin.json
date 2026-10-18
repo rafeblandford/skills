@@ -1,0 +1,45 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "product-idea-pack",
+  "version": "0.1.2",
+  "description": "Explore and develop early digital-product ideas as proposition sketches, mechanism boards, product storyboards, interactive HTML prototypes, or coherent multi-format packs, with optional presentation and vector-design handoffs.",
+  "author": {
+    "name": "Rafe Blandford",
+    "url": "https://rafeblandford.com/"
+  },
+  "homepage": "https://rafeblandford.com/product-idea-pack/",
+  "repository": "https://github.com/rafeblandford/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "product",
+    "ideation",
+    "prototype",
+    "sketch"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Product Idea Pack",
+        "shortDescription": "Turn early ideas into visual, editable concept artefacts.",
+        "longDescription": "Explore an early digital-product idea as a proposition sketch, mechanism board, product storyboard or interactive prototype, then package accepted artefacts for discussion and hand-off.",
+        "developerName": "Rafe Blandford",
+        "category": "Productivity",
+        "capabilities": [
+          "Create editable concept artefacts",
+          "Package visual idea packs"
+        ],
+        "websiteURL": "https://rafeblandford.com/product-idea-pack/",
+        "privacyPolicyURL": "https://rafeblandford.com/privacy/",
+        "termsOfServiceURL": "https://github.com/rafeblandford/skills/blob/main/LICENSE",
+        "defaultPrompt": [
+          "Turn this product idea into the most useful visual format.",
+          "Create an editable mechanism board for this product idea.",
+          "Develop this conversation into a visual product idea pack."
+        ],
+        "brandColor": "#C29B00",
+        "composerIcon": "./skills/product-idea-pack/assets/product-idea-pack-icon.png",
+        "logo": "./skills/product-idea-pack/assets/product-idea-pack-icon.png"
+      }
+    }
+  }
+}

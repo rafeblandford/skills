@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "verifying-ai-crawlers",
+  "version": "1.0",
+  "description": "Work out which AI crawler traffic in a log or analytics dataset is genuine, and report it honestly. Use when asked how much GPTBot/ClaudeBot/Perplexity traffic a site gets, whether a request claiming to be an AI crawler is real, or when analysing server logs, CDN analytics or bot reports for AI agent activity — and before quoting any figure for AI crawler volume.",
+  "author": {
+    "name": "Rafe Blandford",
+    "url": "https://rafeblandford.com/"
+  },
+  "homepage": "https://rafeblandford.com/resources/skills/",
+  "repository": "https://github.com/rafeblandford/skills",
+  "license": "Apache-2.0"
+}

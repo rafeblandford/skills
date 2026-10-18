@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rafeblandford": {
+      "type": "http",
+      "url": "https://machines.rafeblandford.com/mcp?via=plugin"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941">
+  <title>Editorial Instrument house-style board template</title>
+  <desc>Editable 16:9 template with title, three beats, question, note and a primary visual area.</desc>
+  <defs>
+    <style>
+      .label{font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;letter-spacing:1.1px;fill:#1b1b19}
+      .title{font-family:Arial,Helvetica,sans-serif;font-size:36px;font-weight:700;fill:#1b1b19}
+      .body{font-family:Arial,Helvetica,sans-serif;font-size:17px;fill:#34322e}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#5f5b54}
+    </style>
+  </defs>
+  <rect width="1672" height="941" fill="#f7f6f1"/>
+  <path d="M414 40 L414 901" stroke="#d8d6cf"/>
+
+  <g id="editorial-rail">
+    <text x="58" y="55" class="label">[WORKING NAME]</text>
+    <text x="58" y="79" class="small">[FORMAT] · DRAFT 1 · FOR DISCUSSION</text>
+    <text x="58" y="126" class="title">
+      <tspan x="58" dy="0">[Clear proposition</tspan>
+      <tspan x="58" dy="42">or What if…?]</tspan>
+    </text>
+
+    <g id="beat-1" transform="translate(58 290)">
+      <rect x="-4" y="-19" width="210" height="25" rx="2" fill="#f3df79"/>
+      <text x="0" y="0" class="label">1 — [FIRST BEAT]</text>
+      <text x="0" y="31" class="body"><tspan x="0">[Mechanism and value in one or</tspan><tspan x="0" dy="22">two short lines.]</tspan></text>
+    </g>
+    <g id="beat-2" transform="translate(58 420)">
+      <rect x="-4" y="-19" width="210" height="25" rx="2" fill="#f3df79"/>
+      <text x="0" y="0" class="label">2 — [SECOND BEAT]</text>
+      <text x="0" y="31" class="body"><tspan x="0">[Mechanism and value in one or</tspan><tspan x="0" dy="22">two short lines.]</tspan></text>
+    </g>
+    <g id="beat-3" transform="translate(58 550)">
+      <rect x="-4" y="-19" width="210" height="25" rx="2" fill="#f3df79"/>
+      <text x="0" y="0" class="label">3 — [THIRD BEAT]</text>
+      <text x="0" y="31" class="body"><tspan x="0">[Mechanism and value in one or</tspan><tspan x="0" dy="22">two short lines.]</tspan></text>
+    </g>
+
+    <path d="M58 696 L368 696" stroke="#716d66" stroke-width="1.2" stroke-dasharray="3 5"/>
+    <text x="58" y="734" class="label">QUESTION TO PROVOKE</text>
+    <text x="58" y="770" font-family="Arial,Helvetica,sans-serif" font-size="22px" font-weight="700" fill="#1b1b19">
+      <tspan x="58">[The real choice or</tspan><tspan x="58" dy="27">uncertainty to discuss?]</tspan>
+    </text>
+    <text x="58" y="855" class="label">IMPORTANT ASSUMPTION</text>
+    <text x="58" y="882" class="small"><tspan x="58">[One material caveat or truth label.]</tspan></text>
+  </g>
+
+  <g id="primary-visual-area">
+    <rect x="468" y="86" width="1138" height="756" rx="10" fill="#fffefa" stroke="#d8d6cf" stroke-width="1.2"/>
+    <text x="1037" y="445" text-anchor="middle" class="label">PRIMARY VISUAL / INTERACTION</text>
+    <text x="1037" y="477" text-anchor="middle" class="small">Replace this guide with the selected format composition.</text>
+    <path d="M730 527 C845 480 972 570 1090 515 C1200 465 1300 500 1400 442" fill="none" stroke="#6d6b65" stroke-width="2"/>
+    <circle cx="730" cy="527" r="8" fill="#f2dc72" stroke="#8f8347"/>
+    <circle cx="1090" cy="515" r="8" fill="#f2dc72" stroke="#8f8347"/>
+    <circle cx="1400" cy="442" r="8" fill="#f2dc72" stroke="#8f8347"/>
+  </g>
+</svg>

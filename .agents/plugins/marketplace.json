@@ -1,0 +1,68 @@
+{
+  "name": "rafeblandford",
+  "interface": {
+    "displayName": "Rafe Blandford"
+  },
+  "plugins": [
+    {
+      "name": "using-rafeblandford-com",
+      "source": {
+        "source": "local",
+        "path": "./plugins/using-rafeblandford-com"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "verifying-ai-crawlers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/verifying-ai-crawlers"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "product-idea-pack",
+      "source": {
+        "source": "local",
+        "path": "./plugins/product-idea-pack"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "voice",
+      "source": {
+        "source": "local",
+        "path": "./plugins/voice"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "deslop",
+      "source": {
+        "source": "local",
+        "path": "./plugins/deslop"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

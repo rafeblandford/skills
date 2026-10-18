@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "rafeblandford": {
+      "type": "streamable-http",
+      "url": "https://machines.rafeblandford.com/mcp?via=plugin"
+    }
+  }
+}

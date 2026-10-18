@@ -1,0 +1,18 @@
+{
+  "name": "product-idea-pack",
+  "version": "0.1.2",
+  "description": "Explore and develop early digital-product ideas as proposition sketches, mechanism boards, product storyboards, interactive HTML prototypes, or coherent multi-format packs, with optional presentation and vector-design handoffs.",
+  "author": {
+    "name": "Rafe Blandford",
+    "url": "https://rafeblandford.com/"
+  },
+  "homepage": "https://rafeblandford.com/product-idea-pack/",
+  "repository": "https://github.com/rafeblandford/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "product",
+    "ideation",
+    "prototype",
+    "sketch"
+  ]
+}
