@@ -57,15 +57,15 @@ explains how, and how to point the skills at it. Each
 also turns its output into one self-contained page to review: `deslop` puts its
 flags beside the draft for you to decide, and `voice` shows where each
 paragraph came from, then what changed from the last revision, numbered. They
-are open, early versions (0.2.4).
+are open, early versions (0.2.5).
 
 [Watch them in Claude (2 minutes)](https://rafeblandford.com/writing-with-ai-in-my-own-voice/) ·
 [Read the website guide](https://rafeblandford.com/voice-and-deslop/) ·
 [Read the launch article](https://rafeblandford.com/writing-with-ai-in-my-own-voice/) ·
 Read the standalone documentation: [voice](skills/voice/README.md), [deslop](skills/deslop/README.md) ·
 See the examples: [voice](examples/voice/), [deslop](examples/deslop/) ·
-[Download for the Claude app](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.4/voice-and-deslop.plugin) ·
-Releases: [voice v0.2.4](https://github.com/rafeblandford/skills/releases/tag/voice-v0.2.4), [deslop v0.2.4](https://github.com/rafeblandford/skills/releases/tag/deslop-v0.2.4)
+[Download for the Claude app](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.5/voice-and-deslop.plugin) ·
+Releases: [voice v0.2.5](https://github.com/rafeblandford/skills/releases/tag/voice-v0.2.5), [deslop v0.2.5](https://github.com/rafeblandford/skills/releases/tag/deslop-v0.2.5)
 
 ## Other skills
 
@@ -87,7 +87,7 @@ signatures and appropriately cautious reporting.
 | | Product Idea Pack | voice and deslop |
 |---|---|---|
 | **ChatGPT** | [Install the plugin](https://chatgpt.com/plugins/plugins_6a9f044052ec8191837959ef4df3dc9e) | Not listed; use Codex |
-| **Claude app** | Download [`product-idea-pack.plugin`](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.2/product-idea-pack.plugin) and upload it in **Settings → Customize → Plugins** | Download [`voice-and-deslop.plugin`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.4/voice-and-deslop.plugin) (both skills) and upload it in **Settings → Customize → Plugins**. Or upload [`voice-skill-v0.2.4.zip`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.4/voice-skill-v0.2.4.zip) and [`deslop-skill-v0.2.4.zip`](https://github.com/rafeblandford/skills/releases/download/deslop-v0.2.4/deslop-skill-v0.2.4.zip) one at a time in **Settings → Customize → Skills** |
+| **Claude app** | Download [`product-idea-pack.plugin`](https://github.com/rafeblandford/skills/releases/download/product-idea-pack-v0.1.2/product-idea-pack.plugin) and upload it in **Settings → Customize → Plugins** | Download [`voice-and-deslop.plugin`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.5/voice-and-deslop.plugin) (both skills) and upload it in **Settings → Customize → Plugins**. Or upload [`voice-skill-v0.2.5.zip`](https://github.com/rafeblandford/skills/releases/download/voice-v0.2.5/voice-skill-v0.2.5.zip) and [`deslop-skill-v0.2.5.zip`](https://github.com/rafeblandford/skills/releases/download/deslop-v0.2.5/deslop-skill-v0.2.5.zip) one at a time in **Settings → Customize → Skills** |
 | **Claude Code** | `/plugin install product-idea-pack@rafeblandford` | `/plugin install voice@rafeblandford`, then `deslop@rafeblandford` |
 | **Codex** | `codex plugin add product-idea-pack@rafeblandford` (after adding the marketplace, below) | `codex plugin add voice@rafeblandford`, then `deslop@rafeblandford` |
 | **VS Code (GitHub Copilot)** | Add the marketplace (below), then install from the Plugins view | The same, one plugin at a time |
@@ -145,9 +145,13 @@ Each release also has a `SHA256SUMS` file for checking a download.
 
 They ship with a fictional example pack, so build your own voice pack next.
 Keep it private, in one place, and point the skills at it when you ask ("use my
-voice pack in `voice-pack/`") or with a `voice_pack:` line in your project's
-instruction file. That works in every client, including the Claude app, where
-an installed skill's files can't easily be edited. The
+voice pack in `voice-pack/`") or with a `voice_pack:` line in your own
+instructions (`CLAUDE.md`, `AGENTS.md`, or your app's custom instructions).
+That works in every client, including the Claude app, where an installed
+skill's files can't easily be edited, and it survives updates. The draft,
+revision and decision pages are shown by default at tier 2 and 3; a
+`voice_pages:` line beside it changes that (each skill's README has the
+options). The
 [pack guide](skills/voice/references/pack/README.md) explains how to build one.
 
 ## Provenance

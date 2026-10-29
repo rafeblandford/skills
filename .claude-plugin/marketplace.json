@@ -46,7 +46,7 @@
       "name": "voice",
       "description": "Draft writing that goes out under your own name, in your voice and argument, from a voice pack. Asks rather than inventing reasoning. An open, early version.",
       "source": "./plugins/voice",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "license": "Apache-2.0",
       "author": {
         "name": "Rafe Blandford"
@@ -57,7 +57,7 @@
       "name": "deslop",
       "description": "Review a draft before it goes out under your name: flags what isn't yours and what a reader might take as AI, with one proposed edit each, and leaves every decision to you. An open, early version.",
       "source": "./plugins/deslop",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "license": "Apache-2.0",
       "author": {
         "name": "Rafe Blandford"

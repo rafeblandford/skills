@@ -18,16 +18,31 @@ review as you (what's yours, what's long-standing in your writing, what you've
 changed before), it needs a **voice pack** built from your own writing. This
 skill ships with a **fictional example pack** at `references/pack/` (a civil
 engineer writing about infrastructure) to show the shape. It's nobody's voice:
-`deslop` says so and reviews generically until you replace it.
+`deslop` says so and reviews generically until you give it your own.
 
 The guide to building your own is
-[`references/pack/README.md`](references/pack/README.md). Then either:
+[`references/pack/README.md`](references/pack/README.md).
 
-- **point the skill at it** when you ask ("use my voice pack in `voice-pack/`"),
-  or with a `voice_pack:` line in your project's instruction file. This works in
-  every client, including the Claude app, where an installed skill's files can't
-  easily be edited; or
-- **replace `references/pack/`** in your own copy of the skill.
+Then tell the skill where it is. It takes the pack from the first of these
+that names one:
+
+1. **What you say when you ask:** "use my voice pack in `~/writing/voice-pack/`".
+2. **A `voice_pack:` line in your own instructions**, the file your tool loads
+   into every conversation (`CLAUDE.md`, `AGENTS.md`, or the custom instructions
+   in the Claude app):
+   ```text
+   voice_pack: ~/writing/voice-pack
+   ```
+   Put it in your global instructions to use the pack everywhere, or in one
+   project's to use it there. This is the route that lasts: the pack lives
+   outside the skill, so an update can't replace it. It works in every client,
+   including the Claude app, where an installed skill's files can't easily be
+   edited.
+3. **The pack inside the skill**, at `references/pack/`. Replacing that folder
+   in your copy works, but the next update puts the fictional pack back.
+
+If it finds only the fictional pack, or nothing, the skill says so first and
+reviews generically, without judging anything against your voice.
 
 A pack can quote your correspondence and your unpublished work, so keep it
 private.
@@ -61,11 +76,27 @@ highlighted where it sits in the text: pick a flag and the draft scrolls to it,
 click the text and its flag comes up. Accepting a proposed edit shows the new
 wording in place.
 
-The page doesn't appear on its own: ask for it ("show me the decision page"),
-or say yes when the assistant offers. You don't edit on the page. Choose an
-answer for each flag (a note on a flag you leave undecided counts as a
-revision), use **Copy as Markdown**, and paste the result back to the assistant,
-which makes the changes.
+When the page appears depends on the care tier. At tier 2 and 3 it is built
+and shown with every review you're handed back, without asking (a review with
+no flags has nothing to decide, so it gets none); at tier 1 it is offered in
+one line. Asking for it ("show me the decision page") always builds it.
+
+To change that, add a line to your own instructions, beside any `voice_pack:`
+line, or just say so in the conversation, which wins over the line:
+
+| Line | What it does |
+|---|---|
+| `voice_pages: 2` | The default: built at tier 2 and 3, offered at tier 1 |
+| `voice_pages: 1` | Built at every tier |
+| `voice_pages: 3` | Built at tier 3, offered below it |
+| `voice_pages: offer` | Offered at every tier, built if you say yes |
+| `voice_pages: off` | Never offered; everything stays in the conversation |
+
+The same line governs both `voice` and `deslop`.
+
+You don't edit on the page. Choose an answer for each flag (a note on a flag
+you leave undecided counts as a revision), use **Copy as Markdown**, and paste
+the result back to the assistant, which makes the changes.
 
 **Copy text** and **Copy text as Markdown**, above the draft, copy it as it
 stands with the edits you've accepted, to paste wherever it's going next.

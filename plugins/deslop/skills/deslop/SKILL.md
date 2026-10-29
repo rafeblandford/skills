@@ -1,11 +1,11 @@
 ---
 name: deslop
-description: Review a draft that will go out under a person's own name at its stated care tier, returning located flags in priority order, each with one proposed edit. Use after drafting, or when asked to check or edit a piece in their name; not for ordinary assistant replies. An open, early version (0.2.4).
+description: Review a draft that will go out under a person's own name at its stated care tier, returning located flags in priority order, each with one proposed edit. Use after drafting, or when asked to check or edit a piece in their name; not for ordinary assistant replies. An open, early version (0.2.5).
 license: Apache-2.0
 metadata:
   short-description: Review writing under a person's own name
   author: Rafe Blandford
-  version: "0.2.4"
+  version: "0.2.5"
   provenance: written-with-ai
 ---
 
@@ -34,7 +34,7 @@ A contractual document (a statement of work) also gets a check that no qualifica
 
 ## 2. Find out who wrote what
 
-At tier 2 and 3, load the pack: a composed install carries it at `references/pack/`; otherwise take a path from the caller or a `voice_pack:` line in the project's instruction files. **With no pack, say so in the output** and review generically. A pack whose `profile.md` says it is a **fictional example** is nobody's voice: treat it as no pack and say so, unless you are asked to demonstrate the skill on it.
+At tier 2 and 3, load the pack from the first of these that names one: a path the caller gives; a `voice_pack:` line in their instructions (global or per project); the pack inside this skill, at `references/pack/`. **With no pack, say so in the output** and review generically. A pack whose `profile.md` says it is a **fictional example** is nobody's voice: treat it as no pack and say so, unless you are asked to demonstrate the skill on it. If it is what you found inside this skill, check again for a path or a `voice_pack:` line first.
 
 **Ownership evidence, all of it counts:** the caller's statement ("I wrote this"), the source material you can open, the provenance record (`provenance-r<n>.md`, keyed by paragraph and first words), the drafting model and setup in `meta.md`, and approvals the author has given, wherever they are recorded or said. The record is the usual index to this evidence, not the only admissible evidence. A missing or stale record leaves **only the spans nothing else accounts for** as unknown.
 
@@ -80,4 +80,6 @@ A file beside the draft, `deslop-r<n>.md`, unless the caller names another place
 
 End with a table of the actionable flags and an empty **Decision** column for the author, and **always print the three choices beside it, even when there are no flags**: accept the proposal / keep the original / revise differently, with a word on why (meaning, voice, or reads-as-AI). Their decisions are the evidence for which flags are worth raising. Count unwanted proposals on their own words separately from *their call* notes; a note they decline is not a false alarm. In a *their call* row the proposal column says only "keep as is, or tell me otherwise": never "keep or drop X", never a choice that names a cut or a rewrite.
 
-**Always end with a flags block:** the same actionable flags as a fenced `json` block, with an exact quote from the draft for each place a flag touches, so a tool can find it. The format is in `references/flags-block.md`; read it when writing the block. The prose stays the author's reading copy. When you hand back a review, offer the decision page in one line, and build it if they say yes: `scripts/decision_page.py render` turns the review and draft into one self-contained HTML file: the draft beside the flags, each flag highlighted in the text, accepted wording previewed, and decisions copied back as a table. `scripts/decision_page.py record` turns that pasted table into `decisions-r<n>.md` with counts.
+**Always end with a flags block:** the same actionable flags as a fenced `json` block, with an exact quote from the draft for each place a flag touches, so a tool can find it. The format is in `references/flags-block.md`; read it when writing the block. The prose stays the author's reading copy.
+
+`scripts/decision_page.py render` turns the review and draft into one self-contained HTML file: the draft beside the flags, each flag highlighted in the text, accepted wording previewed, and decisions copied back as a table. By default, at tier 2 and 3, build the page with every review you hand back and show it, without asking, the way your harness shows a file (a preview, an artifact, the browser), or give its path where it can't. At tier 1, offer it in one line and build it if they say yes. With no actionable flags there is nothing to decide: say so instead of building it. A `voice_pages:` line in their instructions changes that: `1` builds it at every tier, `3` only at tier 3 (offered below it), `offer` offers it at every tier, `off` neither builds nor offers it, and `2` is the default. What they say in the conversation wins over the line. Whatever either says, build it whenever they ask. `scripts/decision_page.py record` turns the pasted table into `decisions-r<n>.md` with counts.

@@ -1,11 +1,11 @@
 ---
 name: voice
-description: Draft or revise writing that goes out under a person's own name, in their voice and argument, working from a loaded voice pack. Use when writing on someone's behalf; not for ordinary assistant replies. An open, early version (0.2.4).
+description: Draft or revise writing that goes out under a person's own name, in their voice and argument, working from a loaded voice pack. Use when writing on someone's behalf; not for ordinary assistant replies. An open, early version (0.2.5).
 license: Apache-2.0
 metadata:
   short-description: Draft in a person's own voice and argument
   author: Rafe Blandford
-  version: "0.2.4"
+  version: "0.2.5"
   provenance: written-with-ai
 ---
 
@@ -15,9 +15,9 @@ You are drafting something that will go out under someone else's name. Two thing
 
 ## Load the pack first
 
-A composed install carries its pack inside this skill, at `references/pack/`; read it there first. Otherwise the caller gives a pack path, or a `voice_pack:` line in the project's instruction files names one. If there is still none, **say so in the hand-back and work generically**: a draft that is openly generic is honest, one that implies it carries their voice is not.
+Take the pack from the first of these that names one: a path the caller gives; a `voice_pack:` line in their instructions (global or per project); the pack inside this skill, at `references/pack/`. If there is none, **say so in the hand-back and work generically**: a draft that is openly generic is honest, one that implies it carries their voice is not.
 
-A pack whose `profile.md` says it is a **fictional example** shows the shape of a pack and is nobody's voice. Treat it as no pack: say so first in the hand-back, work generically, and don't draft as the fictional person unless you are asked to demonstrate the skill. Its `README.md` explains how to build a real one.
+A pack whose `profile.md` says it is a **fictional example** shows the shape of a pack and is nobody's voice. Treat it as no pack (if it is what you found inside this skill, check again for a path or a `voice_pack:` line first): say so first in the hand-back, work generically, and don't draft as the fictional person unless you are asked to demonstrate the skill. Its `README.md` explains how to build a real one.
 
 A pack must have `profile.md`; the rest is optional, and you say in the hand-back which files were missing.
 
@@ -71,6 +71,6 @@ State which pack and register you used, the tier, and what source material you h
 
 Record who drafted it: the most specific model identity your harness exposes (or "unknown" — never guess) and the setup (harness, and whether you worked from dictation, notes, a brief or their draft), in the piece's `meta.md` when it has one and in the hand-back when it doesn't. The review uses it to prioritise what to look for.
 
-Where it would help them read the draft, `scripts/revision_page.py` turns it into one self-contained HTML page. For a first draft, the page shows whose argument each paragraph carries, from the provenance record. For a later one, it compares with the previous revision and numbers every change, with what the record says about why. When you hand back a draft or a revision, offer the page in one line, and build it if they say yes; don't make it a step. They ask for changes by talking to you, often by number ("on change 3…"). To find what a number refers to, run the script with `--list` on the same two drafts: it prints the same numbered changes as text.
+`scripts/revision_page.py` turns a draft into one self-contained HTML page. For a first draft, the page shows whose argument each paragraph carries, from the provenance record. For a later one, it compares with the previous revision and numbers every change, with what the record says about why. By default, at tier 2 and 3, build the page with every draft or revision you hand back and show it, without asking, the way your harness shows a file (a preview, an artifact, the browser), or give its path where it can't. At tier 1, offer it in one line and build it if they say yes. A `voice_pages:` line in their instructions changes that: `1` builds it at every tier, `3` only at tier 3 (offered below it), `offer` offers it at every tier, `off` neither builds nor offers it, and `2` is the default. What they say in the conversation wins over the line. Whatever either says, build it whenever they ask. They ask for changes by talking to you, often by number ("on change 3…"). To find what a number refers to, run the script with `--list` on the same two drafts: it prints the same numbered changes as text.
 
 Edit-time review at the stated tier is a separate step, done with the `deslop` skill.

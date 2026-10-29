@@ -28,7 +28,17 @@ Only `profile.md` is required. The skills say which files they couldn't find.
 
 ## Keeping it private
 
-A pack can quote your correspondence and your unpublished work, so keep it out of anything you publish. Put it where your harness installs skills, at `references/pack/` inside each skill, or keep it in one place and point the skills at it with a `voice_pack:` line in your project's instruction file.
+A pack can quote your correspondence and your unpublished work, so keep it out of anything you publish.
+
+## Where the skills find it
+
+Each skill takes the pack from the first of these that names one:
+
+1. **A path you give when you ask:** "use my voice pack in `~/writing/voice-pack/`".
+2. **A `voice_pack:` line in your own instructions** (`CLAUDE.md`, `AGENTS.md`, or your app's custom instructions), global or per project: `voice_pack: ~/writing/voice-pack`. Keep the pack in one place and point at it this way: it lives outside the skills, so updating them can't replace it, and one pack serves both.
+3. **This folder,** `references/pack/` inside each skill. Replacing it works, but an update puts this fictional pack back, and you have to replace it in both skills.
+
+Finding only this fictional pack, the skills look for a path or a `voice_pack:` line before giving up, then say they have no pack and work generically.
 
 ## Fictional throughout
 
